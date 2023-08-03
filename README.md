@@ -1,3 +1,3 @@
 # artdatabanken-next
 
-Artdatabanken with NextJS and Supabase .
+Artdatabanken with NextJS, Tailwind, Material UI and Supabase.
