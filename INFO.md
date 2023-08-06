@@ -14,6 +14,7 @@
 - COMPONENTS
   - [Material UI](https://mui.com/)
   - [Chakra UI](https://chakra-ui.com/)
-- DDATABASE/STORAGE
+  - [Shadcn UI](https://ui.shadcn.com/)
+- DATABASE/STORAGE
   - [Supabase](https://supabase.com/)
   - [SWR](https://swr.vercel.app/)
