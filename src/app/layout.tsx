@@ -2,7 +2,7 @@ import "./globals.css";
 
 export const metadata = {
   title: "Artdatabanken",
-  description: "Artdatabanken with NextJS, Tailwind, Material UI and Supabase.",
+  description: "Artdatabanken with NextJS, Tailwind, Shadcn UI and Supabase.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

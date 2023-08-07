@@ -3,6 +3,7 @@
 ## TODO
 
 - ?
+- [ ] Check TODO:s
 
 ## Links
 
@@ -12,9 +13,9 @@
   - [Tailwind CSS](https://tailwindcss.com/)
   - [unknownAtRules Warnings From Tailwind CSS](https://www.codeconcisely.com/posts/tailwind-css-unknown-at-rules/)
 - COMPONENTS
+  - [Shadcn UI](https://ui.shadcn.com/)
   - [Material UI](https://mui.com/)
   - [Chakra UI](https://chakra-ui.com/)
-  - [Shadcn UI](https://ui.shadcn.com/)
 - DATABASE/STORAGE
   - [Supabase](https://supabase.com/)
   - [SWR](https://swr.vercel.app/)
