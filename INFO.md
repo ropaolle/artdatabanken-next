@@ -13,6 +13,7 @@
   - [Tailwind CSS](https://tailwindcss.com/)
   - [unknownAtRules Warnings From Tailwind CSS](https://www.codeconcisely.com/posts/tailwind-css-unknown-at-rules/)
 - COMPONENTS
+  - [tailwind elements](https://tailwind-elements.com/)
   - [Material UI](https://mui.com/material-ui/)
   - [Shadcn UI](https://ui.shadcn.com/)
   - [Chakra UI](https://chakra-ui.com/)
