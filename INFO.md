@@ -13,8 +13,8 @@
   - [Tailwind CSS](https://tailwindcss.com/)
   - [unknownAtRules Warnings From Tailwind CSS](https://www.codeconcisely.com/posts/tailwind-css-unknown-at-rules/)
 - COMPONENTS
+  - [Material UI](https://mui.com/material-ui/)
   - [Shadcn UI](https://ui.shadcn.com/)
-  - [Material UI](https://mui.com/)
   - [Chakra UI](https://chakra-ui.com/)
 - DATABASE/STORAGE
   - [Supabase](https://supabase.com/)
