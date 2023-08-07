@@ -18,3 +18,16 @@
 - DATABASE/STORAGE
   - [Supabase](https://supabase.com/)
   - [SWR](https://swr.vercel.app/)
+- OTHER
+  - [Zustand slices](https://github.com/pmndrs/zustand/blob/main/docs/guides/slices-pattern.md)
+  - [Clerk authentication](https://clerk.com/)
+  - [Iconify](https://iconify.design/)
+  - [Favicon](https://realfavicongenerator.net/)
+
+## Miscellaneous
+
+### Test dark mode in Chrome
+
+Developer tools, ... to the right, select `Show Console Drawer`, select `Rendering`, select `Emulate CSS media feature` prefer-color-scheme.
+
+![Test dark mode in Chrome](./doc/test-dark-mode-in-chrome.png)
