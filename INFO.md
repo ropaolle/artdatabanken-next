@@ -21,6 +21,7 @@
   - [Supabase](https://supabase.com/)
   - [SWR](https://swr.vercel.app/)
 - OTHER
+  - [React component as prop](https://www.developerway.com/posts/react-component-as-prop-the-right-way)
   - [Zustand slices](https://github.com/pmndrs/zustand/blob/main/docs/guides/slices-pattern.md)
   - [Clerk authentication](https://clerk.com/)
   - [Iconify](https://iconify.design/)
