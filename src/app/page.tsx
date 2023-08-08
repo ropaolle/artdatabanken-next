@@ -1,8 +1,8 @@
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
-import { Footer, Navigation, Test } from "../components";
-import MyComponent from "@/components/MyComponent";
-import Chips from "@/components/Chips"
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import Navigation from "@/components/Navigation";
 
 export const dynamic = "force-dynamic";
 
@@ -15,11 +15,8 @@ export default async function Index() {
 
   return (
     <div className="">
+      <Navbar />
       {/* <Navigation user={user} /> */}
-      <MyComponent />
-      <Chips />
-
-      <Test />
 
       <Footer />
     </div>

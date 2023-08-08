@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { type User } from "@supabase/supabase-js";
-import { LogoutButton } from ".";
+import LogoutButton from "./LogoutButton";
 
 type Props = {
   user: User | null;
