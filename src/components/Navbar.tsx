@@ -1,9 +1,16 @@
 "use client";
 
 import { useEffect } from "react";
+import { type User } from "@supabase/supabase-js";
 import Image from "next/image";
+import Link from "next/link";
+import LogoutButton from "./LogoutButton";
 
-export default function Navbar(/* { user }: Props */) {
+type Props = {
+  user: User | null;
+};
+
+export default function Navbar({ user }: Props) {
   useEffect(() => {
     const init = async () => {
       const { Collapse, Dropdown, initTE } = await import("tw-elements");
@@ -11,6 +18,54 @@ export default function Navbar(/* { user }: Props */) {
     };
     init();
   }, []);
+
+  const links = [
+    { label: "Species", href: "species" },
+    { label: "Images", href: "images" },
+    { label: "Collections", href: "collections" },
+  ].map(({ label, href }, index) => (
+    <li key={index} className="mb-4 lg:mb-0 lg:pr-2" data-te-nav-item-ref>
+      <Link
+        className="text-neutral-500 transition duration-200 hover:text-neutral-700 hover:ease-in-out focus:text-neutral-700 disabled:text-black/30 motion-reduce:transition-none dark:text-neutral-200 dark:hover:text-neutral-300 dark:focus:text-neutral-300 lg:px-2 [&.active]:text-black/90 dark:[&.active]:text-neutral-400"
+        href={href}
+        data-te-nav-link-ref
+      >
+        {label}
+      </Link>
+    </li>
+  ));
+
+  const dropdownMenu1 = [
+    { label: "Action 1", href: "#" },
+    { label: "Another action 1", href: "#" },
+    { label: "Last option 1", href: "#" },
+  ].map(({ label, href }, index) => (
+    <li key={index}>
+      <a
+        className="block w-full whitespace-nowrap bg-transparent px-4 py-2 text-sm font-normal text-neutral-700 hover:bg-neutral-100 active:text-neutral-800 active:no-underline disabled:pointer-events-none disabled:bg-transparent disabled:text-neutral-400 dark:text-neutral-200 dark:hover:bg-white/30"
+        href={href}
+        data-te-dropdown-item-ref
+      >
+        {label}
+      </a>
+    </li>
+  ));
+
+  const dropdownMenu2 = [
+    { label: "Action 2", href: "#" },
+    { label: "Another action 2", href: "#" },
+    { label: "Last option 2", href: "#" },
+  ].map(({ label, href }, index) => (
+    <li key={index}>
+      <a
+        className="block w-full whitespace-nowrap bg-transparent px-4 py-2 text-sm font-normal text-neutral-700 hover:bg-neutral-100 active:text-neutral-800 active:no-underline disabled:pointer-events-none disabled:bg-transparent disabled:text-neutral-400 dark:text-neutral-200 dark:hover:bg-white/30"
+        href={href}
+        data-te-dropdown-item-ref
+      >
+        {label}
+      </a>
+    </li>
+  ));
 
   return (
     <nav
@@ -32,9 +87,9 @@ export default function Navbar(/* { user }: Props */) {
           <span className="[&>svg]:w-7">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-7 w-7">
               <path
-                fill-rule="evenodd"
+                fillRule="evenodd"
                 d="M3 6.75A.75.75 0 013.75 6h16.5a.75.75 0 010 1.5H3.75A.75.75 0 013 6.75zM3 12a.75.75 0 01.75-.75h16.5a.75.75 0 010 1.5H3.75A.75.75 0 013 12zm0 5.25a.75.75 0 01.75-.75h16.5a.75.75 0 010 1.5H3.75a.75.75 0 01-.75-.75z"
-                clip-rule="evenodd"
+                clipRule="evenodd"
               />
             </svg>
           </span>
@@ -47,53 +102,16 @@ export default function Navbar(/* { user }: Props */) {
           data-te-collapse-item
         >
           {/* <!-- Logo --> */}
-          <a
+          <Link
             className="mb-4 ml-2 mr-5 mt-3 flex items-center text-neutral-900 hover:text-neutral-900 focus:text-neutral-900 dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400 lg:mb-0 lg:mt-0"
-            href="#"
+            href="/"
           >
-            <Image
-              // src="https://tecdn.b-cdn.net/img/logo/te-transparent-noshadows.webp"
-              src="/avatar.webp"
-              // style="height: 15px"
-              alt="TE Logo"
-              loading="lazy"
-              width={15}
-              height={15}
-            />
-          </a>
+            <Image src="/bird.svg" alt="TE Logo" loading="lazy" width={25} height={25} />
+          </Link>
 
           {/* <!-- Left navigation links --> */}
           <ul className="list-style-none mr-auto flex flex-col pl-0 lg:flex-row" data-te-navbar-nav-ref>
-            <li className="mb-4 lg:mb-0 lg:pr-2" data-te-nav-item-ref>
-              {/* <!-- Dashboard link --> */}
-              <a
-                className="text-neutral-500 transition duration-200 hover:text-neutral-700 hover:ease-in-out focus:text-neutral-700 disabled:text-black/30 motion-reduce:transition-none dark:text-neutral-200 dark:hover:text-neutral-300 dark:focus:text-neutral-300 lg:px-2 [&.active]:text-black/90 dark:[&.active]:text-zinc-400"
-                href="#"
-                data-te-nav-link-ref
-              >
-                Dashboard
-              </a>
-            </li>
-            {/* <!-- Team link --> */}
-            <li className="mb-4 lg:mb-0 lg:pr-2" data-te-nav-item-ref>
-              <a
-                className="text-neutral-500 transition duration-200 hover:text-neutral-700 hover:ease-in-out focus:text-neutral-700 disabled:text-black/30 motion-reduce:transition-none dark:text-neutral-200 dark:hover:text-neutral-300 dark:focus:text-neutral-300 lg:px-2 [&.active]:text-black/90 dark:[&.active]:text-neutral-400"
-                href="#"
-                data-te-nav-link-ref
-              >
-                Team
-              </a>
-            </li>
-            {/* <!-- Projects link --> */}
-            <li className="mb-4 lg:mb-0 lg:pr-2" data-te-nav-item-ref>
-              <a
-                className="text-neutral-500 transition duration-200 hover:text-neutral-700 hover:ease-in-out focus:text-neutral-700 disabled:text-black/30 motion-reduce:transition-none dark:text-neutral-200 dark:hover:text-neutral-300 dark:focus:text-neutral-300 lg:px-2 [&.active]:text-black/90 dark:[&.active]:text-neutral-400"
-                href="#"
-                data-te-nav-link-ref
-              >
-                Projects
-              </a>
-            </li>
+            {links}
           </ul>
         </div>
 
@@ -126,9 +144,9 @@ export default function Navbar(/* { user }: Props */) {
               <span className="[&>svg]:w-5">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5">
                   <path
-                    fill-rule="evenodd"
+                    fillRule="evenodd"
                     d="M5.25 9a6.75 6.75 0 0113.5 0v.75c0 2.123.8 4.057 2.118 5.52a.75.75 0 01-.297 1.206c-1.544.57-3.16.99-4.831 1.243a3.75 3.75 0 11-7.48 0 24.585 24.585 0 01-4.831-1.244.75.75 0 01-.298-1.205A8.217 8.217 0 005.25 9.75V9zm4.502 8.9a2.25 2.25 0 104.496 0 25.057 25.057 0 01-4.496 0z"
-                    clip-rule="evenodd"
+                    clipRule="evenodd"
                   />
                 </svg>
               </span>
@@ -144,33 +162,7 @@ export default function Navbar(/* { user }: Props */) {
               data-te-dropdown-menu-ref
             >
               {/* <!-- First dropdown menu items --> */}
-              <li>
-                <a
-                  className="block w-full whitespace-nowrap bg-transparent px-4 py-2 text-sm font-normal text-neutral-700 hover:bg-neutral-100 active:text-neutral-800 active:no-underline disabled:pointer-events-none disabled:bg-transparent disabled:text-neutral-400 dark:text-neutral-200 dark:hover:bg-white/30"
-                  href="#"
-                  data-te-dropdown-item-ref
-                >
-                  Action
-                </a>
-              </li>
-              <li>
-                <a
-                  className="block w-full whitespace-nowrap bg-transparent px-4 py-2 text-sm font-normal text-neutral-700 hover:bg-neutral-100 active:text-neutral-800 active:no-underline disabled:pointer-events-none disabled:bg-transparent disabled:text-neutral-400 dark:text-neutral-200 dark:hover:bg-white/30"
-                  href="#"
-                  data-te-dropdown-item-ref
-                >
-                  Another action
-                </a>
-              </li>
-              <li>
-                <a
-                  className="block w-full whitespace-nowrap bg-transparent px-4 py-2 text-sm font-normal text-neutral-700 hover:bg-neutral-100 active:text-neutral-800 active:no-underline disabled:pointer-events-none disabled:bg-transparent disabled:text-neutral-400 dark:text-neutral-200 dark:hover:bg-white/30"
-                  href="#"
-                  data-te-dropdown-item-ref
-                >
-                  Something else here
-                </a>
-              </li>
+              {dropdownMenu1}
             </ul>
           </div>
 
@@ -186,15 +178,7 @@ export default function Navbar(/* { user }: Props */) {
               aria-expanded="false"
             >
               {/* <!-- User avatar --> */}
-              <Image
-                // src="https://tecdn.b-cdn.net/img/new/avatars/2.jpg"
-                src="/avatar.webp"
-                className="rounded-full"
-                alt=""
-                loading="lazy"
-                width={25}
-                height={25}
-              />
+              <Image src="/avatar.webp" className="rounded-full" alt="" loading="lazy" width={25} height={25} />
             </a>
             {/* <!-- Second dropdown menu --> */}
             <ul
@@ -203,33 +187,7 @@ export default function Navbar(/* { user }: Props */) {
               data-te-dropdown-menu-ref
             >
               {/* <!-- Second dropdown menu items --> */}
-              <li>
-                <a
-                  className="block w-full whitespace-nowrap bg-transparent px-4 py-2 text-sm font-normal text-neutral-700 hover:bg-neutral-100 active:text-neutral-800 active:no-underline disabled:pointer-events-none disabled:bg-transparent disabled:text-neutral-400 dark:text-neutral-200 dark:hover:bg-white/30"
-                  href="#"
-                  data-te-dropdown-item-ref
-                >
-                  Action
-                </a>
-              </li>
-              <li>
-                <a
-                  className="block w-full whitespace-nowrap bg-transparent px-4 py-2 text-sm font-normal text-neutral-700 hover:bg-neutral-100 active:text-neutral-800 active:no-underline disabled:pointer-events-none disabled:bg-transparent disabled:text-neutral-400 dark:text-neutral-200 dark:hover:bg-white/30"
-                  href="#"
-                  data-te-dropdown-item-ref
-                >
-                  Another action
-                </a>
-              </li>
-              <li>
-                <a
-                  className="block w-full whitespace-nowrap bg-transparent px-4 py-2 text-sm font-normal text-neutral-700 hover:bg-neutral-100 active:text-neutral-800 active:no-underline disabled:pointer-events-none disabled:bg-transparent disabled:text-neutral-400 dark:text-neutral-200 dark:hover:bg-white/30"
-                  href="#"
-                  data-te-dropdown-item-ref
-                >
-                  Something else here
-                </a>
-              </li>
+              {dropdownMenu2}
             </ul>
           </div>
         </div>
