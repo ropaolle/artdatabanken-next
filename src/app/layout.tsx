@@ -6,12 +6,10 @@ export const metadata = {
   description: "Artdatabanken with NextJS, Tailwind, Shadcn UI and Supabase.",
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className="light">
-      <body>
-        <main className="min-h-screen flex flex-col items-center">{children}</main>
-      </body>
+      <body>{children}</body>
     </html>
   );
 }

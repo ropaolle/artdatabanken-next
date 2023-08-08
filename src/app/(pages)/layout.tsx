@@ -1,13 +1,11 @@
+import "../globals.css";
+import "tw-elements/dist/css/tw-elements.min.css";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 import Navbar from "@/components/Navbar";
-import Content from "@/components/Content";
 import Footer from "@/components/Footer";
-import Navigation from "@/components/Navigation";
 
-export const dynamic = "force-dynamic";
-
-export default async function Index() {
+export default async function PageLayout({ children }: { children: React.ReactNode }) {
   const supabase = createServerComponentClient({ cookies });
 
   const {
@@ -15,11 +13,10 @@ export default async function Index() {
   } = await supabase.auth.getUser();
 
   return (
-    <div className="">
+    <>
       <Navbar user={user} />
-      {/* <Navigation user={user} /> */}
-      <Content />
+      <main className="flex items-center justify-center p-16 lg:justify-between">{children}</main>
       <Footer />
-    </div>
+    </>
   );
 }

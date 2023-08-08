@@ -10,19 +10,12 @@ type Props = {
   user: User | null;
 };
 
-export default function Navbar({ user }: Props) {
-  useEffect(() => {
-    const init = async () => {
-      const { Collapse, Dropdown, initTE } = await import("tw-elements");
-      initTE({ Collapse, Dropdown });
-    };
-    init();
-  }, []);
+export default function Links({ user }: Props) {
 
   const links = [
     { label: "Species", href: "species" },
     { label: "Images", href: "images" },
-    { label: "Collections", href: "collections" },
+    { label: "Login", href: "login" },
   ].map(({ label, href }, index) => (
     <li key={index} className="mb-4 lg:mb-0 lg:pr-2" data-te-nav-item-ref>
       <Link
@@ -35,37 +28,6 @@ export default function Navbar({ user }: Props) {
     </li>
   ));
 
-  const dropdownMenu1 = [
-    { label: "Action 1", href: "#" },
-    { label: "Another action 1", href: "#" },
-    { label: "Last option 1", href: "#" },
-  ].map(({ label, href }, index) => (
-    <li key={index}>
-      <a
-        className="block w-full whitespace-nowrap bg-transparent px-4 py-2 text-sm font-normal text-neutral-700 hover:bg-neutral-100 active:text-neutral-800 active:no-underline disabled:pointer-events-none disabled:bg-transparent disabled:text-neutral-400 dark:text-neutral-200 dark:hover:bg-white/30"
-        href={href}
-        data-te-dropdown-item-ref
-      >
-        {label}
-      </a>
-    </li>
-  ));
-
-  const dropdownMenu2 = [
-    { label: "Action 2", href: "#" },
-    { label: "Another action 2", href: "#" },
-    { label: "Last option 2", href: "#" },
-  ].map(({ label, href }, index) => (
-    <li key={index}>
-      <a
-        className="block w-full whitespace-nowrap bg-transparent px-4 py-2 text-sm font-normal text-neutral-700 hover:bg-neutral-100 active:text-neutral-800 active:no-underline disabled:pointer-events-none disabled:bg-transparent disabled:text-neutral-400 dark:text-neutral-200 dark:hover:bg-white/30"
-        href={href}
-        data-te-dropdown-item-ref
-      >
-        {label}
-      </a>
-    </li>
-  ));
 
   return (
     <nav
