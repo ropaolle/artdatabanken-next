@@ -1,23 +1,34 @@
 import Link from "next/link";
-import { Qube, Home, Email, Phone, Fax, Facebook, Twitter, Google, Instagram, Linkedin, Github } from "./svgs";
+import { Qube, Home, Email, Phone, Web, Facebook, Twitter, Google, Instagram, Linkedin, Github } from "./svgs";
 
 export default function Footer() {
   const SocialLink = ({ href, icon }: { href: string; icon: JSX.Element }) => (
-    <Link href={href} className="mr-6 text-neutral-600 dark:text-neutral-200">
+    <Link href={href} target="_blank" className="mr-6 text-neutral-600 dark:text-neutral-200">
       {icon}
     </Link>
   );
 
-  const FooterHeader = ({ label, icon }: { label: string; icon?: JSX.Element }) => (
-    <h6 className="mb-4 flex items-center justify-center font-semibold uppercase md:justify-start">
-      {icon}
-      {label}
-    </h6>
+  const FooterSection = ({
+    label,
+    icon,
+    children,
+  }: {
+    label: string;
+    icon?: JSX.Element;
+    children: React.ReactNode;
+  }) => (
+    <div>
+      <h6 className="mb-4 flex items-center justify-center font-semibold uppercase md:justify-start">
+        {icon}
+        {label}
+      </h6>
+      {children}
+    </div>
   );
 
-  const FooterLink = ({ label, href }: { label: string; href: string }) => (
+  const FooterLink = ({ label, href, newTab = false }: { label: string; href: string; newTab?: boolean }) => (
     <p className="mb-4 last:mb-0">
-      <Link href={href} className="text-neutral-600 dark:text-neutral-200">
+      <Link href={href} target={newTab ? "_blank" : "_self"} className="text-neutral-600 dark:text-neutral-200">
         {label}
       </Link>
     </p>
@@ -39,53 +50,59 @@ export default function Footer() {
           </div>
 
           <div className="flex justify-center">
-            <SocialLink href="#" icon={<Facebook />} />
-            <SocialLink href="#" icon={<Twitter />} />
-            <SocialLink href="#" icon={<Google />} />
-            <SocialLink href="#" icon={<Instagram />} />
-            <SocialLink href="#" icon={<Linkedin />} />
-            <SocialLink href="#" icon={<Github />} />
+            <SocialLink href="https://facebook.com/" icon={<Facebook />} />
+            <SocialLink href="https://twitter.com/ropaolle" icon={<Twitter />} />
+            <SocialLink href="https://www.google.com/" icon={<Google />} />
+            <SocialLink href="https://www.instagram.com/ropaolle/" icon={<Instagram />} />
+            <SocialLink href="https://www.linkedin.com/in/olof-sj%C3%B6gren/" icon={<Linkedin />} />
+            <SocialLink href="https://github.com/ropaolle/" icon={<Github />} />
           </div>
         </div>
 
         <div className="mx-6 py-10 text-center md:text-left">
           <div className="grid-1 grid gap-8 md:grid-cols-2 lg:grid-cols-4">
-            <div>
-              <FooterHeader label="Artdatabanken" icon={<Qube />} />
+            <FooterSection label="Artdatabanken" icon={<Qube />}>
               <p>Print your own species collections or save them as Pdf:s.</p>
-            </div>
+            </FooterSection>
 
-            <div>
-              <FooterHeader label="Frameworks" />
-              <FooterLink label="NEXT.js" href="https://nextjs.org/" />
-              <FooterLink label="Tailwind CSS" href="https://tailwindcss.com/" />
-              <FooterLink label="Tailwind Elements" href="https://tailwind-elements.com/" />
-              <FooterLink label="Supabase" href="https://supabase.com/" />
-            </div>
+            <FooterSection label="Frameworks">
+              <FooterLink label="NEXT.js" href="https://nextjs.org/" newTab />
+              <FooterLink label="Tailwind CSS" href="https://tailwindcss.com/" newTab />
+              <FooterLink label="Tailwind Elements" href="https://tailwind-elements.com/" newTab />
+              <FooterLink label="Supabase" href="https://supabase.com/" newTab />
+            </FooterSection>
 
-            <div>
-              <FooterHeader label="Useful links" />
+            <FooterSection label="Useful links">
               <FooterLink label="Species" href="species" />
               <FooterLink label="Images" href="images" />
               <FooterLink label="Collections" href="collections" />
               <FooterLink label="About" href="about" />
-            </div>
+            </FooterSection>
 
-            <div>
-              <FooterHeader label="Contact" />
+            <FooterSection label="Contact">
               <IconItem icon={<Home />}>Stockholm, SWEDEN</IconItem>
-              <IconItem icon={<Email />}>info@ropaolle.se</IconItem>
-              <IconItem icon={<Phone />}>+ 01 234 567 89</IconItem>
-              <IconItem icon={<Fax />}>+ 01 234 567 89</IconItem>
-            </div>
+              <IconItem icon={<Email />}>
+                <Link href="mailto:info@gmail.com">info@ropaolle.se</Link>
+              </IconItem>
+              <IconItem icon={<Phone />}>
+                <Link href="tel:+1(800)555-0123">(800) 555-0123</Link>
+              </IconItem>
+              <IconItem icon={<Web />}>
+                <Link href="https://www.ropaolle.se">www.ropaolle.se</Link>
+              </IconItem>
+            </FooterSection>
           </div>
         </div>
 
         <div className="bg-neutral-200 p-6 text-center dark:bg-neutral-700">
           <span>© 2023 Copyright: </span>
-          <a className="font-semibold text-neutral-600 dark:text-neutral-400" href="https://tailwind-elements.com/">
+          <Link
+            className="font-semibold text-neutral-600 dark:text-neutral-400"
+            href="https://www.ropaolle.se/"
+            target="_blank"
+          >
             RopaOlle
-          </a>
+          </Link>
         </div>
       </footer>
     </>

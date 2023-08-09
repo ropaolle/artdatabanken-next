@@ -25,6 +25,7 @@
   - [Zustand slices](https://github.com/pmndrs/zustand/blob/main/docs/guides/slices-pattern.md)
   - [Clerk authentication](https://clerk.com/)
   - [Iconify](https://iconify.design/)
+  - [Hero Icons](https://heroicons.com/)
   - [Favicon](https://realfavicongenerator.net/)
 
 ## Miscellaneous
