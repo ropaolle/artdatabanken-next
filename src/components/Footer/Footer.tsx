@@ -39,8 +39,12 @@ export default function Footer({ user }: { user: User | null }) {
     protectedPage?: boolean;
   }) => (
     <p className="mb-4 last:mb-0">
-      <Link href={href} target={newTab ? "_blank" : "_self"} className={`text-neutral-600 dark:text-neutral-200 flex ${protectedPage && 'pointer-events-none'}`}>
-        {label} {protectedPage && <Lock />}
+      <Link
+        href={href}
+        target={newTab ? "_blank" : "_self"}
+        className={`text-neutral-600 dark:text-neutral-200 flex ${protectedPage && !user && "pointer-events-none"}`}
+      >
+        {label} {protectedPage && !user && <Lock />}
       </Link>
     </p>
   );

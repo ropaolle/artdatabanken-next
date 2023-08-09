@@ -12,9 +12,12 @@
   - [Cheat Sheet](https://tailwindcomponents.com/cheatsheet/)
   - [unknownAtRules Warnings From Tailwind CSS](https://www.codeconcisely.com/posts/tailwind-css-unknown-at-rules/)
   - [Tailwind Elements](https://tailwind-elements.com/)
-- DATABASE/STORAGE
+- SUPABASE
+
   - [Supabase](https://supabase.com/)
-  - [SWR](https://swr.vercel.app/)
+  - [Auth helpers](https://supabase.com/docs/guides/auth/auth-helpers/nextjs)
+  - [CLI TypeScript](https://supabase.com/docs/reference/javascript/typescript-support)
+
 - OTHER
   - COMPONENTS
     - [Material UI](https://mui.com/material-ui/)
@@ -26,6 +29,15 @@
   - [Iconify](https://iconify.design/)
   - [Hero Icons](https://heroicons.com/)
   - [Favicon](https://realfavicongenerator.net/)
+  - [SWR](https://swr.vercel.app/)
+
+## Supabase CLI
+
+```sh
+npm i supabase --save-dev
+npx supabase login
+npx supabase gen types typescript --project-id yeebxkyqwarhmbfpkgir > database.types.ts
+```
 
 ## Miscellaneous
 

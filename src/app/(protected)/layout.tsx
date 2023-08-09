@@ -16,7 +16,7 @@ export default async function PageLayout({ children }: { children: React.ReactNo
     <>
       <Navbar user={user} />
       <main className="flex items-center justify-center p-16 lg:justify-between">{children}</main>
-      <Footer />
+      <Footer user={user} />
     </>
   );
 }
