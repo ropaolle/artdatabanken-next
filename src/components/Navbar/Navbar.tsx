@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 import MainMenu from "./MainMenu";
 import LoginMenu from "./LoginMenu";
-import { type User } from "@/lib";
+import { type User } from "@/lib/auth";
 
 export default function Navbar({ user }: { user: User | null }) {
   useEffect(() => {
@@ -12,7 +12,7 @@ export default function Navbar({ user }: { user: User | null }) {
       initTE({ Collapse, Dropdown });
     };
     init();
-  }, []);
+  }, [user]);
 
   return (
     <nav
@@ -20,7 +20,7 @@ export default function Navbar({ user }: { user: User | null }) {
       data-te-navbar-ref
     >
       <div className="flex w-full flex-wrap items-center justify-between px-3">
-        <MainMenu />
+        <MainMenu user={user} />
         <LoginMenu user={user} />
       </div>
     </nav>

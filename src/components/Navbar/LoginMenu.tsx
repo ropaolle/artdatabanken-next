@@ -2,11 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { type User } from "@/lib";
-
-type Props = {
-  user: User | null;
-};
+import { type User } from "@/hooks/useAuth";
 
 const MenuItem = ({ label, href }: { label: string; href: string }) => (
   <li>
@@ -36,7 +32,7 @@ const LogoutButton = () => (
   </li>
 );
 
-export default function LoginMenu({ user }: Props) {
+export default function LoginMenu({ user }: { user: User | null }) {
   return (
     <div className="relative flex items-center">
       {user ? (

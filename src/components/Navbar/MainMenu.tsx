@@ -3,11 +3,11 @@
 import { useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-// import { type User } from "@/lib";
+import { type User } from "@/hooks/useAuth";
 
 const MENU_ID = "leftNavigationMenu";
 
-export default function MainMenu(/* { user }: { user: User | null } */) {
+export default function MainMenu({ user }: { user: User | null }) {
   useEffect(() => {
     const init = async () => {
       const { Collapse, Dropdown, initTE } = await import("tw-elements");
@@ -68,9 +68,14 @@ export default function MainMenu(/* { user }: { user: User | null } */) {
     >
       <LogoAndBrand logo="/bird.svg" brand="Artdatabanken" />
       <ul className="list-style-none mr-auto flex flex-col pl-0 lg:flex-row" data-te-navbar-nav-ref>
-        <MenuLink label="Species" href="species" />
-        <MenuLink label="Images" href="images" />
-        <MenuLink label="Collections" href="collections" />
+        {user && (
+          <>
+            <MenuLink label="Species" href="species" />
+            <MenuLink label="Images" href="images" />
+            <MenuLink label="Collections" href="collections" />
+          </>
+        )}
+        {!user && (<MenuLink label="Examples" href="examples" />)}
       </ul>
     </div>
   );
