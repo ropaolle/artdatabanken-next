@@ -1,7 +1,8 @@
 import Link from "next/link";
-import { Qube, Home, Email, Phone, Web, Facebook, Twitter, Google, Instagram, Linkedin, Github } from "./svgs";
+import { Qube, Home, Email, Phone, Web, Facebook, Twitter, Google, Instagram, Linkedin, Github, Lock } from "./svgs";
+import { type User } from "@/lib/auth";
 
-export default function Footer() {
+export default function Footer({ user }: { user: User | null }) {
   const SocialLink = ({ href, icon }: { href: string; icon: JSX.Element }) => (
     <Link href={href} target="_blank" className="mr-6 text-neutral-600 dark:text-neutral-200">
       {icon}
@@ -26,10 +27,20 @@ export default function Footer() {
     </div>
   );
 
-  const FooterLink = ({ label, href, newTab = false }: { label: string; href: string; newTab?: boolean }) => (
+  const FooterLink = ({
+    label,
+    href,
+    newTab = false,
+    protectedPage = false,
+  }: {
+    label: string;
+    href: string;
+    newTab?: boolean;
+    protectedPage?: boolean;
+  }) => (
     <p className="mb-4 last:mb-0">
-      <Link href={href} target={newTab ? "_blank" : "_self"} className="text-neutral-600 dark:text-neutral-200">
-        {label}
+      <Link href={href} target={newTab ? "_blank" : "_self"} className={`text-neutral-600 dark:text-neutral-200 flex ${protectedPage && 'pointer-events-none'}`}>
+        {label} {protectedPage && <Lock />}
       </Link>
     </p>
   );
@@ -73,9 +84,9 @@ export default function Footer() {
             </FooterSection>
 
             <FooterSection label="Useful links">
-              <FooterLink label="Species" href="species" />
-              <FooterLink label="Images" href="images" />
-              <FooterLink label="Collections" href="collections" />
+              <FooterLink label="Species" href="species" protectedPage />
+              <FooterLink label="Images" href="images" protectedPage />
+              <FooterLink label="Collections" href="collections" protectedPage />
               <FooterLink label="About" href="about" />
             </FooterSection>
 
