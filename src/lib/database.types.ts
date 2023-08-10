@@ -29,23 +29,50 @@ export interface Database {
       }
       species: {
         Row: {
+          county: string | null
           created_at: string
+          date: string | null
+          family: string | null
           id: string
+          image: string | null
+          kingdom: string | null
+          order: string | null
+          place: string | null
+          sex: string | null
           species: string | null
+          specieslatin: string | null
           updated_at: string
           user_id: string | null
         }
         Insert: {
+          county?: string | null
           created_at?: string
+          date?: string | null
+          family?: string | null
           id?: string
+          image?: string | null
+          kingdom?: string | null
+          order?: string | null
+          place?: string | null
+          sex?: string | null
           species?: string | null
+          specieslatin?: string | null
           updated_at?: string
           user_id?: string | null
         }
         Update: {
+          county?: string | null
           created_at?: string
+          date?: string | null
+          family?: string | null
           id?: string
+          image?: string | null
+          kingdom?: string | null
+          order?: string | null
+          place?: string | null
+          sex?: string | null
           species?: string | null
+          specieslatin?: string | null
           updated_at?: string
           user_id?: string | null
         }
