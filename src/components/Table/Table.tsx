@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { type User } from "@/lib/auth";
+import {Datatable} from 'tw-elements'
 
 type Data = {
   columns: string[];
@@ -15,8 +16,21 @@ type Data2 = {
   email: string;
   phone: string;
   website: string;
-  // address: string;
-  // company: string;
+  address: {
+    street: string;
+    suite: string;
+    city: string;
+    zipcode: string;
+    geo: {
+      lat: string;
+      lng: string;
+    };
+  };
+  company: {
+    name: string;
+    catchPhrase: string;
+    bs: string;
+  };
 };
 
 const columns = [
@@ -30,7 +44,7 @@ const columns = [
 ];
 
 export default function Table({ data }: { data: Data2[] }) {
-  const [table, setTable] = useState();
+  const [table, setTable] = useState<unknown>();
 
   useEffect(() => {
     const init = async () => {
@@ -54,11 +68,11 @@ export default function Table({ data }: { data: Data2[] }) {
         {
           rows: data.map((user) => ({
             ...user,
-            // address: `${user.address.city}, ${user.address.street}`,
-            // company: user.company.name,
+            address: `${user.address.city}, ${user.address.street}`,
+            company: user.company.name,
           })),
         },
-        { loading: false }
+        { loading: false/* , clickableRows: true */ }
       );
   }, [table, data]);
 
