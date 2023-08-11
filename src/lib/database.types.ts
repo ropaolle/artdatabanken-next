@@ -9,6 +9,43 @@ export type Json =
 export interface Database {
   public: {
     Tables: {
+      images: {
+        Row: {
+          created_at: string
+          filename: string | null
+          id: string
+          thumbnailurl: string | null
+          updated_at: string
+          url: string | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          filename?: string | null
+          id?: string
+          thumbnailurl?: string | null
+          updated_at?: string
+          url?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          filename?: string | null
+          id?: string
+          thumbnailurl?: string | null
+          updated_at?: string
+          url?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "images_user_id_fkey"
+            columns: ["user_id"]
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       posts: {
         Row: {
           content: string | null

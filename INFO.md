@@ -44,32 +44,3 @@ npx supabase gen types typescript --project-id yeebxkyqwarhmbfpkgir > "./src/lib
 Developer tools, ... to the right, select `Show Console Drawer`, select `Rendering`, select `Emulate CSS media feature` prefer-color-scheme.
 
 ![Test dark mode in Chrome](./doc/test-dark-mode-in-chrome.png)
-
-## Types
-
-```js
-type SpeciesInfo = {
-  id: string;
-  kingdom: string;
-  order: string;
-  family: string;
-  species: string;
-  sex: string;
-  county: string;
-  place: string;
-  speciesLatin: string;
-  date: string;
-  image: string;
-  createdAt?: Timestamp;
-  updatedAt?: Timestamp;
-};
-
-type ImageInfo = {
-  id: string;
-  filename: string;
-  URL: string;
-  thumbnailURL: string;
-  createdAt?: Timestamp;
-  updatedAt?: Timestamp;
-};
-```

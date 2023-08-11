@@ -1,61 +1,19 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { type User } from "@/lib/auth";
-import {Datatable} from 'tw-elements'
 
-type Data = {
-  columns: string[];
-  rows: string[][];
-};
+// TODO: Can't find any Tailwind Elements types
+type AsyncTable = { update: (rows: unknown, options: unknown) => void };
 
-type Data2 = {
-  id: number;
-  name: string;
-  username: string;
-  email: string;
-  phone: string;
-  website: string;
-  address: {
-    street: string;
-    suite: string;
-    city: string;
-    zipcode: string;
-    geo: {
-      lat: string;
-      lng: string;
-    };
-  };
-  company: {
-    name: string;
-    catchPhrase: string;
-    bs: string;
-  };
-};
-
-const columns = [
-  { label: "Address", field: "address" },
-  { label: "Company", field: "company" },
-  { label: "Email", field: "email" },
-  { label: "Name", field: "name" },
-  { label: "Phone", field: "phone" },
-  { label: "Username", field: "username" },
-  { label: "Website", field: "website" },
-];
-
-export default function Table({ data }: { data: Data2[] }) {
-  const [table, setTable] = useState<unknown>();
+export default function Table<COL, ROW>({ columns, rows }: { columns: COL[]; rows: ROW[] | undefined }) {
+  const [table, setTable] = useState<AsyncTable>();
 
   useEffect(() => {
     const init = async () => {
       const { Datatable, initTE } = await import("tw-elements");
       initTE({ Datatable });
 
-      // console.count('table');
-
-      // new Datatable(document.getElementById("datatable"), data);
-
-      const asyncTable = new Datatable(document.getElementById("datatable"), { columns }, { loading: true });
+      const asyncTable = new Datatable(document.getElementById("datatable"), { columns }, { loading: false });
 
       setTable(asyncTable);
     };
@@ -64,17 +22,18 @@ export default function Table({ data }: { data: Data2[] }) {
 
   useEffect(() => {
     table &&
+      rows &&
       table.update(
         {
-          rows: data.map((user) => ({
-            ...user,
-            address: `${user.address.city}, ${user.address.street}`,
-            company: user.company.name,
+          rows: rows.map((rows) => ({
+            ...rows,
+            // address: `${rows.address.city}, ${rows.address.street}`,
+            // company: rows.company.name,
           })),
         },
-        { loading: false/* , clickableRows: true */ }
+        { loading: false, clickableRows: true, striped: true }
       );
-  }, [table, data]);
+  }, [table, rows]);
 
   return <div id="datatable" />;
 }
