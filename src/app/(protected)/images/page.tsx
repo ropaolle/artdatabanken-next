@@ -26,6 +26,7 @@ export default function Species() {
   useEffect(() => {
     const getData = async () => {
       const { data } = await supabase.from("images").select();
+      
       if (data) setImages(data);
     };
 
