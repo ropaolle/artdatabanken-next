@@ -1,7 +1,7 @@
-"use client";
+// "use client";
 
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import { useEffect, useState } from "react";
+// import { useEffect, useState } from "react";
 import { type Database } from "@/lib/database.types";
 import Table from "@/components/Table";
 
@@ -25,22 +25,23 @@ const columns = [
 
 type Species = Database["public"]["Tables"]["species"]["Row"];
 
-export default function Images() {
-  const [species, setSpecies] = useState<Species[]>();
+export default  async function Images() {
+  // const [species, setSpecies] = useState<Species[]>();
   const supabase = createClientComponentClient<Database>();
+  const { data } = await supabase.from("species").select();
 
-  useEffect(() => {
-    const getData = async () => {
-      const { data } = await supabase.from("species").select();
-      if (data) setSpecies(data);
-    };
+  // useEffect(() => {
+  //   const getData = async () => {
+  //     const { data } = await supabase.from("species").select();
+  //     if (data) setSpecies(data);
+  //   };
 
-    getData();
-  }, [supabase]);
+  //   getData();
+  // }, [supabase]);
 
   return (
     <>
-      <Table<Column, Species> rows={species} columns={columns} />
+      <Table<Column, Species> rows={data} columns={columns} />
     </>
   );
 }

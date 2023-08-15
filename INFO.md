@@ -14,6 +14,7 @@
   - [Tailwind Elements](https://tailwind-elements.com/)
 - SUPABASE
   - [Supabase](https://supabase.com/)
+  - [auth-api](https://supabase.com/docs/reference/javascript/auth-api)
   - [Auth helpers](https://supabase.com/docs/guides/auth/auth-helpers/nextjs)
   - [CLI TypeScript](https://supabase.com/docs/reference/javascript/typescript-support)
 - OTHER
