@@ -1,10 +1,4 @@
-export type Json =
-  | string
-  | number
-  | boolean
-  | null
-  | { [key: string]: Json | undefined }
-  | Json[]
+export type Json = string | number | boolean | null | { [key: string]: Json | undefined } | Json[]
 
 export interface Database {
   public: {
@@ -72,14 +66,18 @@ export interface Database {
           family: string | null
           id: string
           image: string | null
+          image_id: string | null
           kingdom: string | null
-          order: string | null
+          latin_name: string | null
           place: string | null
           sex: string | null
           species: string | null
-          specieslatin: string | null
+          taxonomy_order: string | null
           updated_at: string
           user_id: string | null
+          images: {
+            thumbnail_url: string | null
+          } | null
         }
         Insert: {
           county?: string | null
@@ -88,12 +86,13 @@ export interface Database {
           family?: string | null
           id?: string
           image?: string | null
+          image_id?: string | null
           kingdom?: string | null
-          order?: string | null
+          latin_name?: string | null
           place?: string | null
           sex?: string | null
           species?: string | null
-          specieslatin?: string | null
+          taxonomy_order?: string | null
           updated_at?: string
           user_id?: string | null
         }
@@ -104,16 +103,23 @@ export interface Database {
           family?: string | null
           id?: string
           image?: string | null
+          image_id?: string | null
           kingdom?: string | null
-          order?: string | null
+          latin_name?: string | null
           place?: string | null
           sex?: string | null
           species?: string | null
-          specieslatin?: string | null
+          taxonomy_order?: string | null
           updated_at?: string
           user_id?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "species_image_id_fkey"
+            columns: ["image_id"]
+            referencedRelation: "images"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "species_user_id_fkey"
             columns: ["user_id"]

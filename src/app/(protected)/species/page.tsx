@@ -1,47 +1,15 @@
-// "use client";
-
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-// import { useEffect, useState } from "react";
 import { type Database } from "@/lib/database.types";
-import Table from "@/components/Table";
+import SpeciesTable from "./SpeciesTable";
 
-type Column = { label: string; field: string };
-
-const columns = [
-  // created_at
-  // updated_at
-  // { label: "Id", field: "id" },
-  // { label: "User Id", field: "id" },
-  { label: "Kingdom", field: "kingdom" },
-  // { label: "Order", field: "taxonomy_order" },
-  // { label: "Family", field: "family" },
-  { label: "Species", field: "species" },
-  { label: "Sex", field: "sex" },
-  { label: "County", field: "county" },
-  { label: "Place", field: "place" },
-  { label: "Latin", field: "latin_name" },
-  { label: "Image", field: "image" },
-];
-
-type Species = Database["public"]["Tables"]["species"]["Row"];
-
-export default  async function Images() {
-  // const [species, setSpecies] = useState<Species[]>();
+export default async function Images() {
   const supabase = createClientComponentClient<Database>();
-  const { data } = await supabase.from("species").select();
+  const { data } = await supabase.from("species").select(`
+    *,
+    images (thumbnail_url)
+  `);
 
-  // useEffect(() => {
-  //   const getData = async () => {
-  //     const { data } = await supabase.from("species").select();
-  //     if (data) setSpecies(data);
-  //   };
+  // console.log("rows", data);
 
-  //   getData();
-  // }, [supabase]);
-
-  return (
-    <>
-      <Table<Column, Species> rows={data} columns={columns} />
-    </>
-  );
+  return data && <SpeciesTable rows={data} />;
 }

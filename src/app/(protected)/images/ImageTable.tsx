@@ -14,6 +14,7 @@ const columns = [
   { label: "Filename", field: "filename" },
   { label: "URL", field: "url" },
   { label: "Thumbnail URL", field: "thumbnail_url" },
+  { label: "Image", field: "image" },
 ];
 
 type Image = Database["public"]["Tables"]["images"]["Row"];
@@ -33,7 +34,9 @@ export default function ImageTable({ rows, count }: { rows: Image[]; count: numb
   const parsedRows = rows.map((row) => ({
     ...row,
     url: `<div class="h-24">${truncateString(row.url, 36)}</div>`,
-    thumbnail_url: thumbnail(row?.thumbnail_url),
+    thumbnail_url: `<div class="h-24">${truncateString(row.thumbnail_url, 36)}</div>`,
+    // thumbnail_url: thumbnail(row?.thumbnail_url),
+    image: thumbnail(row?.thumbnail_url),
   }));
 
   return (

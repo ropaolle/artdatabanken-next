@@ -13,7 +13,7 @@ export default async function Images() {
   const { data: rows, count } = await supabase
     .from("images")
     .select("*", { count: "exact" /* , head: true  */ })
-    .order("filename", { ascending: true })
+    .order("updated_at", { ascending: true })
     .limit(4);
 
   // await sleep(11000);

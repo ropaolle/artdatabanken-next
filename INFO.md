@@ -2,6 +2,8 @@
 
 ## TODO
 
+- [ ] Join tables https://supabase.com/docs/guides/api/joins-and-nesting
+  - species -> image_id
 - [ ] Sort Tailwind classes
 - [ ] Check TODO:s
 - [ ] Check Any:s
@@ -18,6 +20,7 @@
   - [Cheat Sheet](https://tailwindcomponents.com/cheatsheet/)
   - [unknownAtRules Warnings From Tailwind CSS](https://www.codeconcisely.com/posts/tailwind-css-unknown-at-rules/)
   - [Tailwind Elements](https://tailwind-elements.com/)
+  - [Tips and tricks](https://material-minimal.com/learn/design-hacks/tips-and-tricks/)
 - SUPABASE
   - [Supabase](https://supabase.com/)
   - [auth-api](https://supabase.com/docs/reference/javascript/auth-api)
