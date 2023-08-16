@@ -33,11 +33,13 @@
     - [Chakra UI](https://chakra-ui.com/)
   - [React component as prop](https://www.developerway.com/posts/react-component-as-prop-the-right-way)
   - [Zustand slices](https://github.com/pmndrs/zustand/blob/main/docs/guides/slices-pattern.md)
-  - [Clerk authentication](https://clerk.com/)
-  - [Iconify](https://iconify.design/)
-  - [Hero Icons](https://heroicons.com/)
-  - [Favicon](https://realfavicongenerator.net/)
   - [SWR](https://swr.vercel.app/)
+  - ICONS
+    - [Clerk authentication](https://clerk.com/)
+    - [Iconify](https://iconify.design/)
+    - [Hero Icons](https://heroicons.com/)
+    - [Phosphor Icons](https://phosphoricons.com/)
+    - [Favicon](https://realfavicongenerator.net/)
 
 ## Supabase CLI
 
