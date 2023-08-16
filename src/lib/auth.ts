@@ -1,5 +1,4 @@
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
-import { cookies } from "next/headers";
+import createServerComponentClientWithCookies from "./createServerComponentClientWithCookies";
 import { gravatarURL } from "./gravatarURL";
 
 export type User = {
@@ -10,7 +9,7 @@ export type User = {
 };
 
 export default async function getUser() {
-  const supabase = createServerComponentClient({ cookies });
+  const supabase = await createServerComponentClientWithCookies();
 
   const {
     data: { user },

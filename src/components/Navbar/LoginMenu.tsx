@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { type User } from "@/hooks/useAuth";
+import { type User } from "@/lib/auth";
 
 const MenuItem = ({ label, href }: { label: string; href: string }) => (
   <li>

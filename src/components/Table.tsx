@@ -1,48 +1,33 @@
 "use client";
 
 import { useState, useEffect } from "react";
-// import { truncateString } from "@/lib";
-
-// const truncateString = (text: string, maxLength = 18) =>
-//   text ? (text.length > maxLength ? text.slice(0, maxLength - 1) + "&hellip;" : text) : "";
 
 // TODO: Can't find any Tailwind Elements types
-// type AsyncTable = { update: (rows: unknown, options: unknown) => void };
+// export const dynamic = "force-dynamic";
+// export const revalidate = 0;
 
-const tableOptions = { clickableRows: true, striped: true, selectable: true };
+const tableOptions = { clickableRows: true, striped: true, selectable: true, defaultValue: '' };
 const tableClasses = { striped: `[&:nth-child(odd)]:bg-neutral-100 [&:nth-child(odd)]:dark:bg-neutral-700` };
 
-type RowClick<T> = {
+export type RowClick<T> = {
   index: number;
   row: T;
 };
 
-type SelectedRow<T> = {
+export type SelectRow<T> = {
   allSelected: boolean;
   selectedIndexes: number[];
   selectedRows: T[];
 };
 
-// export const dynamic = "force-dynamic";
-// export const revalidate = 0;
-
 type Props<Row, Col> = {
   columns: Col[];
   rows: Row[];
-  onRowClick: ({ index, row }: RowClick<Row>) => void;
+  onRowClick?: ({ index, row }: RowClick<Row>) => void;
+  onSelectRow?: ({ allSelected, selectedIndexes, selectedRows }: SelectRow<Row>) => void;
 };
 
-export default function Table<Col, Row>({ columns, rows, onRowClick }: Props<Row, Col>) {
-  console.count("table");
-
-  // const onRowClick = ({ index, row }: RowClick<Row>) => {
-  //   console.log("onRowClick", index, row);
-  // };
-
-  // const onSelectRow = ({ allSelected, selectedIndexes, selectedRows }: SelectedRow<Row>) => {
-  //   console.log("onSelectRow", selectedIndexes);
-  // };
-
+export default function Table<Col, Row>({ columns, rows, onRowClick, onSelectRow }: Props<Row, Col>) {
   // const setupButtons = (action: string) => {
   //   document.querySelectorAll(`.${action}-email-button`).forEach((button) => {
   //     button.addEventListener("click", (e) => {
@@ -76,6 +61,14 @@ export default function Table<Col, Row>({ columns, rows, onRowClick }: Props<Row
       window.removeEventListener<any>("rowClick.te.datatable", onRowClick);
     };
   }, [onRowClick]);
+
+  useEffect(() => {
+    if (typeof onSelectRow !== "function") return;
+    window.addEventListener<any>("selectRows.te.datatable", onSelectRow);
+    return () => {
+      window.removeEventListener<any>("selectRows.te.datatable", onSelectRow);
+    };
+  }, [onSelectRow]);
 
   // useEffect(() => {
   //   // TODO: Fix TypeScript

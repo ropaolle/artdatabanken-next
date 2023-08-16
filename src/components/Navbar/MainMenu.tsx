@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { type User } from "@/hooks/useAuth";
+import { type User } from "@/lib/auth";
 
 const MENU_ID = "leftNavigationMenu";
 
