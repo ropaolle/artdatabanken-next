@@ -16,3 +16,11 @@ create policy "Authenticated users can select todos" on todos
 
 create policy "Authenticated users can insert their own todos" on todos
   for insert to authenticated with check (auth.uid() = user_id);
+
+-- SEED
+
+insert into todos(title)
+values
+  ('Create Supabase project'),
+  ('Create Next.js app from Supabase Starter template'),
+  ('Keep building cool stuff!');

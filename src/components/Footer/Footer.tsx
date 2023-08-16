@@ -100,10 +100,10 @@ export default function Footer({ user }: { user: User | null }) {
                 <Link href="mailto:info@gmail.com">info@ropaolle.se</Link>
               </IconItem>
               <IconItem icon={<Phone />}>
-                <Link href="tel:+1(800)555-0123">(800) 555-0123</Link>
+                <Link href="tel:+46 8 123456">+46 8 123456</Link>
               </IconItem>
               <IconItem icon={<Web />}>
-                <Link href="https://www.ropaolle.se">www.ropaolle.se</Link>
+                <Link href="https://www.ropaolle.se">https://www.ropaolle.se</Link>
               </IconItem>
             </FooterSection>
           </div>

@@ -2,8 +2,16 @@
 
 ## TODO
 
-- [ ] Protected pages https://supabase.com/docs/guides/auth/auth-helpers/nextjs
+- [ ] Join tables https://supabase.com/docs/guides/api/joins-and-nesting
+  - species -> image_id
+- [ ] Sort Tailwind classes
 - [ ] Check TODO:s
+- [ ] Check Any:s
+
+## Known issues
+
+- [ ] DynamicServerError: Dynamic server usage: Page couldn't be rendered statically because it used `cookies`. [See more info here](https://nextjs.org/docs/messages/dynamic-server-error)
+  - import { revalidatePath } from "next/cache";
 
 ## Links
 
@@ -12,8 +20,10 @@
   - [Cheat Sheet](https://tailwindcomponents.com/cheatsheet/)
   - [unknownAtRules Warnings From Tailwind CSS](https://www.codeconcisely.com/posts/tailwind-css-unknown-at-rules/)
   - [Tailwind Elements](https://tailwind-elements.com/)
+  - [Tips and tricks](https://material-minimal.com/learn/design-hacks/tips-and-tricks/)
 - SUPABASE
   - [Supabase](https://supabase.com/)
+  - [auth-api](https://supabase.com/docs/reference/javascript/auth-api)
   - [Auth helpers](https://supabase.com/docs/guides/auth/auth-helpers/nextjs)
   - [CLI TypeScript](https://supabase.com/docs/reference/javascript/typescript-support)
 - OTHER
@@ -23,18 +33,20 @@
     - [Chakra UI](https://chakra-ui.com/)
   - [React component as prop](https://www.developerway.com/posts/react-component-as-prop-the-right-way)
   - [Zustand slices](https://github.com/pmndrs/zustand/blob/main/docs/guides/slices-pattern.md)
-  - [Clerk authentication](https://clerk.com/)
-  - [Iconify](https://iconify.design/)
-  - [Hero Icons](https://heroicons.com/)
-  - [Favicon](https://realfavicongenerator.net/)
   - [SWR](https://swr.vercel.app/)
+  - ICONS
+    - [Clerk authentication](https://clerk.com/)
+    - [Iconify](https://iconify.design/)
+    - [Hero Icons](https://heroicons.com/)
+    - [Phosphor Icons](https://phosphoricons.com/)
+    - [Favicon](https://realfavicongenerator.net/)
 
 ## Supabase CLI
 
 ```sh
 npm i supabase --save-dev
 npx supabase login
-npx supabase gen types typescript --project-id yeebxkyqwarhmbfpkgir > database.types.ts
+npx supabase gen types typescript --project-id yeebxkyqwarhmbfpkgir > "./src/lib/database.types.ts"
 ```
 
 ## Miscellaneous
