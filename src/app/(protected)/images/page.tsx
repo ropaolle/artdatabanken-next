@@ -7,7 +7,7 @@ import ImageTable from "./ImageTable";
 // export const dynamic = "force-dynamic";
 
 export default async function Images() {
-  console.log("images page ", new Date().toLocaleTimeString());
+  // console.log("images page ", new Date().toLocaleTimeString());
 
   const supabase = await createServerComponentClientWithCookies();
   const { data: rows, count } = await supabase
