@@ -31,33 +31,31 @@ export default function Table<Col, Row>({ columns, rows, hover, multi, onRowClic
   const clickableRows = typeof onRowClick === "function";
   const selectable = typeof onSelectRow === "function";
 
-  useEffect(
-    () => {
-      const tableOptions = {
-        clickableRows,
-        selectable,
-        striped: true,
-        defaultValue: "",
-        hover: Boolean(hover),
-        multi: Boolean(multi),
-      };
+  useEffect(() => {
+    const tableOptions = {
+      clickableRows,
+      selectable,
+      striped: true,
+      defaultValue: "",
+      hover: Boolean(hover),
+      multi: Boolean(multi),
+    };
 
-      const tableClasses = {
-        striped: `[&:nth-child(odd)]:bg-neutral-100 [&:nth-child(odd)]:dark:bg-neutral-700`,
-        // selectableRow: `!bg-yellow-100 dark:!bg-yellow-600`,
-        hoverRow: `hover:bg-green-100 dark:hover:bg-green-700`,
-        // Right align last th element
-        tableHeader: `border-b font-normal px-[1.4rem] [&_tr_th:last-child_div]:flex-row-reverse`,
-      };
+    const tableClasses = {
+      striped: `[&:nth-child(odd)]:bg-neutral-100 [&:nth-child(odd)]:dark:bg-neutral-700`,
+      // selectableRow: `!bg-yellow-100 dark:!bg-yellow-600`,
+      hoverRow: `hover:bg-green-100 dark:hover:bg-green-700`,
+      // Right align last th element
+      tableHeader: `border-b font-normal px-[1.4rem] [&_tr_th:last-child_div]:flex-row-reverse`,
+    };
 
-      const init = async () => {
-        const { Datatable, initTE } = await import("tw-elements");
-        initTE({ Datatable });
-        new Datatable(document.getElementById("datatable"), { columns, rows }, tableOptions, tableClasses);
-      };
-      init();
-    },
-  );
+    const init = async () => {
+      const { Datatable, initTE } = await import("tw-elements");
+      initTE({ Datatable });
+      new Datatable(document.getElementById("datatable"), { columns, rows }, tableOptions, tableClasses);
+    };
+    init();
+  });
 
   useEvent("rowClick.te.datatable", onRowClick);
   useEvent("selectRows.te.datatable", onSelectRow);

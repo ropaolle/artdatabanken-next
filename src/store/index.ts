@@ -13,6 +13,6 @@ export const useAppStore = create<StoreState>()(
     }),
     {
       name: "thespeciesdb",
-    }
-  )
+    },
+  ),
 );

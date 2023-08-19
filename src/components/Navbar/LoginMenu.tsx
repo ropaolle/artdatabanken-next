@@ -25,7 +25,7 @@ const MenuItemDivider = () => (
 const LogoutButton = () => (
   <li>
     <form action="/auth/sign-out" method="post">
-      <button className="block w-full text-left whitespace-nowrap bg-transparent px-4 py-2 text-sm font-normal text-neutral-700 hover:bg-neutral-100 active:text-neutral-800 active:no-underline disabled:pointer-events-none disabled:bg-transparent disabled:text-neutral-400 dark:text-neutral-200 dark:hover:bg-white/30">
+      <button className="block w-full whitespace-nowrap bg-transparent px-4 py-2 text-left text-sm font-normal text-neutral-700 hover:bg-neutral-100 active:text-neutral-800 active:no-underline disabled:pointer-events-none disabled:bg-transparent disabled:text-neutral-400 dark:text-neutral-200 dark:hover:bg-white/30">
         Logout
       </button>
     </form>

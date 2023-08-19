@@ -42,7 +42,7 @@ export default function Footer({ user }: { user: User | null }) {
       <Link
         href={href}
         target={newTab ? "_blank" : "_self"}
-        className={`text-neutral-600 dark:text-neutral-200 flex ${protectedPage && !user && "pointer-events-none"}`}
+        className={`flex text-neutral-600 dark:text-neutral-200 ${protectedPage && !user && "pointer-events-none"}`}
       >
         {label} {protectedPage && !user && <Lock />}
       </Link>
@@ -50,7 +50,7 @@ export default function Footer({ user }: { user: User | null }) {
   );
 
   const IconItem = ({ children, icon }: { children: React.ReactNode; icon: JSX.Element }) => (
-    <p className="mb-4 last:mb-0 flex items-center justify-center md:justify-start">
+    <p className="mb-4 flex items-center justify-center last:mb-0 md:justify-start">
       {icon}
       {children}
     </p>

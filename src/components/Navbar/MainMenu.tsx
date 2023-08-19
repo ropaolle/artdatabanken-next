@@ -56,7 +56,7 @@ export default function MainMenu({ user }: { user: User | null }) {
       href="/"
     >
       <Image src={logo} alt="TE Logo" loading="lazy" width={25} height={25} />
-      {brand && <span className=" font-bold text-neutral-600 dark:text-neutral-200 ml-2">{brand}</span>}
+      {brand && <span className=" ml-2 font-bold text-neutral-600 dark:text-neutral-200">{brand}</span>}
     </Link>
   );
 
@@ -75,7 +75,7 @@ export default function MainMenu({ user }: { user: User | null }) {
             <MenuLink label="Collections" href="collections" />
           </>
         )}
-        {!user && (<MenuLink label="Examples" href="examples" />)}
+        {!user && <MenuLink label="Examples" href="examples" />}
       </ul>
     </div>
   );

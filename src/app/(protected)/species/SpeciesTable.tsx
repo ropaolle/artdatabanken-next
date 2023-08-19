@@ -55,11 +55,11 @@ export default function SpeciesTable({ rows, count }: { rows: Species[]; count?:
   const family = (row: Species) => (
     <>
       <div className="font-bold">{row.family}</div>
-      <div className="text-xs mt-2 text-neutral-600">
+      <div className="mt-2 text-xs text-neutral-600">
         <span className="font-bold">Kingdom: </span>
         {row.kingdom}
       </div>
-      <div className="text-xs mt-1 text-neutral-600">
+      <div className="mt-1 text-xs text-neutral-600">
         <span className="font-bold">Order: </span>
         {row.taxonomy_order}
       </div>
@@ -79,7 +79,7 @@ export default function SpeciesTable({ rows, count }: { rows: Species[]; count?:
           </>
         )}
       </div>
-      <div className="text-sm mt-2 text-neutral-600">{row.latin_name}</div>
+      <div className="mt-2 text-sm text-neutral-600">{row.latin_name}</div>
     </>
   );
 
@@ -87,10 +87,10 @@ export default function SpeciesTable({ rows, count }: { rows: Species[]; count?:
 
   const actions = (index: string) => (
     <div className="flex justify-end">
-      <a role="button" className="delete-button text-neutral-300 ms-2" data-te-index={index}>
+      <a role="button" className="delete-button ms-2 text-neutral-300" data-te-index={index}>
         <Trash />
       </a>
-      <a role="button" className="edit-button text-neutral-300 ms-2" data-te-index={index}>
+      <a role="button" className="edit-button ms-2 text-neutral-300" data-te-index={index}>
         <Pencil />
       </a>
     </div>
