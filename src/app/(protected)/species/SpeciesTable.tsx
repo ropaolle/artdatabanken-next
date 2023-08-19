@@ -1,22 +1,12 @@
 "use client";
 
-import { type Database } from "@/lib/database.types";
-import Table, { type RowClick, type SelectRow } from "@/components/Table";
-import { truncateString } from "@/lib";
 import { renderToStaticMarkup } from "react-dom/server";
-import useEvent from "@/components/useEvent";
-import { Female, Male, Trash, Pencil } from "./svgs";
+import Image from "next/image";
+import { type Database } from "@/lib/database.types";
+// import Table, { /* type RowClick, */ type SelectRow } from "@/components/Tabl";
+import { Table, type SelectRow, useEvent, setupAction } from "@/components/Table";
 
-const buttons = (index: number) => (
-  <div className="flex justify-end">
-    <a role="button" className="delete-button text-neutral-300 ms-2" data-te-index={index}>
-      <Trash />
-    </a>
-    <a role="button" className="edit-button text-neutral-300 ms-2" data-te-index={index}>
-      <Pencil />
-    </a>
-  </div>
-);
+import { Female, Male, Trash, Pencil } from "./icons";
 
 type Column = { label: string; field: string };
 
@@ -40,74 +30,87 @@ const columns = [
 
 type Species = Database["public"]["Tables"]["species"]["Row"];
 
-const genderIcon = (gender: string | null) => {
-  switch (gender) {
-    case "male":
-      return <Male />;
-    case "female":
-      return <Female />;
-    case "both":
-      return (
-        <>
-          <Male />
-          <Female />
-        </>
-      );
-    default:
-      return <></>;
-  }
-};
-
 export default function SpeciesTable({ rows, count }: { rows: Species[]; count?: number }) {
-  const setupButtons = (action: string) => {
-    document.querySelectorAll(`.${action}-button`).forEach((button) => {
-      button.addEventListener("click", (e) => {
-        e.stopPropagation();
-        const index = Number(button.getAttribute("data-te-index"));
-        console.log(`${action} message: ${index}`, rows?.[index].id);
-      });
-    });
-  };
-
-  useEvent("render.te.datatable", () => {
-    setupButtons("delete");
-    setupButtons("edit");
-  });
-
-  const handleRowClick = ({ index, row }: RowClick<Species>) => {
-    console.log("handleRowClick", index, row);
-  };
+  // const handleRowClick = ({ index, row }: RowClick<Species>) => {
+  //   console.log(index);
+  // };
 
   const handleSelectRow = ({ allSelected, selectedIndexes, selectedRows }: SelectRow<Species>) => {
     console.log("onSelectRow", selectedIndexes);
   };
 
-  const thumbnail = (url: string, placeholder = "/bird.svg") =>
-    url && `<img src="${url?.length > 30 ? url : placeholder}" alt="image" width="100" loading="lazy" />`;
+  const handleDelete = (index: string | null) => {
+    console.log("handleDelete", index);
+  };
+
+  const handleEdit = (index: string | null) => {
+    console.log("handleEdit", index);
+  };
+
+  useEvent("render.te.datatable", () => {
+    setupAction("delete", handleDelete);
+    setupAction("edit", handleEdit);
+  });
+
+  const family = (row: Species) => (
+    <>
+      <div className="font-bold">{row.family}</div>
+      <div className="text-xs mt-2 text-neutral-600">
+        <span className="font-bold">Kingdom: </span>
+        {row.kingdom}
+      </div>
+      <div className="text-xs mt-1 text-neutral-600">
+        <span className="font-bold">Order: </span>
+        {row.taxonomy_order}
+      </div>
+    </>
+  );
+
+  const species = (row: Species) => (
+    <>
+      <div className="flex">
+        <span className="font-bold text-primary-600">{row.species}</span>
+        {row.sex === "male" && <Male />}
+        {row.sex === "female" && <Female />}
+        {row.sex === "both" && (
+          <>
+            <Male />
+            <Female />
+          </>
+        )}
+      </div>
+      <div className="text-sm mt-2 text-neutral-600">{row.latin_name}</div>
+    </>
+  );
+
+  const image = (url = "") => <>{url && <Image src={url} alt="image" width="100" height="100" loading="lazy" />}</>;
+
+  const actions = (index: string) => (
+    <div className="flex justify-end">
+      <a role="button" className="delete-button text-neutral-300 ms-2" data-te-index={index}>
+        <Trash />
+      </a>
+      <a role="button" className="edit-button text-neutral-300 ms-2" data-te-index={index}>
+        <Pencil />
+      </a>
+    </div>
+  );
 
   const parsedRows = rows.map((row, i) => ({
     ...row,
-    family: `
-      <div class="font-bold">${row.family}</div>      
-      <div class="text-xs mt-2 text-neutral-600"><span class="font-bold">Kingdom: </span>${row.kingdom}</div>
-      <div class="text-xs mt-1 text-neutral-600" ><span class="font-bold">Order: </span>${row.taxonomy_order}</div>
-    `,
-    species: `
-      <div class="flex"><span class="font-bold text-primary-600">${row.species}</span>${renderToStaticMarkup(
-      genderIcon(row.sex)
-    )}</div>
-      <div class="text-sm mt-2 text-neutral-600">${row.latin_name}</div>
-    `,
-    image: thumbnail(row.images?.thumbnail_url || ""),
-    actions: renderToStaticMarkup(buttons(i)),
+    family: renderToStaticMarkup(family(row)),
+    species: renderToStaticMarkup(species(row)),
+    image: renderToStaticMarkup(image(row.images?.thumbnail_url || "" /* "/bird.svg" */)),
+    actions: renderToStaticMarkup(actions(row.id)),
   }));
 
   return (
     <Table<Column, Species>
       rows={parsedRows}
       columns={columns}
-      // hover
-      onRowClick={handleRowClick}
+      hover
+      multi
+      // onRowClick={handleRowClick}
       onSelectRow={handleSelectRow}
     />
   );

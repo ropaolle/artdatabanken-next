@@ -1,7 +1,7 @@
 "use client";
 
 import { type Database } from "@/lib/database.types";
-import Table, { type RowClick, type SelectRow } from "@/components/Table";
+import { Table, type RowClick, type SelectRow } from "@/components/Table";
 import { truncateString } from "@/lib";
 
 type Column = { label: string; field: string };
