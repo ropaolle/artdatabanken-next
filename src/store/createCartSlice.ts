@@ -30,7 +30,10 @@ export const createCartSlice: StateCreator<CartSlice> = (set, get) => ({
     const findProduct = cart.find((p) => p.id === productId);
     if (findProduct) {
       if (action === "decrease") {
-        findProduct.quantity = findProduct.quantity! > 1 ? findProduct.quantity! - 1 : findProduct.quantity!;
+        findProduct.quantity =
+          findProduct.quantity! > 1
+            ? findProduct.quantity! - 1
+            : findProduct.quantity!;
       } else {
         findProduct.quantity! += 1;
       }

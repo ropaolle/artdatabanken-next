@@ -1,10 +1,27 @@
 import Link from "next/link";
-import { Qube, Home, Email, Phone, Web, Facebook, Twitter, Google, Instagram, Linkedin, Github, Lock } from "./svgs";
+import {
+  Qube,
+  Home,
+  Email,
+  Phone,
+  Web,
+  Facebook,
+  Twitter,
+  Google,
+  Instagram,
+  Linkedin,
+  Github,
+  Lock,
+} from "./svgs";
 import { type User } from "@/lib/auth";
 
 export default function Footer({ user }: { user: User | null }) {
   const SocialLink = ({ href, icon }: { href: string; icon: JSX.Element }) => (
-    <Link href={href} target="_blank" className="mr-6 text-neutral-600 dark:text-neutral-200">
+    <Link
+      href={href}
+      target="_blank"
+      className="mr-6 text-neutral-600 dark:text-neutral-200"
+    >
       {icon}
     </Link>
   );
@@ -42,14 +59,22 @@ export default function Footer({ user }: { user: User | null }) {
       <Link
         href={href}
         target={newTab ? "_blank" : "_self"}
-        className={`flex text-neutral-600 dark:text-neutral-200 ${protectedPage && !user && "pointer-events-none"}`}
+        className={`flex text-neutral-600 dark:text-neutral-200 ${
+          protectedPage && !user && "pointer-events-none"
+        }`}
       >
         {label} {protectedPage && !user && <Lock />}
       </Link>
     </p>
   );
 
-  const IconItem = ({ children, icon }: { children: React.ReactNode; icon: JSX.Element }) => (
+  const IconItem = ({
+    children,
+    icon,
+  }: {
+    children: React.ReactNode;
+    icon: JSX.Element;
+  }) => (
     <p className="mb-4 flex items-center justify-center last:mb-0 md:justify-start">
       {icon}
       {children}
@@ -66,10 +91,19 @@ export default function Footer({ user }: { user: User | null }) {
 
           <div className="flex justify-center">
             <SocialLink href="https://facebook.com/" icon={<Facebook />} />
-            <SocialLink href="https://twitter.com/ropaolle" icon={<Twitter />} />
+            <SocialLink
+              href="https://twitter.com/ropaolle"
+              icon={<Twitter />}
+            />
             <SocialLink href="https://www.google.com/" icon={<Google />} />
-            <SocialLink href="https://www.instagram.com/ropaolle/" icon={<Instagram />} />
-            <SocialLink href="https://www.linkedin.com/in/olof-sj%C3%B6gren/" icon={<Linkedin />} />
+            <SocialLink
+              href="https://www.instagram.com/ropaolle/"
+              icon={<Instagram />}
+            />
+            <SocialLink
+              href="https://www.linkedin.com/in/olof-sj%C3%B6gren/"
+              icon={<Linkedin />}
+            />
             <SocialLink href="https://github.com/ropaolle/" icon={<Github />} />
           </div>
         </div>
@@ -82,15 +116,31 @@ export default function Footer({ user }: { user: User | null }) {
 
             <FooterSection label="Frameworks">
               <FooterLink label="NEXT.js" href="https://nextjs.org/" newTab />
-              <FooterLink label="Tailwind CSS" href="https://tailwindcss.com/" newTab />
-              <FooterLink label="Tailwind Elements" href="https://tailwind-elements.com/" newTab />
-              <FooterLink label="Supabase" href="https://supabase.com/" newTab />
+              <FooterLink
+                label="Tailwind CSS"
+                href="https://tailwindcss.com/"
+                newTab
+              />
+              <FooterLink
+                label="Tailwind Elements"
+                href="https://tailwind-elements.com/"
+                newTab
+              />
+              <FooterLink
+                label="Supabase"
+                href="https://supabase.com/"
+                newTab
+              />
             </FooterSection>
 
             <FooterSection label="Useful links">
               <FooterLink label="Species" href="species" protectedPage />
               <FooterLink label="Images" href="images" protectedPage />
-              <FooterLink label="Collections" href="collections" protectedPage />
+              <FooterLink
+                label="Collections"
+                href="collections"
+                protectedPage
+              />
               <FooterLink label="About" href="about" />
             </FooterSection>
 
@@ -103,7 +153,9 @@ export default function Footer({ user }: { user: User | null }) {
                 <Link href="tel:+46 8 123456">+46 8 123456</Link>
               </IconItem>
               <IconItem icon={<Web />}>
-                <Link href="https://www.ropaolle.se">https://www.ropaolle.se</Link>
+                <Link href="https://www.ropaolle.se">
+                  https://www.ropaolle.se
+                </Link>
               </IconItem>
             </FooterSection>
           </div>

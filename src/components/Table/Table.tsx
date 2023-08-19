@@ -24,10 +24,21 @@ type Props<Row, Col> = {
   hover?: boolean;
   multi?: boolean;
   onRowClick?: ({ index, row }: RowClick<Row>) => void;
-  onSelectRow?: ({ allSelected, selectedIndexes, selectedRows }: SelectRow<Row>) => void;
+  onSelectRow?: ({
+    allSelected,
+    selectedIndexes,
+    selectedRows,
+  }: SelectRow<Row>) => void;
 };
 
-export default function Table<Col, Row>({ columns, rows, hover, multi, onRowClick, onSelectRow }: Props<Row, Col>) {
+export default function Table<Col, Row>({
+  columns,
+  rows,
+  hover,
+  multi,
+  onRowClick,
+  onSelectRow,
+}: Props<Row, Col>) {
   const clickableRows = typeof onRowClick === "function";
   const selectable = typeof onSelectRow === "function";
 
@@ -52,7 +63,12 @@ export default function Table<Col, Row>({ columns, rows, hover, multi, onRowClic
     const init = async () => {
       const { Datatable, initTE } = await import("tw-elements");
       initTE({ Datatable });
-      new Datatable(document.getElementById("datatable"), { columns, rows }, tableOptions, tableClasses);
+      new Datatable(
+        document.getElementById("datatable"),
+        { columns, rows },
+        tableOptions,
+        tableClasses,
+      );
     };
     init();
   });

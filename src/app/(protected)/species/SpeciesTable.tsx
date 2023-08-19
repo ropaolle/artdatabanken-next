@@ -4,7 +4,12 @@ import { renderToStaticMarkup } from "react-dom/server";
 import Image from "next/image";
 import { type Database } from "@/lib/database.types";
 // import Table, { /* type RowClick, */ type SelectRow } from "@/components/Tabl";
-import { Table, type SelectRow, useEvent, setupAction } from "@/components/Table";
+import {
+  Table,
+  type SelectRow,
+  useEvent,
+  setupAction,
+} from "@/components/Table";
 
 import { Female, Male, Trash, Pencil } from "./icons";
 
@@ -30,12 +35,22 @@ const columns = [
 
 type Species = Database["public"]["Tables"]["species"]["Row"];
 
-export default function SpeciesTable({ rows, count }: { rows: Species[]; count?: number }) {
+export default function SpeciesTable({
+  rows,
+  count,
+}: {
+  rows: Species[];
+  count?: number;
+}) {
   // const handleRowClick = ({ index, row }: RowClick<Species>) => {
   //   console.log(index);
   // };
 
-  const handleSelectRow = ({ allSelected, selectedIndexes, selectedRows }: SelectRow<Species>) => {
+  const handleSelectRow = ({
+    allSelected,
+    selectedIndexes,
+    selectedRows,
+  }: SelectRow<Species>) => {
     console.log("onSelectRow", selectedIndexes);
   };
 
@@ -83,14 +98,28 @@ export default function SpeciesTable({ rows, count }: { rows: Species[]; count?:
     </>
   );
 
-  const image = (url = "") => <>{url && <Image src={url} alt="image" width="100" height="100" loading="lazy" />}</>;
+  const image = (url = "") => (
+    <>
+      {url && (
+        <Image src={url} alt="image" width="100" height="100" loading="lazy" />
+      )}
+    </>
+  );
 
   const actions = (index: string) => (
     <div className="flex justify-end">
-      <a role="button" className="delete-button ms-2 text-neutral-300" data-te-index={index}>
+      <a
+        role="button"
+        className="delete-button ms-2 text-neutral-300"
+        data-te-index={index}
+      >
         <Trash />
       </a>
-      <a role="button" className="edit-button ms-2 text-neutral-300" data-te-index={index}>
+      <a
+        role="button"
+        className="edit-button ms-2 text-neutral-300"
+        data-te-index={index}
+      >
         <Pencil />
       </a>
     </div>
@@ -100,7 +129,9 @@ export default function SpeciesTable({ rows, count }: { rows: Species[]; count?:
     ...row,
     family: renderToStaticMarkup(family(row)),
     species: renderToStaticMarkup(species(row)),
-    image: renderToStaticMarkup(image(row.images?.thumbnail_url || "" /* "/bird.svg" */)),
+    image: renderToStaticMarkup(
+      image(row.images?.thumbnail_url || "" /* "/bird.svg" */),
+    ),
     actions: renderToStaticMarkup(actions(row.id)),
   }));
 

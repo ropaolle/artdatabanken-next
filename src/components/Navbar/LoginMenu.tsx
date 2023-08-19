@@ -45,7 +45,14 @@ export default function LoginMenu({ user }: { user: User | null }) {
             data-te-dropdown-toggle-ref
             aria-expanded="false"
           >
-            <Image src={user.gravatar} className="rounded-full" alt="" loading="lazy" width={25} height={25} />
+            <Image
+              src={user.gravatar}
+              className="rounded-full"
+              alt=""
+              loading="lazy"
+              width={25}
+              height={25}
+            />
           </Link>
           <ul
             className="absolute left-auto right-0 z-[1000] float-left m-0 mt-1 hidden min-w-max list-none overflow-hidden rounded-lg border-none bg-white bg-clip-padding text-left text-base shadow-lg dark:bg-neutral-700 [&[data-te-dropdown-show]]:block"

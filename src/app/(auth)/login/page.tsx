@@ -50,8 +50,13 @@ export default function Login() {
             placeholder="••••••••"
             required
           />
-          <button className="mb-2 rounded bg-green-700 px-4 py-2 text-white">Sign In</button>
-          <button formAction="/auth/sign-up" className="mb-2 rounded border border-gray-700 px-4 py-2 text-neutral-900">
+          <button className="mb-2 rounded bg-green-700 px-4 py-2 text-white">
+            Sign In
+          </button>
+          <button
+            formAction="/auth/sign-up"
+            className="mb-2 rounded border border-gray-700 px-4 py-2 text-neutral-900"
+          >
             Sign Up
           </button>
           <Messages />

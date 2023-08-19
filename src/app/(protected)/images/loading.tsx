@@ -1,7 +1,10 @@
 export default function Loading() {
   const header = (headers: string[]) =>
     headers.map((header, i) => (
-      <th key={i} className="border-neutral-200 py-4  pl-1 text-neutral-400 dark:border-neutral-500 dark:text-white">
+      <th
+        key={i}
+        className="border-neutral-200 py-4  pl-1 text-neutral-400 dark:border-neutral-500 dark:text-white"
+      >
         <div>
           <span className="">{header}</span>
         </div>
