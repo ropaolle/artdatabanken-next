@@ -37,7 +37,7 @@ type Species = Database["public"]["Tables"]["species"]["Row"];
 
 export default function SpeciesTable({
   rows,
-  count,
+  // count,
 }: {
   rows: Species[];
   count?: number;
@@ -47,9 +47,9 @@ export default function SpeciesTable({
   // };
 
   const handleSelectRow = ({
-    allSelected,
+    // allSelected,
     selectedIndexes,
-    selectedRows,
+    // selectedRows,
   }: SelectRow<Species>) => {
     console.log("onSelectRow", selectedIndexes);
   };
@@ -125,7 +125,7 @@ export default function SpeciesTable({
     </div>
   );
 
-  const parsedRows = rows.map((row, i) => ({
+  const parsedRows = rows.map((row) => ({
     ...row,
     family: renderToStaticMarkup(family(row)),
     species: renderToStaticMarkup(species(row)),

@@ -27,7 +27,7 @@ export default function ImageTable({
   count: number;
 }) {
   const handleRowClick = ({ index, row }: RowClick<Image>) => {
-    console.log("handleRowClick", index, row);
+    // console.log("handleRowClick", index, row);
   };
 
   const handleSelectRow = ({
@@ -35,7 +35,7 @@ export default function ImageTable({
     selectedIndexes,
     selectedRows,
   }: SelectRow<Image>) => {
-    console.log("onSelectRow", selectedIndexes);
+    // console.log("onSelectRow", selectedIndexes);
   };
 
   const thumbnail = (url: string | null, placeholder = "/bird.svg") =>
