@@ -26,6 +26,8 @@
   - [auth-api](https://supabase.com/docs/reference/javascript/auth-api)
   - [Auth helpers](https://supabase.com/docs/guides/auth/auth-helpers/nextjs)
   - [CLI TypeScript](https://supabase.com/docs/reference/javascript/typescript-support)
+- REACT
+  - [Confirm dialog](https://medium.com/@kch062522/useconfirm-a-custom-react-hook-to-prompt-confirmation-before-action-f4cb746ebd4e)
 - OTHER
   - COMPONENTS
     - [Material UI](https://mui.com/material-ui/)

@@ -1,16 +1,11 @@
 "use client";
 
+import { useState } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import Image from "next/image";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { type Database } from "@/lib/database.types";
-// import Table, { /* type RowClick, */ type SelectRow } from "@/components/Tabl";
-import {
-  Table,
-  type SelectRow,
-  useEvent,
-  setupAction,
-} from "@/components/Table";
-
+import { Table, type SelectRow } from "@/components/Table";
 import { Female, Male, Trash, Pencil } from "./icons";
 
 type Column = { label: string; field: string };
@@ -35,37 +30,41 @@ const columns = [
 
 type Species = Database["public"]["Tables"]["species"]["Row"];
 
-export default function SpeciesTable({
-  rows,
-  // count,
-}: {
+type Props = {
   rows: Species[];
   count?: number;
-}) {
+};
+
+export default function SpeciesTable({ rows }: Props) {
+  const [data, setData] = useState(rows);
+
   // const handleRowClick = ({ index, row }: RowClick<Species>) => {
   //   console.log(index);
   // };
 
-  const handleSelectRow = ({
-    // allSelected,
-    selectedIndexes,
-    // selectedRows,
-  }: SelectRow<Species>) => {
-    console.log("onSelectRow", selectedIndexes);
+  const handleSelectRow = ({ allSelected, selectedIndexes, selectedRows }: SelectRow<Species>) => {
+    console.log("onSelectRow", selectedIndexes, allSelected, selectedRows);
   };
 
-  const handleDelete = (index: string | null) => {
-    console.log("handleDelete", index);
+  const handleDelete = async (id: string) => {
+    if (!window.confirm("Are you sure?")) return;
+
+    const dummyId = "ccc033ac-6618-4a91-ade7-aaaaaaaaaaaa";
+    const supabase = createClientComponentClient();
+    const { error } = await supabase.from("species").delete().eq("id", dummyId);
+
+    if (error) {
+      // TODO: Toast error message
+      return console.error(error);
+    }
+
+    // Delete record from client
+    setData((prevValue) => prevValue.filter((row) => row.id !== id));
   };
 
-  const handleEdit = (index: string | null) => {
-    console.log("handleEdit", index);
+  const handleEdit = (id: string) => {
+    console.log("handleEdit", id);
   };
-
-  useEvent("render.te.datatable", () => {
-    setupAction("delete", handleDelete);
-    setupAction("edit", handleEdit);
-  });
 
   const family = (row: Species) => (
     <>
@@ -98,42 +97,29 @@ export default function SpeciesTable({
     </>
   );
 
-  const image = (url = "") => (
-    <>
-      {url && (
-        <Image src={url} alt="image" width="100" height="100" loading="lazy" />
-      )}
-    </>
-  );
+  const image = (url = "") => <>{url && <Image src={url} alt="image" width="100" height="100" loading="lazy" />}</>;
 
-  const actions = (index: string) => (
+  const actions = (id: string) => (
     <div className="flex justify-end">
-      <a
-        role="button"
-        className="delete-button ms-2 text-neutral-300"
-        data-te-index={index}
-      >
+      <a role="button" title="Delete" className="delete-button ms-2 text-neutral-300" data-te-index={id}>
         <Trash />
       </a>
-      <a
-        role="button"
-        className="edit-button ms-2 text-neutral-300"
-        data-te-index={index}
-      >
+
+      <a role="button" title="Edit" className="edit-button ms-2 text-neutral-300" data-te-index={id}>
         <Pencil />
       </a>
     </div>
   );
 
-  const parsedRows = rows.map((row) => ({
-    ...row,
-    family: renderToStaticMarkup(family(row)),
-    species: renderToStaticMarkup(species(row)),
-    image: renderToStaticMarkup(
-      image(row.images?.thumbnail_url || "" /* "/bird.svg" */),
-    ),
-    actions: renderToStaticMarkup(actions(row.id)),
-  }));
+  const parsedRows =
+    data &&
+    data.map((row) => ({
+      ...row,
+      family: renderToStaticMarkup(family(row)),
+      species: renderToStaticMarkup(species(row)),
+      image: renderToStaticMarkup(image(row.images?.thumbnail_url || "" /* "/bird.svg" */)),
+      actions: renderToStaticMarkup(actions(row.id)),
+    }));
 
   return (
     <Table<Column, Species>
@@ -143,6 +129,8 @@ export default function SpeciesTable({
       multi
       // onRowClick={handleRowClick}
       onSelectRow={handleSelectRow}
+      onEdit={handleEdit}
+      onDelete={handleDelete}
     />
   );
 }

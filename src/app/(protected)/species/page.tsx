@@ -1,5 +1,11 @@
 import createServerComponentClientWithCookies from "@/lib/createServerComponentClientWithCookies";
-import SpeciesTable from "./SpeciesTable";
+
+//TODO: Why should we use dynamic imports? - https://tailwind-elements.com/docs/standard/integrations/next-integration/
+import dynamic from "next/dynamic";
+// import SpeciesTable from "./SpeciesTable";
+const DynamicSpeciesTable = dynamic(() => import("./SpeciesTable"), {
+  ssr: false,
+});
 
 export default async function Images() {
   const supabase = await createServerComponentClientWithCookies();
@@ -8,5 +14,6 @@ export default async function Images() {
     images (thumbnail_url)
   `);
 
-  return <>{data && <SpeciesTable rows={data} />}</>;
+  return <>{data && <DynamicSpeciesTable rows={data} />}</>;
+  // return <>{data && <SpeciesTable rows={data} />}</>;
 }
