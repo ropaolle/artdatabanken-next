@@ -1,11 +1,14 @@
 export default function setupAction(
   action: string,
-  func: (_: string | null) => void,
+  func: (id: string) => void,
 ) {
   document.querySelectorAll(`.${action}-button`).forEach((button) => {
     button.addEventListener<any>("click", (e) => {
       e.stopPropagation();
-      func(button.getAttribute("data-te-index"));
+      const index = button.getAttribute("data-te-index");
+      if (index && index.length) {
+        func(index);
+      }
     });
   });
 }

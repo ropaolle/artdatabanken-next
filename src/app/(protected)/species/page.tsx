@@ -11,5 +11,5 @@ export default async function Images() {
 
   // console.log("rows", data);
 
-  return data && <SpeciesTable rows={data} />;
+  return <>{data && <SpeciesTable rows={data} />}</>;
 }

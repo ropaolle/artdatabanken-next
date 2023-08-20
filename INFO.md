@@ -4,7 +4,6 @@
 
 - [ ] Join tables https://supabase.com/docs/guides/api/joins-and-nesting
   - species -> image_id
-- [ ] Sort Tailwind classes
 - [ ] Check TODO:s
 - [ ] Check Any:s
 
@@ -23,7 +22,7 @@
   - [Tailwind Elements](https://tailwind-elements.com/docs/standard/data/datatables/)
   - [Tips and tricks](https://material-minimal.com/learn/design-hacks/tips-and-tricks/)
 - SUPABASE
-  - [Supabase](https://supabase.com/)
+  - [Supabase](https://supabase.com/docs/reference/javascript)
   - [auth-api](https://supabase.com/docs/reference/javascript/auth-api)
   - [Auth helpers](https://supabase.com/docs/guides/auth/auth-helpers/nextjs)
   - [CLI TypeScript](https://supabase.com/docs/reference/javascript/typescript-support)
