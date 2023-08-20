@@ -2,8 +2,6 @@
 
 ## TODO
 
-- [ ] Join tables https://supabase.com/docs/guides/api/joins-and-nesting
-  - species -> image_id
 - [ ] Check TODO:s
 - [ ] Check Any:s
 
@@ -26,6 +24,7 @@
   - [auth-api](https://supabase.com/docs/reference/javascript/auth-api)
   - [Auth helpers](https://supabase.com/docs/guides/auth/auth-helpers/nextjs)
   - [CLI TypeScript](https://supabase.com/docs/reference/javascript/typescript-support)
+  - [Joins](https://supabase.com/docs/guides/api/joins-and-nesting)
 - REACT
   - [Confirm dialog](https://medium.com/@kch062522/useconfirm-a-custom-react-hook-to-prompt-confirmation-before-action-f4cb746ebd4e)
 - OTHER
