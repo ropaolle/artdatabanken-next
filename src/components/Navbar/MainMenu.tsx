@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+// import { useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { type User } from "@/lib/auth";
@@ -8,13 +8,13 @@ import { type User } from "@/lib/auth";
 const MENU_ID = "leftNavigationMenu";
 
 export default function MainMenu({ user }: { user: User | null }) {
-  useEffect(() => {
-    const init = async () => {
-      const { Collapse, Dropdown, initTE } = await import("tw-elements");
-      initTE({ Collapse, Dropdown });
-    };
-    init();
-  }, []);
+  // useEffect(() => {
+  //   const init = async () => {
+  //     const { Collapse, Dropdown, initTE } = await import("tw-elements");
+  //     initTE({ Collapse, Dropdown });
+  //   };
+  //   init();
+  // }, []);
 
   const MenuLink = ({ label, href }: { label: string; href: string }) => (
     <li className="mb-4 lg:mb-0 lg:pr-2" data-te-nav-item-ref>

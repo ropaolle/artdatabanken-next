@@ -2,8 +2,10 @@
 
 ## TODO
 
-- [ ] Check TODO:s
-- [ ] Check Any:s
+- [ ] Remove: tw-elements
+- BASICS
+  - [ ] Check TODO:s
+  - [ ] Check Any:s
 
 ## Known issues
 

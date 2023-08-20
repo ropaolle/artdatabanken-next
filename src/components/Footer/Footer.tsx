@@ -12,7 +12,7 @@ import {
   Linkedin,
   Github,
   Lock,
-} from "./svgs";
+} from "./icons";
 import { type User } from "@/lib/auth";
 
 export default function Footer({ user }: { user: User | null }) {

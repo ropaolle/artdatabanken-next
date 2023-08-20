@@ -6,13 +6,13 @@ import LoginMenu from "./LoginMenu";
 import { type User } from "@/lib/auth";
 
 export default function Navbar({ user }: { user: User | null }) {
-  useEffect(() => {
-    const init = async () => {
-      const { Collapse, Dropdown, initTE } = await import("tw-elements");
-      initTE({ Collapse, Dropdown });
-    };
-    init();
-  }, [user]);
+  // useEffect(() => {
+  //   const init = async () => {
+  //     const { Collapse, Dropdown, initTE } = await import("tw-elements");
+  //     initTE({ Collapse, Dropdown });
+  //   };
+  //   init();
+  // }, [user]);
 
   return (
     <nav
