@@ -1,5 +1,4 @@
 import "./globals.css";
-// import "tw-elements/dist/css/tw-elements.min.css";
 
 export const metadata = {
   title: "Artdatabanken",
