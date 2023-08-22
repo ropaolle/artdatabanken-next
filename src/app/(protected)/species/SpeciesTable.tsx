@@ -1,136 +1,140 @@
 "use client";
 
-import { useState } from "react";
-import { renderToStaticMarkup } from "react-dom/server";
+import { ColumnDef, flexRender, getCoreRowModel, useReactTable, createColumnHelper } from "@tanstack/react-table";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import Image from "next/image";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { type Database } from "@/lib/database.types";
-import { Table, type SelectRow } from "@/components/Table";
 import { Female, Male, Trash, Pencil } from "./icons";
 
-type Column = { label: string; field: string };
+export type Species = Database["public"]["Tables"]["species"]["Row"];
 
-const columns = [
-  // created_at
-  // updated_at
-  // { label: "Id", field: "id" },
-  // { label: "User Id", field: "id" },
-  // { label: "Kingdom", field: "kingdom" },
-  // { label: "Order", field: "taxonomy_order" },
-  { label: "Family", field: "family" },
-  { label: "Species", field: "species" },
-  // { label: "Sex", field: "sex" },
-  { label: "County", field: "county" },
-  { label: "Place", field: "place" },
-  // { label: "Latin", field: "latin_name" },
-  { label: "Image", field: "image" },
-  // { label: "Image ID", field: "image_id" },
-  { label: "Actions", field: "actions" },
+interface DataTableProps<TData, TValue> {
+  columns: ColumnDef<TData, TValue>[];
+  data: TData[];
+}
+
+const image = (url = "") => (
+  <>{url && url.length > 30 && <Image src={url} alt="image" width="100" height="100" loading="lazy" />}</>
+);
+
+const actions = (id: string) => (
+  <div className="flex justify-end">
+    <a role="button" title="Delete" className="delete-button ms-2 text-neutral-300" data-te-index={id}>
+      <Trash />
+    </a>
+
+    <a role="button" title="Edit" className="edit-button ms-2 text-neutral-300" data-te-index={id}>
+      <Pencil />
+    </a>
+  </div>
+);
+
+export const columns: ColumnDef<Species>[] = [
+  // { header: "User Id", accessorKey: "id" },
+  {
+    header: "Family",
+    accessorKey: "family",
+    cell: ({ row }) => {
+      const { family, kingdom, taxonomy_order: order } = row.original;
+      // const family = row.getValue<string | null>("family") || "";
+      // const kingdom = row.getValue<string | null>("kingdom") || "";
+      // const order = row.getValue<string | null>("taxonomy_order") || "";
+      return (
+        <>
+          <div className="font-bold">{family}</div>
+          <div>Kingdom: {kingdom}</div>
+          <div className="text-sm">Order: {order}</div>
+        </>
+      );
+    },
+  },
+  {
+    header: "Species",
+    accessorKey: "species",
+    cell: ({ row }) => {
+      // TODO: row.original overrides cache, use columnHelper and grouping instead
+      // console.log('row._valuesCache', row._valuesCache);
+      const species = row.getValue<string | null>("species") || "";
+      const { /* species,  */ sex, latin_name } = row.original;
+      return (
+        <>
+          <div className="flex">
+            <span className="text-primary-600 font-bold">{species}</span>
+            {sex === "male" && <Male />}
+            {sex === "female" && <Female />}
+            {sex === "both" && (
+              <>
+                <Male />
+                <Female />
+              </>
+            )}
+          </div>
+          <div className="mt-2 text-sm text-neutral-600">{latin_name}</div>
+        </>
+      );
+    },
+  },
+  { header: "County", accessorKey: "county" },
+  { header: "Place", accessorKey: "place" },
+  {
+    header: "Thumbnail",
+    accessorKey: "images",
+    cell: ({ row }) => {
+      const { thumbnail_url } = row.getValue<{ thumbnail_url: string } | null>("images") || {};
+      return <div className="text-right font-medium">{image(thumbnail_url)}</div>;
+    },
+  },
+  {
+    header: "Actions",
+    accessorKey: "id",
+    cell: ({ row }) => {
+      const id = row.getValue<string>("id");
+      return <>{actions(id)}</>;
+    },
+  },
 ];
 
-type Species = Database["public"]["Tables"]["species"]["Row"];
-
-type Props = {
-  rows: Species[];
-  count?: number;
-};
-
-export default function SpeciesTable({ rows }: Props) {
-  const [data, setData] = useState(rows);
-
-  // const handleRowClick = ({ index, row }: RowClick<Species>) => {
-  //   console.log(index);
-  // };
-
-  const handleSelectRow = ({ allSelected, selectedIndexes, selectedRows }: SelectRow<Species>) => {
-    console.log("onSelectRow", selectedIndexes, allSelected, selectedRows);
-  };
-
-  const handleDelete = async (id: string) => {
-    if (!window.confirm("Are you sure?")) return;
-
-    const dummyId = "ccc033ac-6618-4a91-ade7-aaaaaaaaaaaa";
-    const supabase = createClientComponentClient();
-    const { error } = await supabase.from("species").delete().eq("id", dummyId);
-
-    if (error) {
-      // TODO: Toast error message
-      return console.error(error);
-    }
-
-    // Delete record from client
-    setData((prevValue) => prevValue.filter((row) => row.id !== id));
-  };
-
-  const handleEdit = (id: string) => {
-    console.log("handleEdit", id);
-  };
-
-  const family = (row: Species) => (
-    <>
-      <div className="font-bold">{row.family}</div>
-      <div className="mt-2 text-xs text-neutral-600">
-        <span className="font-bold">Kingdom: </span>
-        {row.kingdom}
-      </div>
-      <div className="mt-1 text-xs text-neutral-600">
-        <span className="font-bold">Order: </span>
-        {row.taxonomy_order}
-      </div>
-    </>
-  );
-
-  const species = (row: Species) => (
-    <>
-      <div className="flex">
-        <span className="font-bold text-primary-600">{row.species}</span>
-        {row.sex === "male" && <Male />}
-        {row.sex === "female" && <Female />}
-        {row.sex === "both" && (
-          <>
-            <Male />
-            <Female />
-          </>
-        )}
-      </div>
-      <div className="mt-2 text-sm text-neutral-600">{row.latin_name}</div>
-    </>
-  );
-
-  const image = (url = "") => <>{url && <Image src={url} alt="image" width="100" height="100" loading="lazy" />}</>;
-
-  const actions = (id: string) => (
-    <div className="flex justify-end">
-      <a role="button" title="Delete" className="delete-button ms-2 text-neutral-300" data-te-index={id}>
-        <Trash />
-      </a>
-
-      <a role="button" title="Edit" className="edit-button ms-2 text-neutral-300" data-te-index={id}>
-        <Pencil />
-      </a>
-    </div>
-  );
-
-  const parsedRows =
-    data &&
-    data.map((row) => ({
-      ...row,
-      family: renderToStaticMarkup(family(row)),
-      species: renderToStaticMarkup(species(row)),
-      image: renderToStaticMarkup(image(row.images?.thumbnail_url || "" /* "/bird.svg" */)),
-      actions: renderToStaticMarkup(actions(row.id)),
-    }));
+export default function SpeciesTable<TData, TValue>({ columns, data }: DataTableProps<TData, TValue>) {
+  const table = useReactTable({
+    data,
+    columns,
+    getCoreRowModel: getCoreRowModel(),
+  });
 
   return (
-    <Table<Column, Species>
-      rows={parsedRows}
-      columns={columns}
-      hover
-      multi
-      // onRowClick={handleRowClick}
-      onSelectRow={handleSelectRow}
-      onEdit={handleEdit}
-      onDelete={handleDelete}
-    />
+    <div className="rounded-md border">
+      <Table>
+        <TableHeader>
+          {table.getHeaderGroups().map((headerGroup) => (
+            <TableRow key={headerGroup.id}>
+              {headerGroup.headers.map((header) => {
+                return (
+                  <TableHead key={header.id}>
+                    {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
+                  </TableHead>
+                );
+              })}
+            </TableRow>
+          ))}
+        </TableHeader>
+        <TableBody>
+          {table.getRowModel().rows?.length ? (
+            table.getRowModel().rows.map((row) => (
+              <TableRow key={row.id} data-state={row.getIsSelected() && "selected"}>
+                {row.getVisibleCells().map((cell) => (
+                  <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
+                ))}
+              </TableRow>
+            ))
+          ) : (
+            <TableRow>
+              <TableCell colSpan={columns.length} className="h-24 text-center">
+                No results.
+              </TableCell>
+            </TableRow>
+          )}
+        </TableBody>
+      </Table>
+    </div>
   );
 }

@@ -1,6 +1,5 @@
 import createServerComponentClientWithCookies from "@/lib/createServerComponentClientWithCookies";
-import ImageTable from "./ImageTable";
-// import { sleep } from "@/lib";
+import ImageTable, { /* type Image, */ columns } from "./ImageTable";
 
 // TODO: Not working as expected. Always seems to be cached for 60 seconds, regardless of revalidate or "force-dynamic".
 // export const revalidate = 0
@@ -18,5 +17,7 @@ export default async function Images() {
 
   // await sleep(11000);
 
-  return rows && count && <ImageTable rows={rows} count={count} />;
+  // console.log('rows', rows);
+
+  return <div className="container mx-auto py-10">{rows && <ImageTable columns={columns} data={rows} />}</div>;
 }
