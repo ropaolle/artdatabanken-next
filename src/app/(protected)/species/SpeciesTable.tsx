@@ -1,8 +1,20 @@
 "use client";
 
-import { ColumnDef, flexRender, getCoreRowModel, useReactTable, createColumnHelper } from "@tanstack/react-table";
+import { useState } from "react";
+import {
+  ColumnDef,
+  SortingState,
+  flexRender,
+  getCoreRowModel,
+  // getPaginationRowModel,
+  getSortedRowModel,
+  useReactTable,
+} from "@tanstack/react-table";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Button } from "@/components/ui/button"
 import Image from "next/image";
+import { ArrowUpDown, MoreHorizontal } from "lucide-react"
+
 import { type Database } from "@/lib/database.types";
 import { Female, Male, Trash, Pencil } from "./icons";
 
@@ -32,8 +44,19 @@ const actions = (id: string) => (
 export const columns: ColumnDef<Species>[] = [
   // { header: "User Id", accessorKey: "id" },
   {
-    header: "Family",
+    // header: "Family",
     accessorKey: "family",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Family
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      )
+    },
     cell: ({ row }) => {
       const { family, kingdom, taxonomy_order: order } = row.original;
       // const family = row.getValue<string | null>("family") || "";
@@ -49,7 +72,18 @@ export const columns: ColumnDef<Species>[] = [
     },
   },
   {
-    header: "Species",
+    // header: "Species",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Species
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      )
+    },
     accessorKey: "species",
     cell: ({ row }) => {
       // TODO: row.original overrides cache, use columnHelper and grouping instead
@@ -85,7 +119,8 @@ export const columns: ColumnDef<Species>[] = [
     },
   },
   {
-    header: "Actions",
+    // id: "actions",
+    header: () => <b>Actions</b>,
     accessorKey: "id",
     cell: ({ row }) => {
       const id = row.getValue<string>("id");
@@ -95,10 +130,17 @@ export const columns: ColumnDef<Species>[] = [
 ];
 
 export default function SpeciesTable<TData, TValue>({ columns, data }: DataTableProps<TData, TValue>) {
+  const [sorting, setSorting] = useState<SortingState>([]);
+
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
+    onSortingChange: setSorting,
+    getSortedRowModel: getSortedRowModel(),
+    state: {
+      sorting,
+    },
   });
 
   return (
@@ -106,7 +148,7 @@ export default function SpeciesTable<TData, TValue>({ columns, data }: DataTable
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow key={headerGroup.id}>
+            <TableRow key={headerGroup.id} className="[&>*:last-child]:text-right">
               {headerGroup.headers.map((header) => {
                 return (
                   <TableHead key={header.id}>

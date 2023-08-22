@@ -12,7 +12,7 @@ const LogoAndBrand = () => (
     href="/"
   >
     <Bird className="h-5 w-5" />
-    <span className=" ml-2 font-bold text-neutral-600 dark:text-neutral-200">Artdatabanken</span>
+    <span className=" mx-2 font-bold text-neutral-600 dark:text-neutral-200">Artdatabanken</span>
   </Link>
 );
 
