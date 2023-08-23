@@ -1,5 +1,17 @@
 import Link from "next/link";
-import { Qube, Home, Email, Phone, Web, Facebook, Twitter, Google, Instagram, Linkedin, Github, Lock } from "./icons";
+import {
+  Box as Qube,
+  Home,
+  Mail as Email,
+  Phone,
+  Globe as Web,
+  Facebook,
+  Twitter,
+  Instagram,
+  Linkedin,
+  Github,
+  Lock,
+} from "lucide-react";
 import { type User } from "@/lib/auth";
 
 export default function Footer({ user }: { user: User | null }) {
@@ -20,7 +32,7 @@ export default function Footer({ user }: { user: User | null }) {
   }) => (
     <div>
       <h6 className="mb-4 flex items-center justify-center font-semibold uppercase md:justify-start">
-        {icon}
+        {icon && <span className="mr-1">{icon}</span>}
         {label}
       </h6>
       {children}
@@ -49,11 +61,8 @@ export default function Footer({ user }: { user: User | null }) {
     </p>
   );
 
-  const IconItem = ({ children, icon }: { children: React.ReactNode; icon: JSX.Element }) => (
-    <p className="mb-4 flex items-center justify-center last:mb-0 md:justify-start">
-      {icon}
-      {children}
-    </p>
+  const IconItem = ({ children }: { children: React.ReactNode }) => (
+    <p className="mb-4 flex items-center justify-center last:mb-0 md:justify-start">{children}</p>
   );
 
   return (
@@ -67,7 +76,7 @@ export default function Footer({ user }: { user: User | null }) {
           <div className="flex justify-center">
             <SocialLink href="https://facebook.com/" icon={<Facebook />} />
             <SocialLink href="https://twitter.com/ropaolle" icon={<Twitter />} />
-            <SocialLink href="https://www.google.com/" icon={<Google />} />
+            {/* <SocialLink href="https://www.google.com/" icon={<Google />} /> */}
             <SocialLink href="https://www.instagram.com/ropaolle/" icon={<Instagram />} />
             <SocialLink href="https://www.linkedin.com/in/olof-sj%C3%B6gren/" icon={<Linkedin />} />
             <SocialLink href="https://github.com/ropaolle/" icon={<Github />} />
@@ -95,14 +104,20 @@ export default function Footer({ user }: { user: User | null }) {
             </FooterSection>
 
             <FooterSection label="Contact">
-              <IconItem icon={<Home />}>Stockholm, SWEDEN</IconItem>
-              <IconItem icon={<Email />}>
+              <IconItem>
+                <Home size={20} className="mr-1" />
+                Stockholm, SWEDEN
+              </IconItem>
+              <IconItem>
+                <Email size={20} className="mr-1" />
                 <Link href="mailto:info@gmail.com">info@ropaolle.se</Link>
               </IconItem>
-              <IconItem icon={<Phone />}>
+              <IconItem>
+                <Phone size={20} className="mr-1" />
                 <Link href="tel:+46 8 123456">+46 8 123456</Link>
               </IconItem>
-              <IconItem icon={<Web />}>
+              <IconItem>
+                <Web size={20} className="mr-1" />
                 <Link href="https://www.ropaolle.se">https://www.ropaolle.se</Link>
               </IconItem>
             </FooterSection>
