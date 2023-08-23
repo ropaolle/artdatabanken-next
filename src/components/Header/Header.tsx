@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { type User } from "@/lib/auth";
-import { Bird } from "./icons";
+import { Bird } from "./Bird";
 import MainMenu from "./MainMenu";
 import UserMenu from "./UserMenu";
 

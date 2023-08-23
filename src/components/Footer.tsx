@@ -56,7 +56,7 @@ export default function Footer({ user }: { user: User | null }) {
         target={newTab ? "_blank" : "_self"}
         className={`flex text-neutral-600 dark:text-neutral-200 ${protectedPage && !user && "pointer-events-none"}`}
       >
-        {label} {protectedPage && !user && <Lock />}
+        {label} {protectedPage && !user && <Lock size={16} className="ml-1"/>}
       </Link>
     </p>
   );

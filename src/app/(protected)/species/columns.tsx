@@ -3,28 +3,15 @@
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown } from "lucide-react";
 import Image from "next/image";
-
+import { ArrowUpDown, Pencil, Trash2 } from "lucide-react";
+import { Female, Male } from "./icons";
 import { type Database } from "@/lib/database.types";
-import { Female, Male, Pencil, Trash } from "./icons";
 
 export type Species = Database["public"]["Tables"]["species"]["Row"];
 
 const image = (url = "") => (
   <>{url && url.length > 30 && <Image src={url} alt="image" width="100" height="100" loading="lazy" />}</>
-);
-
-const actions = (id: string) => (
-  <div className="flex justify-end">
-    <a role="button" title="Delete" className="delete-button ms-2 text-neutral-300" data-te-index={id}>
-      <Trash />
-    </a>
-
-    <a role="button" title="Edit" className="edit-button ms-2 text-neutral-300" data-te-index={id}>
-      <Pencil />
-    </a>
-  </div>
 );
 
 export const columns: ColumnDef<Species>[] = [
@@ -123,7 +110,16 @@ export const columns: ColumnDef<Species>[] = [
     accessorKey: "id",
     cell: ({ row }) => {
       const id = row.getValue<string>("id");
-      return <>{actions(id)}</>;
+      return (
+        <div className="flex justify-end">
+          <a role="button" title="Delete" className="delete-button ms-2 text-neutral-300" data-te-index={id}>
+            <Trash2 size={20} />
+          </a>
+          <a role="button" title="Edit" className="edit-button ms-2 text-neutral-300" data-te-index={id}>
+            <Pencil size={20} />
+          </a>
+        </div>
+      );
     },
   },
 ];
