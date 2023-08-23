@@ -92,7 +92,7 @@ export default function Footer({ user }: { user: User | null }) {
             <FooterSection label="Frameworks">
               <FooterLink label="NEXT.js" href="https://nextjs.org/" newTab />
               <FooterLink label="Tailwind CSS" href="https://tailwindcss.com/" newTab />
-              <FooterLink label="Tailwind Elements" href="https://tailwind-elements.com/" newTab />
+              <FooterLink label="Shadcn/UI" href="https://https://ui.shadcn.com/" newTab />
               <FooterLink label="Supabase" href="https://supabase.com/" newTab />
             </FooterSection>
 

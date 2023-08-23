@@ -1,5 +1,5 @@
+import CustomTable from "@/components/CustomTable";
 import createServerComponentClientWithCookies from "@/lib/createServerComponentClientWithCookies";
-import SpeicesTable from "./SpeciesTable";
 import { columns } from "./columns";
 
 // TODO: Not working as expected. Always seems to be cached for 60 seconds, regardless of revalidate or "force-dynamic".
@@ -19,5 +19,5 @@ export default async function Species() {
 
   // console.log('rows', rows);
 
-  return <div className="container mx-auto py-10">{rows && <SpeicesTable columns={columns} data={rows} />}</div>;
+  return <div className="container mx-auto py-10">{rows && <CustomTable columns={columns} data={rows} />}</div>;
 }

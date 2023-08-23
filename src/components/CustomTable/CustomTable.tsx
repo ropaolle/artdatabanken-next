@@ -7,11 +7,12 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Input } from "@/components/ui/input";
+// import { Input } from "@/components/ui/input";
+import DebouncedInput from "./DebouncedInput";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import {
   ColumnDef,
-  ColumnFiltersState,
+  // ColumnFiltersState,
   SortingState,
   VisibilityState,
   flexRender,
@@ -28,9 +29,10 @@ interface DataTableProps<TData, TValue> {
   data: TData[];
 }
 
-export default function SpeciesTable<TData, TValue>({ columns, data }: DataTableProps<TData, TValue>) {
+export default function CustomTable<TData, TValue>({ columns, data }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  // const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [globalFilter, setGlobalFilter] = useState("");
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = useState({});
 
@@ -41,13 +43,15 @@ export default function SpeciesTable<TData, TValue>({ columns, data }: DataTable
     onSortingChange: setSorting,
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
-    onColumnFiltersChange: setColumnFilters,
+    // onColumnFiltersChange: setColumnFilters,
+    onGlobalFilterChange: setGlobalFilter,
     getFilteredRowModel: getFilteredRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
     onRowSelectionChange: setRowSelection,
     state: {
       sorting,
-      columnFilters,
+      // columnFilters,
+      globalFilter,
       columnVisibility,
       rowSelection,
     },
@@ -56,11 +60,17 @@ export default function SpeciesTable<TData, TValue>({ columns, data }: DataTable
   return (
     <div>
       <div className="flex items-center py-4">
-        <Input
+        {/* <Input
           placeholder="Filter species..."
           value={(table.getColumn("species")?.getFilterValue() as string) ?? ""}
           onChange={(event) => table.getColumn("species")?.setFilterValue(event.target.value)}
           className="max-w-sm"
+        /> */}
+        <DebouncedInput
+          value={globalFilter ?? ""}
+          onChange={(value) => setGlobalFilter(String(value))}
+          className="max-w-sm"
+          placeholder="Search all columns..."
         />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>

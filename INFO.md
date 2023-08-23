@@ -3,7 +3,7 @@
 ## TODO
 
 - [ ] markera aktiv sida i header.
-- [ ] Lucide icons
+- [ ] 
 - BASICS
   - [ ] Check TODO:s
   - [ ] Check Any:s

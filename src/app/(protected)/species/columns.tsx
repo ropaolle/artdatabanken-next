@@ -1,12 +1,12 @@
 "use client";
 
+import { ActionCell, DataTableColumnHeader, getCheckboxColumn } from "@/components/CustomTable";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
-import { ColumnDef } from "@tanstack/react-table";
-import Image from "next/image";
-import { ArrowUpDown, Pencil, Trash2 } from "lucide-react";
-import { Female, Male } from "./icons";
 import { type Database } from "@/lib/database.types";
+import { ColumnDef } from "@tanstack/react-table";
+import { ArrowUpDown } from "lucide-react";
+import Image from "next/image";
+import { Female, Male } from "./icons";
 
 export type Species = Database["public"]["Tables"]["species"]["Row"];
 
@@ -16,36 +16,11 @@ const image = (url = "") => (
 
 export const columns: ColumnDef<Species>[] = [
   {
-    id: "select",
-    header: ({ table }) => (
-      <Checkbox
-        checked={table.getIsAllPageRowsSelected()}
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false,
+    ...getCheckboxColumn(),
   },
-  // { header: "User Id", accessorKey: "id" },
   {
-    // header: "Family",
     accessorKey: "family",
-    header: ({ column }) => {
-      return (
-        <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
-          Family
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
+    header: ({ column }) => <DataTableColumnHeader column={column} title="Family" />,
     cell: ({ row }) => {
       const { family, kingdom, taxonomy_order: order } = row.original;
       // const family = row.getValue<string | null>("family") || "";
@@ -61,7 +36,7 @@ export const columns: ColumnDef<Species>[] = [
     },
   },
   {
-    // header: "Species",
+    accessorKey: "species",
     header: ({ column }) => {
       return (
         <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
@@ -70,7 +45,6 @@ export const columns: ColumnDef<Species>[] = [
         </Button>
       );
     },
-    accessorKey: "species",
     cell: ({ row }) => {
       // TODO: row.original overrides cache, use columnHelper and grouping instead
       // console.log('row._valuesCache', row._valuesCache);
@@ -94,32 +68,19 @@ export const columns: ColumnDef<Species>[] = [
       );
     },
   },
-  { header: "County", accessorKey: "county" },
-  { header: "Place", accessorKey: "place" },
+  { accessorKey: "county", header: "County" },
+  { accessorKey: "place", header: "Place" },
   {
-    header: "Thumbnail",
     accessorKey: "images",
+    header: "Thumbnail",
     cell: ({ row }) => {
       const { thumbnail_url } = row.getValue<{ thumbnail_url: string } | null>("images") || {};
       return <div className="text-right font-medium">{image(thumbnail_url)}</div>;
     },
   },
   {
-    // id: "actions",
-    header: () => <b>Actions</b>,
     accessorKey: "id",
-    cell: ({ row }) => {
-      const id = row.getValue<string>("id");
-      return (
-        <div className="flex justify-end">
-          <a role="button" title="Delete" className="delete-button ms-2 text-neutral-300" data-te-index={id}>
-            <Trash2 size={20} />
-          </a>
-          <a role="button" title="Edit" className="edit-button ms-2 text-neutral-300" data-te-index={id}>
-            <Pencil size={20} />
-          </a>
-        </div>
-      );
-    },
+    header: () => <b>Actions</b>,
+    cell: ({ row }) => <ActionCell row={row} />,
   },
 ];
