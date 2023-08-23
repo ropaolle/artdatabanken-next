@@ -3,6 +3,7 @@
 ## TODO
 
 - [ ] markera aktiv sida i header.
+- [ ] Lucide icons
 - BASICS
   - [ ] Check TODO:s
   - [ ] Check Any:s
@@ -37,8 +38,9 @@
   - [React component as prop](https://www.developerway.com/posts/react-component-as-prop-the-right-way)
   - [Zustand slices](https://github.com/pmndrs/zustand/blob/main/docs/guides/slices-pattern.md)
   - [SWR](https://swr.vercel.app/)
+  - [Clerk authentication](https://clerk.com/)
   - ICONS
-    - [Clerk authentication](https://clerk.com/)
+    - [Lucide](https://lucide.dev/icons/)
     - [Iconify](https://iconify.design/)
     - [Hero Icons](https://heroicons.com/)
     - [Phosphor Icons](https://phosphoricons.com/)
@@ -59,3 +61,12 @@ npx supabase gen types typescript --project-id yeebxkyqwarhmbfpkgir > "./src/lib
 Developer tools, ... to the right, select `Show Console Drawer`, select `Rendering`, select `Emulate CSS media feature` prefer-color-scheme.
 
 ![Test dark mode in Chrome](./doc/test-dark-mode-in-chrome.png)
+
+### PNPM
+
+- [Install](https://pnpm.io/installation)
+
+```sh
+wget -qO- https://get.pnpm.io/install.sh | sh -
+source /home/olle/.bashrc
+```
