@@ -19,7 +19,11 @@ import useConfirm from "@/components/useConfirm";
 type Image = Database["public"]["Tables"]["images"]["Row"];
 
 export default function ImageTable({ rows }: { rows: Image[] }) {
-  const [ConfirmDialog, confirm] = useConfirm();
+  const [ConfirmDialog, confirm] = useConfirm({
+    title: "Are you absolutely sure?",
+    message:
+      "This action cannot be undone. This will permanently delete your account and remove your data from our servers.",
+  });
 
   const handleDelete = async (id: string) => {
     if (await confirm()) {
