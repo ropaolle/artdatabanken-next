@@ -1,9 +1,9 @@
 "use client";
 
-import CustomTable, { ActionCell, DataTableColumnHeader, getCheckboxColumn } from "@/components/CustomTable";
-import { type Database } from "@/lib/database.types";
 import { ColumnDef } from "@tanstack/react-table";
 import Image from "next/image";
+import CustomTable, { ActionCell, DataTableColumnHeader, getCheckboxColumn } from "@/components/CustomTable";
+import { type Database } from "@/lib/database.types";
 import useConfirm from "@/components/useConfirm";
 
 /* {
@@ -43,8 +43,8 @@ export default function ImageTable({ rows }: { rows: Image[] }) {
       accessorKey: "url",
       header: ({ column }) => <DataTableColumnHeader column={column} title="URL" />,
       cell: ({ row }) => {
-        const url = row.getValue<string | null>("url") || "";
-        return <div className="text-right font-medium">{url.length > 30 ? url.slice(0, 19) : url}</div>;
+        const url = row.getValue<string | null>("url");
+        return <div className="text-right font-medium">{url && url?.length > 30 ? url?.slice(0, 19) : url}</div>;
       },
     },
     { accessorKey: "thumbnail_url", header: "Thumbnail URL" },
@@ -52,16 +52,17 @@ export default function ImageTable({ rows }: { rows: Image[] }) {
       accessorKey: "thumbnail",
       header: "Thumbnail",
       cell: ({ row }) => {
-        const url = row.getValue<string | null>("thumbnail_url") || "";
+        const url = row.getValue<string | null>("thumbnail_url");
         return (
-          <div className="text-right font-medium">
-            {url && url.length > 30 && <Image src={url} alt="image" width="100" height="100" loading="lazy" />}
-          </div>
+          <div>{url && url.length > 30 && <Image src={url} alt="image" width="100" height="100" loading="lazy" />}</div>
         );
       },
     },
     {
-      accessorKey: "id",
+      // id: "actions",
+      // accessorKey: "actions",
+      // displayKey: "actions",
+      id: "actions",
       header: () => <b>Actions</b>,
       cell: ({ row }) => <ActionCell row={row} onDelete={handleDelete} />,
     },
