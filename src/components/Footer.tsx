@@ -74,12 +74,12 @@ export default function Footer({ user }: { user: User | null }) {
           </div>
 
           <div className="flex justify-center">
-            <SocialLink href="https://facebook.com/" icon={<Facebook />} />
-            <SocialLink href="https://twitter.com/ropaolle" icon={<Twitter />} />
+            <SocialLink href="https://facebook.com/" icon={<Facebook size={20}/>} />
+            <SocialLink href="https://twitter.com/ropaolle" icon={<Twitter size={20} />} />
             {/* <SocialLink href="https://www.google.com/" icon={<Google />} /> */}
-            <SocialLink href="https://www.instagram.com/ropaolle/" icon={<Instagram />} />
-            <SocialLink href="https://www.linkedin.com/in/olof-sj%C3%B6gren/" icon={<Linkedin />} />
-            <SocialLink href="https://github.com/ropaolle/" icon={<Github />} />
+            <SocialLink href="https://www.instagram.com/ropaolle/" icon={<Instagram size={20} />} />
+            <SocialLink href="https://www.linkedin.com/in/olof-sj%C3%B6gren/" icon={<Linkedin size={20} />} />
+            <SocialLink href="https://github.com/ropaolle/" icon={<Github size={20} />} />
           </div>
         </div>
 

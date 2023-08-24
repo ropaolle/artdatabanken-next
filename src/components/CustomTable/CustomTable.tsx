@@ -23,6 +23,8 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { useState } from "react";
+// import ConfirmAlert from "../ConfirmAlert";
+import useConfirm from "../useConfirm";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];

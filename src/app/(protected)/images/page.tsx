@@ -1,7 +1,5 @@
 import createServerComponentClientWithCookies from "@/lib/createServerComponentClientWithCookies";
-// import ImageTable from "./ImageTable";
-import CustomTable from "@/components/CustomTable";
-import { columns } from "./columns";
+import ImageTable from "./ImageTable";
 
 export default async function Images() {
   const supabase = await createServerComponentClientWithCookies();
@@ -9,7 +7,11 @@ export default async function Images() {
     .from("images")
     .select("*", { count: "exact" /* , head: true  */ })
     .order("updated_at", { ascending: true })
-    .limit(4);
+    .limit(11);
 
-  return <div className="container mx-auto py-10">{rows && <CustomTable columns={columns} data={rows} />}</div>;
+  return (
+    <>
+      <div className="container mx-auto py-10">{rows && <ImageTable rows={rows} />}</div>
+    </>
+  );
 }

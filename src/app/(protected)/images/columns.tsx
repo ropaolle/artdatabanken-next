@@ -1,13 +1,12 @@
 "use client";
 
 import { type Database } from "@/lib/database.types";
-import { ColumnDef /* , createColumnHelper */ } from "@tanstack/react-table";
+import { ColumnDef } from "@tanstack/react-table";
 import Image from "next/image";
 import { getCheckboxColumn, ActionCell, DataTableColumnHeader } from "@/components/CustomTable";
+import { handleDelete } from "@/components/CustomTable/CustomTable";
 
 export type Image = Database["public"]["Tables"]["images"]["Row"];
-
-// const columnHelper = createColumnHelper<Image>();
 
 /* {
   id: 'a84965d0-3d59-442f-9774-48c2478936b1',
@@ -22,6 +21,10 @@ export type Image = Database["public"]["Tables"]["images"]["Row"];
 const image = (url = "") => (
   <>{url && url.length > 30 && <Image src={url} alt="image" width="100" height="100" loading="lazy" />}</>
 );
+
+// const handleDelete = (id: string) => {
+//   console.log("id", id);
+// };
 
 export const columns: ColumnDef<Image>[] = [
   {
@@ -51,20 +54,6 @@ export const columns: ColumnDef<Image>[] = [
   {
     accessorKey: "id",
     header: () => <b>Actions</b>,
-    cell: ({ row }) => <ActionCell row={row} />,
+    cell: ({ row }) => <ActionCell row={row} onDelete={handleDelete} />,
   },
 ];
-
-// TODO: use columnHelper
-// https://tanstack.com/table/v8/docs/guide/column-defs#column-helpers
-/* export const columns = [
-  columnHelper.accessor(row => row.url, {
-    id: 'url',
-    cell: (v) => {
-      const url = v.getValue()
-      return <div className="text-right font-medium">{url}</div>;
-    },
-    // header: () => <span>Last Name</span>,
-    // footer: props => props.column.id,
-  }),
-]; */
