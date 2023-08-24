@@ -12,5 +12,5 @@ export default async function Species() {
     images (thumbnail_url)
   `);
 
-  return <div className="container mx-auto py-10">{rows && <SpeciesTable rows={rows} />}</div>;
+  return <SpeciesTable rows={rows} />;
 }

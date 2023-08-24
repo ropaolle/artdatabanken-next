@@ -9,9 +9,5 @@ export default async function Images() {
     .order("updated_at", { ascending: true })
     .limit(11);
 
-  return (
-    <>
-      <div className="container mx-auto py-10">{rows && <ImageTable rows={rows} />}</div>
-    </>
-  );
+  return rows && <ImageTable rows={rows} count={count} />;
 }

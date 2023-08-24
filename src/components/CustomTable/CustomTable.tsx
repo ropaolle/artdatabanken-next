@@ -35,7 +35,7 @@ export default function CustomTable<TData, TValue>({ columns, data }: DataTableP
   const [sorting, setSorting] = useState<SortingState>([]);
   // const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [globalFilter, setGlobalFilter] = useState("");
-  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({id: false});
   const [rowSelection, setRowSelection] = useState({});
 
   const table = useReactTable({
