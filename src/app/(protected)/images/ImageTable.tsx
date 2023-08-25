@@ -6,7 +6,7 @@ import CustomTable from "@/components/CustomTable";
 import useConfirm from "@/components/useConfirm";
 import { getColumns, type Image } from "./columns";
 
-export default function ImageTable({ rows, count }: { rows: Image[]; count?: number }) {
+export default function ImageTable({ rows, count }: { rows: Image[]; count?: number | null }) {
   const [data, setData] = useState(rows);
 
   const supabase = createClientComponentClient();
