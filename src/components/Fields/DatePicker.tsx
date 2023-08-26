@@ -16,10 +16,11 @@ type DatePickerProps = {
 };
 
 // INFO: Date in `TName extends FieldPathByValue<TFieldValues, Date>` should equal the fields shema type.
+type FieldType = Date;
 
 export default function DatePicker<
   TFieldValues extends FieldValues,
-  TName extends FieldPathByValue<TFieldValues, Date>,
+  TName extends FieldPathByValue<TFieldValues, FieldType>,
 >({ control, name, label, placeholder, description }: UseControllerProps<TFieldValues, TName> & DatePickerProps) {
   return (
     <FormField

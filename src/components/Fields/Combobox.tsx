@@ -18,9 +18,11 @@ type ComboboxProps = {
   options: readonly Option[];
 };
 
+type FieldType = string;
+
 export default function Combobox<
   TFieldValues extends FieldValues,
-  TName extends FieldPathByValue<TFieldValues, string>,
+  TName extends FieldPathByValue<TFieldValues, FieldType>,
 >({
   control,
   name,

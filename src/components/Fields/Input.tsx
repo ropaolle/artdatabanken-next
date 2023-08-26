@@ -12,14 +12,12 @@ type InputProps = {
   vertical?: boolean;
 };
 
-export default function Input<TFieldValues extends FieldValues, TName extends FieldPathByValue<TFieldValues, string>>({
-  control,
-  name,
-  label,
-  placeholder,
-  description,
-  vertical,
-}: UseControllerProps<TFieldValues, TName> & InputProps) {
+type FieldType = string;
+
+export default function Input<
+  TFieldValues extends FieldValues,
+  TName extends FieldPathByValue<TFieldValues, FieldType>,
+>({ control, name, label, placeholder, description, vertical }: UseControllerProps<TFieldValues, TName> & InputProps) {
   return (
     <FormField
       control={control}

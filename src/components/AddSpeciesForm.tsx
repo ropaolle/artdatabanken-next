@@ -6,33 +6,15 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Close } from "@radix-ui/react-dialog";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import { Input, DatePicker, Combobox, Checkboxes } from "./Fields";
+import { Checkboxes, Combobox, DatePicker, Input } from "./Fields";
 
 const items = [
-  {
-    id: "recents",
-    label: "Recents",
-  },
-  {
-    id: "home",
-    label: "Home",
-  },
-  {
-    id: "applications",
-    label: "Applications",
-  },
-  {
-    id: "desktop",
-    label: "Desktop",
-  },
-  {
-    id: "downloads",
-    label: "Downloads",
-  },
-  {
-    id: "documents",
-    label: "Documents",
-  },
+  { id: "recents", label: "Recents" },
+  { id: "home", label: "Home" },
+  { id: "applications", label: "Applications" },
+  { id: "desktop", label: "Desktop" },
+  { id: "downloads", label: "Downloads" },
+  { id: "documents", label: "Documents" },
 ] as const;
 
 const languages = [
@@ -62,6 +44,9 @@ const formSchema = z.object({
   gender: z.array(z.string()).refine((value) => value.some((item) => item), {
     message: "You have to select at least one item.",
   }),
+  items: z.array(z.string()).refine((value) => value.some((item) => item), {
+    message: "You have to select at least one item.",
+  }),
 });
 
 export default function AddSpeciesForm() {
@@ -77,6 +62,7 @@ export default function AddSpeciesForm() {
       county: "en",
       date: new Date(),
       gender: ["recents", "home"],
+      items: ["recents", "home"],
     },
   });
 
@@ -107,7 +93,7 @@ export default function AddSpeciesForm() {
           </div>
         </div>
 
-        {/* <Checkboxes control={form.control} name="gender" label="Gender" /> */}
+        <Checkboxes control={control} items={items} name="items" label="Items" />
 
         <div className="space-y-8">
           <div></div>

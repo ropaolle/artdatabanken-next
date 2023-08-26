@@ -2,8 +2,10 @@
 
 ## TODO
 
-- [ ] markera aktiv sida i header.
+- [ ] Update dependencies
 - [ ] Import generic icons. Check build size. https://github.com/vercel/next.js/issues/53605
+- [ ] Checkboxes field
+- [ ] markera aktiv sida i header.
 - BASICS
   - [ ] Check TODO:s
   - [ ] Check Any:s
