@@ -35,6 +35,18 @@ const items = [
   },
 ] as const;
 
+const languages = [
+  { label: "English", value: "en" },
+  { label: "French", value: "fr" },
+  { label: "German", value: "de" },
+  { label: "Spanish", value: "es" },
+  { label: "Portuguese", value: "pt" },
+  { label: "Russian", value: "ru" },
+  { label: "Japanese", value: "ja" },
+  { label: "Korean", value: "ko" },
+  { label: "Chinese", value: "zh" },
+] as const;
+
 const formSchema = z.object({
   // species: z.string().min(2, {
   //   message: "Species name must be at least 2 characters.",
@@ -68,6 +80,8 @@ export default function AddSpeciesForm() {
     },
   });
 
+  const control = form.control;
+
   // 2. Define a submit handler.
   function onSubmit(values: z.infer<typeof formSchema>) {
     // Do something with the form values.
@@ -78,22 +92,22 @@ export default function AddSpeciesForm() {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
-        <Input control={form.control} name="species" label="Species *" vertical />
-        <Input control={form.control} name="kingdom" label="Kingdom" vertical />
-        <Input control={form.control} name="order" label="Order" vertical />
-        <Input control={form.control} name="family" label="Family" vertical />
-        <Input control={form.control} name="latin" label="Latin" vertical />
+        <Input control={control} name="species" label="Species *" vertical /* description="asd" */ />
+        {/*<Input control={control} name="kingdom" label="Kingdom" vertical />
+         <Input control={control} name="order" label="Order" vertical />
+        <Input control={control} name="family" label="Family" vertical />
+        <Input control={control} name="latin" label="Latin" vertical /> */}
 
         <div className="space-y-4">
-          <Input control={form.control} name="place" label="Place" vertical />
+          <Input control={control} name="place" label="Place" vertical />
 
           <div className="grid grid-cols-2 gap-4">
-            <Combobox form={form} name="county" label="County" />
-            <DatePicker form={form} name="date" label="Date" />
+            <Combobox name="county" label="County" options={languages} control={control} setValue={form.setValue} />
+            <DatePicker control={control} name="date" label="Date" />
           </div>
         </div>
 
-        <Checkboxes form={form} name="gender" label="Gender" />
+        {/* <Checkboxes control={form.control} name="gender" label="Gender" /> */}
 
         <div className="space-y-8">
           <div></div>

@@ -2,26 +2,28 @@
 
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
-
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
+import { type FieldPathByValue, type FieldValues, type UseControllerProps } from "react-hook-form";
 
-type CustomFieldProps = {
-  form: any;
-  name: string;
+type DatePickerProps = {
   label?: string;
-  description?: string;
   placeholder?: string;
-  vertical?: boolean;
+  description?: string;
 };
 
-export default function DatePicker({ form, name, label, description, placeholder }: CustomFieldProps) {
+// INFO: Date in `TName extends FieldPathByValue<TFieldValues, Date>` should equal the fields shema type.
+
+export default function DatePicker<
+  TFieldValues extends FieldValues,
+  TName extends FieldPathByValue<TFieldValues, Date>,
+>({ control, name, label, placeholder, description }: UseControllerProps<TFieldValues, TName> & DatePickerProps) {
   return (
     <FormField
-      control={form.control}
+      control={control}
       name={name}
       render={({ field }) => (
         <FormItem className="flex flex-col">
@@ -48,7 +50,7 @@ export default function DatePicker({ form, name, label, description, placeholder
               />
             </PopoverContent>
           </Popover>
-          {description && <FormDescription>{description}</FormDescription>}
+          <FormDescription>{description}</FormDescription>
           <FormMessage />
         </FormItem>
       )}

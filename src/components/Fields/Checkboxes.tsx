@@ -1,10 +1,9 @@
 "use client";
 
-
-
-import * as z from "zod"
+import * as z from "zod";
 import { Checkbox } from "@/components/ui/checkbox";
 import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Control, FieldPathByValue, FieldValues } from "react-hook-form";
 
 const items = [
   {
@@ -33,25 +32,40 @@ const items = [
   },
 ] as const;
 
-const FormSchema = z.object({
-  items: z.array(z.string()).refine((value) => value.some((item) => item), {
-    message: "You have to select at least one item.",
-  }),
-})
+// const FormSchema = z.object({
+//   items: z.array(z.string()).refine((value) => value.some((item) => item), {
+//     message: "You have to select at least one item.",
+//   }),
+// });
 
-type CustomFieldProps = {
-  form: any;
-  name: string;
+// type CustomFieldProps = {
+//   form: any;
+//   name: string;
+//   label?: string;
+//   placeholder?: string;
+//   description?: string;
+//   vertical?: boolean;
+// };
+
+export default function Checkboxes<TFieldValues extends FieldValues, TPath extends FieldPathByValue<TFieldValues, any>>({
+  control,
+  name,
+  label,
+  // placeholder,
+  description,
+  // vertical,
+}: {
+  control: Control<TFieldValues>;
+  name: TPath;
   label?: string;
-  placeholder?: string;
+  // placeholder?: string;
   description?: string;
-  vertical?: boolean;
-};
-
-export default function Checkboxes({ form, name, label, placeholder, description, vertical }: CustomFieldProps) {
+  // vertical: boolean;
+}) {
+// export default function Checkboxes({ form, name, label, placeholder, description, vertical }: CustomFieldProps) {
   return (
     <FormField
-      control={form.control}
+      control={control}
       name={name}
       render={() => (
         <FormItem>
@@ -62,7 +76,7 @@ export default function Checkboxes({ form, name, label, placeholder, description
           {items.map((item) => (
             <FormField
               key={item.id}
-              control={form.control}
+              control={control}
               name={name}
               render={({ field }) => {
                 return (

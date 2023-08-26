@@ -3,17 +3,23 @@
 import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input as InputComponent } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
+import { type FieldPathByValue, type FieldValues, type UseControllerProps } from "react-hook-form";
 
-type CustomFieldProps = {
-  control: any;
-  name: string;
+type InputProps = {
   label?: string;
   placeholder?: string;
   description?: string;
   vertical?: boolean;
 };
 
-export default function Input({ control, name, label, placeholder, description, vertical }: CustomFieldProps) {
+export default function Input<TFieldValues extends FieldValues, TName extends FieldPathByValue<TFieldValues, string>>({
+  control,
+  name,
+  label,
+  placeholder,
+  description,
+  vertical,
+}: UseControllerProps<TFieldValues, TName> & InputProps) {
   return (
     <FormField
       control={control}
@@ -24,9 +30,7 @@ export default function Input({ control, name, label, placeholder, description, 
           <FormControl>
             <InputComponent placeholder={placeholder} {...field} className={cn(vertical && "basis-[75%]")} />
           </FormControl>
-          {description && (
-            <FormDescription className={cn(vertical && "mt-0 basis-full text-right")}>{description}</FormDescription>
-          )}
+          <FormDescription className={cn(vertical && "mt-0 basis-full text-right")}>{description}</FormDescription>
           <FormMessage className={cn(vertical && "mt-0 basis-full text-right font-normal")} />
         </FormItem>
       )}

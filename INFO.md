@@ -3,7 +3,7 @@
 ## TODO
 
 - [ ] markera aktiv sida i header.
-- [ ] 
+- [ ] Import generic icons. Check build size. https://github.com/vercel/next.js/issues/53605
 - BASICS
   - [ ] Check TODO:s
   - [ ] Check Any:s
