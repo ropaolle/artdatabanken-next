@@ -87,15 +87,20 @@ const getColumns = (onDelete: (id: string) => void) => [
 ];
 
 export default function SpeciesTable({ rows }: { rows: Species[] | null }) {
-  const [ConfirmDialog, confirm] = useConfirm({
-    title: "Are you absolutely sure?",
-    message:
-      "This action cannot be undone. This will permanently delete your account and remove your data from our servers.",
-  });
+  const [ConfirmDialog, confirm] = useConfirm();
 
   const handleDelete = async (id: string) => {
-    if (await confirm()) {
-      console.log("id", id);
+    const confirmMessage = {
+      title: "Are you absolutely sure?",
+      message: (
+        <>
+          This action cannot be undone. This will permanently delete <strong>{id}</strong>.
+        </>
+      ),
+    };
+
+    if (await confirm(confirmMessage)) {
+      console.info("id", id);
     }
   };
 

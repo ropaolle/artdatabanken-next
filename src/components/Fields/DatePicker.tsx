@@ -7,26 +7,19 @@ import { Calendar } from "@/components/ui/calendar";
 import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
-import { useFormContext, type FieldPathByValue, type FieldValues, type UseControllerProps } from "react-hook-form";
+import { useFormContext, type FieldPath, type FieldValues } from "react-hook-form";
 
-type DatePickerProps = {
+type DatePickerProps<TName> = {
+  name: TName;
   label?: string;
   placeholder?: string;
   description?: string;
 };
 
-// INFO: Date in `TName extends FieldPathByValue<TFieldValues, Date>` should equal the fields shema type.
-type FieldType = Date;
-
 export default function DatePicker<
   TFieldValues extends FieldValues,
-  TName extends FieldPathByValue<TFieldValues, FieldType>,
->({
-  /* control,  */ name,
-  label,
-  placeholder,
-  description,
-}: UseControllerProps<TFieldValues, TName> & DatePickerProps) {
+  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
+>({ name, label, placeholder, description }: DatePickerProps<TName>) {
   const { control } = useFormContext();
   return (
     <FormField

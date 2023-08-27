@@ -89,10 +89,8 @@ export default function AddSpeciesForm() {
     },
   });
 
-  const { control, setValue } = form;
-
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+    console.info(values);
   }
 
   return (

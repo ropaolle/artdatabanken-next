@@ -1,24 +1,22 @@
 "use client";
 
-import * as z from "zod";
 import { Checkbox } from "@/components/ui/checkbox";
 import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { useFormContext, type FieldPathByValue, type FieldValues, type UseControllerProps } from "react-hook-form";
+import { useFormContext, type FieldPath, type FieldValues } from "react-hook-form";
 
 type Item = { label: string; id: string };
 
-type CheckboxProps = {
+type CheckboxProps<TName> = {
+  name: TName;
   label?: string;
   description?: string;
   items: readonly Item[];
 };
 
-type FieldType = string[];
-
 export default function Checkboxes<
   TFieldValues extends FieldValues,
-  TName extends FieldPathByValue<TFieldValues, FieldType>,
->({ /* control,  */ name, label, description, items }: UseControllerProps<TFieldValues, TName> & CheckboxProps) {
+  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
+>({ name, label, description, items }: CheckboxProps<TName>) {
   const { control } = useFormContext();
 
   return (

@@ -6,32 +6,22 @@ import { Check, ChevronsUpDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { useFormContext, type FieldPathByValue, type FieldValues, type UseControllerProps } from "react-hook-form";
+import { useFormContext, type FieldPath, type FieldValues } from "react-hook-form";
 
 type Option = { label: string; value: string };
 
-type ComboboxProps = {
-  // setValue: any;
+type ComboboxProps<TName> = {
+  name: TName;
   label?: string;
   placeholder?: string;
   description?: string;
   options: readonly Option[];
 };
 
-type FieldType = string;
-
 export default function Combobox<
   TFieldValues extends FieldValues,
-  TName extends FieldPathByValue<TFieldValues, FieldType>,
->({
-  // control,
-  name,
-  // setValue,
-  label,
-  placeholder,
-  description,
-  options,
-}: UseControllerProps<TFieldValues, TName> & ComboboxProps) {
+  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
+>({ name, label, placeholder, description, options }: ComboboxProps<TName>) {
   const { control, setValue } = useFormContext();
   return (
     <FormField
@@ -40,7 +30,6 @@ export default function Combobox<
       render={({ field }) => {
         return (
           <FormItem className="">
-            {/* <FormItem className="flex flex-col"> */}
             <FormLabel>{label}</FormLabel>
             <Popover>
               <PopoverTrigger asChild>
@@ -49,7 +38,6 @@ export default function Combobox<
                     variant="outline"
                     role="combobox"
                     className={cn("flex h-10 w-full justify-between", !field.value && "text-muted-foreground")}
-                    // className={cn("w-[200px] justify-between", !field.value && "text-muted-foreground")}
                   >
                     {field.value ? options.find((option) => option.value === field.value)?.label : placeholder}
                     <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -67,7 +55,7 @@ export default function Combobox<
                           value={option.label}
                           key={option.value}
                           onSelect={() => {
-                            setValue(name, option.value);
+                            setValue<string>(name, option.value);
                           }}
                         >
                           <Check

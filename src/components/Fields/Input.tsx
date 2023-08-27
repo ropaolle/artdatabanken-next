@@ -3,21 +3,20 @@
 import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input as InputComponent } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
-import { useFormContext, type FieldPathByValue, type FieldValues, type UseControllerProps } from "react-hook-form";
+import { useFormContext, type FieldPath, type FieldValues } from "react-hook-form";
 
-type InputProps = {
+type InputProps<TName> = {
+  name: TName;
   label?: string;
   placeholder?: string;
   description?: string;
   vertical?: boolean;
 };
 
-type FieldType = string;
-
 export default function Input<
   TFieldValues extends FieldValues,
-  TName extends FieldPathByValue<TFieldValues, FieldType>,
->({ name, label, placeholder, description, vertical }: UseControllerProps<TFieldValues, TName> & InputProps) {
+  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
+>({ name, label, placeholder, description, vertical }: InputProps<TName>) {
   const { control } = useFormContext();
   return (
     <FormField
