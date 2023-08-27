@@ -8,10 +8,16 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import * as z from "zod";
 import AddSpeciesForm from "./AddSpeciesForm";
+
+/* Close dialog button that can be used in a form.
+
+<Close asChild>
+  <Button variant="secondary" className="mr-2">
+    Cancel
+  </Button>
+</Close> 
+*/
 
 export default function AddSpeciesDialog() {
   return (

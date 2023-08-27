@@ -10,14 +10,18 @@ export default function ImageTable({ rows, count }: { rows: Image[]; count?: num
   const [data, setData] = useState(rows);
 
   const supabase = createClientComponentClient();
-  const [ConfirmDialog, confirm] = useConfirm({
-    title: "Are you absolutely sure?",
-    message:
-      "This action cannot be undone. This will permanently delete your account and remove your data from our servers.",
-  });
+  const [ConfirmDialog, confirm] = useConfirm();
 
   const handleDelete = async (id: string) => {
-    if (await confirm()) {
+    const confirmMessage = {
+      title: "Are you absolutely sure?",
+      message: (
+        <>
+          This action cannot be undone. This will permanently delete <strong>{id}</strong>.
+        </>
+      ),
+    };
+    if (await confirm(confirmMessage)) {
       const { error } = await supabase.from("images").delete().eq("id", id);
 
       if (error) {
@@ -32,9 +36,9 @@ export default function ImageTable({ rows, count }: { rows: Image[]; count?: num
   };
 
   return (
-    <div className="container mx-auto py-10">
+    <>
       <CustomTable columns={getColumns(handleDelete)} data={data} />
       <ConfirmDialog />
-    </div>
+    </>
   );
 }

@@ -9,5 +9,10 @@ export default async function Images() {
     .order("updated_at", { ascending: true })
     .limit(11);
 
-  return rows && <ImageTable rows={rows} count={count} />;
+  return (
+    <>
+      <h1>Images</h1>
+      {rows && <ImageTable rows={rows} count={count} />}
+    </>
+  );
 }

@@ -9,7 +9,7 @@ export default async function PageLayout({ children }: { children: React.ReactNo
   return (
     <>
       <Header user={user} />
-      <main className="flex items-center justify-center p-16 lg:justify-between">{children}</main>
+      <main className="container my-8">{children}</main>
       <Footer user={user} />
     </>
   );

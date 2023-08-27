@@ -1,11 +1,14 @@
 "use client";
 
-import AddSpeciesDialog from "@/components/AddSpeciesDialog";
+import AddSpeciesForm from "@/components/AddSpeciesForm";
 
 export default function Collections() {
   return (
     <>
-      <AddSpeciesDialog />
+      <h1>Add species</h1>
+      <div className=" max-w-lg2">
+        <AddSpeciesForm />
+      </div>
     </>
   );
 }

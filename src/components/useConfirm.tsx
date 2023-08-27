@@ -13,18 +13,21 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 
-type UseConfirm = {
-  title: string;
-  message: string;
-};
+type UseConfirm = { title?: JSX.Element | string; message?: JSX.Element | string };
 
-export default function useConfirm({ title, message }: UseConfirm): [() => JSX.Element, () => Promise<unknown>] {
+export default function useConfirm(): [() => JSX.Element, ({ title, message }: UseConfirm) => Promise<unknown>] {
+  const [title, setTitle] = useState<JSX.Element | string>();
+  const [message, setMessage] = useState<JSX.Element | string>();
   const [promise, setPromise] = useState<{ resolve: (value: unknown) => void } | null>(null);
 
-  const confirm = () =>
-    new Promise((resolve/* , reject */) => {
+  const confirm = ({ title, message }: UseConfirm) => {
+    title && setTitle(title);
+    message && setMessage(message);
+
+    return new Promise((resolve) => {
       setPromise({ resolve });
     });
+  };
 
   const handleClose = () => {
     setPromise(null);

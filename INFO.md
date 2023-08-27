@@ -20,7 +20,7 @@
 - TAILWIND
   - [Tailwind CSS](https://tailwindcss.com/)
     - [Reusing styles](https://tailwindcss.com/docs/reusing-styles)
-  - [Cheat Sheet](https://tailwindcomponents.com/cheatsheet/)
+  - [Cheat Sheet](https://tailconwindcomponents.com/cheatsheet/)
   - [unknownAtRules Warnings From Tailwind CSS](https://www.codeconcisely.com/posts/tailwind-css-unknown-at-rules/)
   - [Tailwind Elements](https://tailwind-elements.com/docs/standard/data/datatables/)
   - [Tips and tricks](https://material-minimal.com/learn/design-hacks/tips-and-tricks/)

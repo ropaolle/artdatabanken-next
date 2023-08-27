@@ -3,30 +3,52 @@
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Close } from "@radix-ui/react-dialog";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { Checkboxes, Combobox, DatePicker, Input } from "./Fields";
 
-const items = [
-  { id: "recents", label: "Recents" },
-  { id: "home", label: "Home" },
-  { id: "applications", label: "Applications" },
-  { id: "desktop", label: "Desktop" },
-  { id: "downloads", label: "Downloads" },
-  { id: "documents", label: "Documents" },
+const gender = [
+  { id: "male", label: "Male" },
+  { id: "female", label: "Female" },
 ] as const;
 
-const languages = [
-  { label: "English", value: "en" },
-  { label: "French", value: "fr" },
-  { label: "German", value: "de" },
-  { label: "Spanish", value: "es" },
-  { label: "Portuguese", value: "pt" },
-  { label: "Russian", value: "ru" },
-  { label: "Japanese", value: "ja" },
-  { label: "Korean", value: "ko" },
-  { label: "Chinese", value: "zh" },
+const counties = [
+  { value: "uppland", label: "Uppland" },
+  { value: "stockholm", label: "Stockholms län" },
+  { value: "uppsala", label: "Uppsala län" },
+  { value: "sodermanland", label: "Södermanlands län", alternativeLabel: "Sörmlands län" },
+  { value: "ostergotland", label: "Östergötlands län" },
+  { value: "jonkoping", label: "Jönköpings län" },
+  { value: "kronoberg", label: "Kronobergs län" },
+  { value: "kalmar", label: "Kalmar län", alternativeLabel: "Ölands län" },
+  { value: "gotland", label: "Gotlands län" },
+  { value: "blekinge", label: "Blekinge län" },
+  { value: "skane", label: "Skåne län" },
+  { value: "halland", label: "Hallands län" },
+  { value: "vastra-gotaland", label: "Västra Götalands län" },
+  { value: "varmland", label: "Värmlands län" },
+  { value: "orebro", label: "Örebro län" },
+  { value: "vastmanland", label: "Västmanlands län" },
+  { value: "dalarna", label: "Dalarnas län" },
+  { value: "gavleborg", label: "Gävleborgs län" },
+  { value: "vasternorrland", label: "Västernorrlands län" },
+  { value: "jamtland", label: "Jämtlands län" },
+  { value: "vasterbotten", label: "Västerbottens län", alternativeLabel: "Lapplands län" },
+  { value: "norrbotten", label: "Norrbottens län" },
+] as const;
+
+const images = [
+  { value: "image1", label: "Image 1" },
+  { value: "image2", label: "Image 2" },
+  { value: "image3", label: "Image 3" },
+  { value: "image4", label: "Image 4" },
+  { value: "image5", label: "Image 5" },
+  { value: "image6", label: "Image 6" },
+  { value: "image7", label: "Image 7" },
+  { value: "image8", label: "Image 8" },
+  { value: "image9", label: "Image 9" },
+  { value: "image10", label: "Image 10" },
+  { value: "image11", label: "Image 11" },
 ] as const;
 
 const formSchema = z.object({
@@ -40,13 +62,14 @@ const formSchema = z.object({
   latin: z.string(),
   place: z.string(),
   county: z.string(),
+  image: z.string(),
   date: z.date(),
   gender: z.array(z.string()).refine((value) => value.some((item) => item), {
     message: "You have to select at least one item.",
   }),
-  items: z.array(z.string()).refine((value) => value.some((item) => item), {
-    message: "You have to select at least one item.",
-  }),
+  // items: z.array(z.string()).refine((value) => value.some((item) => item), {
+  //   message: "You have to select at least one item.",
+  // }),
 });
 
 export default function AddSpeciesForm() {
@@ -59,50 +82,45 @@ export default function AddSpeciesForm() {
       family: "",
       latin: "",
       place: "",
-      county: "en",
+      county: "",
+      image: "",
       date: new Date(),
-      gender: ["recents", "home"],
-      items: ["recents", "home"],
+      gender: ["male", "female"],
     },
   });
 
-  const control = form.control;
+  const { control, setValue } = form;
 
-  // 2. Define a submit handler.
   function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
     console.log(values);
   }
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
-        <Input control={control} name="species" label="Species *" vertical /* description="asd" */ />
-        {/*<Input control={control} name="kingdom" label="Kingdom" vertical />
-         <Input control={control} name="order" label="Order" vertical />
-        <Input control={control} name="family" label="Family" vertical />
-        <Input control={control} name="latin" label="Latin" vertical /> */}
+      <form onSubmit={form.handleSubmit(onSubmit)}>
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+          <div className="space-y-4">
+            <Input name="species" label="Species *" /* description="asd" */ />
+            <div className="grid grid-cols-2 gap-4">
+              <Input name="kingdom" label="Kingdom" />
+              <Input name="order" label="Order" />
+              <Input name="family" label="Family" />
+              <Input name="latin" label="Latin" />
+              <Input name="place" label="Place" />
+              <Checkboxes name="gender" label="Gender" items={gender} />
+              <Combobox name="county" label="County" options={counties} placeholder="Select county…" />
+              <DatePicker name="date" label="Date" />
+            </div>
+          </div>
 
-        <div className="space-y-4">
-          <Input control={control} name="place" label="Place" vertical />
-
-          <div className="grid grid-cols-2 gap-4">
-            <Combobox name="county" label="County" options={languages} control={control} setValue={form.setValue} />
-            <DatePicker control={control} name="date" label="Date" />
+          <div className="space-y-2">
+            <Combobox name="image" label="Image" options={images} placeholder="Select image…" />
           </div>
         </div>
-
-        <Checkboxes control={control} items={items} name="items" label="Items" />
 
         <div className="space-y-8">
           <div></div>
           <div className="flex justify-end ">
-            <Close asChild>
-              <Button variant="secondary" className="mr-2">
-                Cancel
-              </Button>
-            </Close>
             <Button type="submit">Add species</Button>
           </div>
         </div>
