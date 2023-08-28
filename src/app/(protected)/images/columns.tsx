@@ -1,7 +1,7 @@
-import { ActionCell, DataTableColumnHeader, getCheckboxColumn } from "@/components/CustomTable";
-import { type Database } from "@/lib/database.types";
 import { createColumnHelper } from "@tanstack/react-table";
 import Image from "next/image";
+import { ActionCell, DataTableColumnHeader, getCheckboxColumn } from "@/components/CustomTable";
+import { type Database } from "@/lib/database.types";
 
 /* {
   id: 'a84965d0-3d59-442f-9774-48c2478936b1',

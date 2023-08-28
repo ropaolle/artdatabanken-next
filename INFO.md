@@ -6,6 +6,8 @@
 - [ ] Import generic icons. Check build size. https://github.com/vercel/next.js/issues/53605
 - [ ] Checkboxes field
 - [ ] markera aktiv sida i header.
+- [ ] Multi select combobox - https://github.com/shadcn-ui/ui/pull/304/files
+
 - BASICS
   - [ ] Check TODO:s
   - [ ] Check Any:s

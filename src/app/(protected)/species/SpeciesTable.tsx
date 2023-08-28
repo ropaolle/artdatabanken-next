@@ -7,7 +7,7 @@ import { ArrowUpDown } from "lucide-react";
 import Image from "next/image";
 import CustomTable, { ActionCell, DataTableColumnHeader, getCheckboxColumn } from "@/components/CustomTable";
 import { Female, Male } from "./icons";
-import useConfirm from "@/components/useConfirm";
+import useConfirm from "@/components/hooks/useConfirm";
 
 export type Species = Database["public"]["Tables"]["species"]["Row"];
 

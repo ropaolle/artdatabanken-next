@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import CustomTable from "@/components/CustomTable";
-import useConfirm from "@/components/useConfirm";
+import useConfirm from "@/components/hooks/useConfirm";
 import { getColumns, type Image } from "./columns";
 
 export default function ImageTable({ rows, count }: { rows: Image[]; count?: number | null }) {
