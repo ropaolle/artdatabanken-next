@@ -1,5 +1,5 @@
 import createServerComponentClientWithCookies from "./createServerComponentClientWithCookies";
-import { gravatarURL } from "./gravatarURL";
+import { gravatarURL } from "@/lib/utils";
 
 export type User = {
   id: string;

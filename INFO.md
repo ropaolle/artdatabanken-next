@@ -51,6 +51,7 @@
 ## Supabase CLI
 
 ```sh
+# Generate types
 npm i supabase --save-dev
 npx supabase login
 npx supabase gen types typescript --project-id yeebxkyqwarhmbfpkgir > "./src/lib/database.types.ts"
