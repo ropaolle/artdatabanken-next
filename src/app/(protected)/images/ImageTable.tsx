@@ -10,18 +10,17 @@ export default function ImageTable({ rows, count }: { rows: Image[]; count?: num
   const [data, setData] = useState(rows);
 
   const supabase = createClientComponentClient();
-  const [ConfirmDialog, confirm] = useConfirm();
+  const [ConfirmDialog, confirm, setConfirmMessage] = useConfirm({
+    title: "Are you absolutely sure?",
+  });
 
   const handleDelete = async (id: string) => {
-    const confirmMessage = {
-      title: "Are you absolutely sure?",
-      message: (
-        <>
-          This action cannot be undone. This will permanently delete <strong>{id}</strong>.
-        </>
-      ),
-    };
-    if (await confirm(confirmMessage)) {
+    setConfirmMessage(
+      <>
+        This will permanently delete <strong>{id}</strong>.
+      </>,
+    );
+    if (await confirm()) {
       const { error } = await supabase.from("images").delete().eq("id", id);
 
       if (error) {
