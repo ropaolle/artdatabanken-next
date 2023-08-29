@@ -7,10 +7,22 @@ import SpeciesTable from "./SpeciesTable";
 
 export default async function Species() {
   const supabase = await createServerComponentClientWithCookies();
-  const { data: rows } = await supabase.from("species").select(`
+  const { data: rows, count } = await supabase
+    .from("species")
+    .select(
+      `
     *,
     images (thumbnail_url)
-  `);
+    `,
+      { count: "exact" /* , head: true  */ },
+    )
+    .order("updated_at", { ascending: true })
+    .limit(100);
 
-  return <SpeciesTable rows={rows} />;
+  return (
+    <>
+      <h1>Species</h1>
+      {rows && <SpeciesTable rows={rows} count={count} />}
+    </>
+  );
 }

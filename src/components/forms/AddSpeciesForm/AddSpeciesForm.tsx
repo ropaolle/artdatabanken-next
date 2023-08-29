@@ -1,20 +1,22 @@
 "use client";
 
+import { Checkboxes, Combobox, DatePicker, Input } from "@/components/fields";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
+import { type Database } from "@/lib/database.types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import { type Database } from "@/lib/database.types";
-import { Checkboxes, Combobox, DatePicker, Input } from "@/components/fields";
-import { gender, counties } from "./options";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { counties, gender } from "./options";
+import { uuid } from "@/lib/utils";
 
 const formSchema = z.object({
   species: z.string().nonempty("This field is reqired."),
   kingdom: z.string(),
-  order: z.string(),
+  taxonomy_order: z.string(),
   family: z.string(),
-  latin: z.string(),
+  latin_name: z.string(),
   place: z.string(),
   county: z.string(),
   image: z.string(),
@@ -28,26 +30,34 @@ const formSchema = z.object({
 export type ImagesType = Pick<Database["public"]["Tables"]["images"]["Row"], "id" | "filename">[] | null;
 
 export default function AddSpeciesForm({ images }: { images: ImagesType }) {
+  const supabase = createClientComponentClient();
   const imageOptions = images?.map(({ filename, id }) => ({ value: id, label: filename || "" })) || [];
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       kingdom: "",
-      species: "",
-      order: "",
+      species: "qweqwe",
+      taxonomy_order: "",
       family: "",
-      latin: "",
+      latin_name: "",
       place: "",
       county: "",
       image: "",
       date: new Date(),
-      gender: [],
+      gender: ["male"],
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     console.info(values);
+
+    const { data, error } = await supabase
+      .from("species")
+      .upsert({ /* id: uuid(), */ ...values })
+      .select();
+
+    console.log("data, error", data, error);
   }
 
   return (
@@ -58,9 +68,9 @@ export default function AddSpeciesForm({ images }: { images: ImagesType }) {
             <Input name="species" label="Species *" /* description="asd" */ />
             <div className="grid grid-cols-2 gap-4">
               <Input name="kingdom" label="Kingdom" />
-              <Input name="order" label="Order" />
+              <Input name="taxonomy_order" label="Order" />
               <Input name="family" label="Family" />
-              <Input name="latin" label="Latin" />
+              <Input name="latin_name" label="Latin" />
               <Input name="place" label="Place" />
               <Checkboxes name="gender" label="Gender" items={gender} />
               <Combobox name="county" label="County" options={counties} placeholder="Select county…" />
@@ -69,7 +79,13 @@ export default function AddSpeciesForm({ images }: { images: ImagesType }) {
           </div>
 
           <div className="flex flex-col space-y-2">
-            <Combobox name="image" label="Image" options={imageOptions} placeholder="Select image…" />
+            <Combobox
+              name="image"
+              label="Image"
+              options={imageOptions}
+              isClearable={false}
+              placeholder="Select image…"
+            />
 
             <div className=" flex flex-1 flex-col">
               <div className="mt-4 text-sm font-medium leading-none">Preview</div>

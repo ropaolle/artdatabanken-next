@@ -8,7 +8,6 @@ import { getColumns, type Image } from "./columns";
 
 export default function ImageTable({ rows, count }: { rows: Image[]; count?: number | null }) {
   const [data, setData] = useState(rows);
-
   const supabase = createClientComponentClient();
   const [ConfirmDialog, confirm, setConfirmMessage] = useConfirm({
     title: "Are you absolutely sure?",

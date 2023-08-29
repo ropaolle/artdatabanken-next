@@ -2,15 +2,14 @@
 
 ## TODO
 
-- [ ] Update dependencies
-- [ ] Import generic icons. Check build size. https://github.com/vercel/next.js/issues/53605
 - [ ] Checkboxes field
 - [ ] markera aktiv sida i header.
-- [ ] Multi select combobox - https://github.com/shadcn-ui/ui/pull/304/files
-
 - BASICS
-  - [ ] Check TODO:s
+  - [ ] Check TODO's
   - [ ] Check Any:s
+  - [ ] Update dependencies
+- NICE TO HAVE
+  - [ ] Combobox multi select - https://github.com/shadcn-ui/ui/pull/304/files
 
 ## Known issues
 
@@ -32,6 +31,7 @@
   - [Auth helpers](https://supabase.com/docs/guides/auth/auth-helpers/nextjs)
   - [CLI TypeScript](https://supabase.com/docs/reference/javascript/typescript-support)
   - [Joins](https://supabase.com/docs/guides/api/joins-and-nesting)
+  - [Reserved words](https://www.postgresql.org/docs/current/sql-keywords-appendix.html)
 - REACT
   - [Confirm dialog](https://medium.com/@kch062522/useconfirm-a-custom-react-hook-to-prompt-confirmation-before-action-f4cb746ebd4e)
 - OTHER

@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-
+import { useState, type Dispatch, type SetStateAction } from "react";
+import { Trash2 } from "lucide-react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -13,21 +13,36 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 
-type UseConfirm = { title?: JSX.Element | string; message?: JSX.Element | string };
+type UseConfirm = {
+  title?: JSX.Element | string;
+  message?: JSX.Element | string;
+  cancelTitle?: JSX.Element | string;
+  okTitle?: JSX.Element | string;
+};
 
-export default function useConfirm(): [() => JSX.Element, ({ title, message }: UseConfirm) => Promise<unknown>] {
-  const [title, setTitle] = useState<JSX.Element | string>();
-  const [message, setMessage] = useState<JSX.Element | string>();
+export default function useConfirm({
+  title,
+  message,
+  okTitle = (
+    <>
+      <Trash2 className="mr-2 h-4 w-4" />
+      Delete
+    </>
+  ),
+  cancelTitle = "Cancel",
+}: UseConfirm): [
+  () => JSX.Element,
+  () => Promise<unknown>,
+  Dispatch<SetStateAction<string | JSX.Element | undefined>>,
+] {
+  const [localTitle /* , setTitle */] = useState(title);
+  const [localMessage, setMessage] = useState(message);
   const [promise, setPromise] = useState<{ resolve: (value: unknown) => void } | null>(null);
 
-  const confirm = ({ title, message }: UseConfirm) => {
-    title && setTitle(title);
-    message && setMessage(message);
-
-    return new Promise((resolve) => {
+  const confirm = () =>
+    new Promise((resolve) => {
       setPromise({ resolve });
     });
-  };
 
   const handleClose = () => {
     setPromise(null);
@@ -47,16 +62,16 @@ export default function useConfirm(): [() => JSX.Element, ({ title, message }: U
     <AlertDialog open={promise !== null}>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>{title}</AlertDialogTitle>
-          <AlertDialogDescription>{message}</AlertDialogDescription>
+          <AlertDialogTitle>{localTitle}</AlertDialogTitle>
+          <AlertDialogDescription>{localMessage}</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel onClick={() => handleCancel()}>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={() => handleConfirm()}>Continue</AlertDialogAction>
+          <AlertDialogCancel onClick={() => handleCancel()}>{cancelTitle}</AlertDialogCancel>
+          <AlertDialogAction onClick={() => handleConfirm()}>{okTitle}</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
   );
 
-  return [ConfirmDialog, confirm];
+  return [ConfirmDialog, confirm, setMessage];
 }
