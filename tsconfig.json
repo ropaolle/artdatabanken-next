@@ -21,6 +21,8 @@
     ],
     "paths": {
       "@/*": ["./src/*"]
+      // import useConfirm from "@/hooks/useConfirm" insted of "@/components/hooks/useConfirm";
+      // "@/hooks/*": ["./src/components/hooks/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
