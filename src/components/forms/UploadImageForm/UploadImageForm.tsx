@@ -7,6 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
+import { useToast } from "@/components/ui/use-toast";
 
 // TODO: (nice to have) Validate type and file size
 // - https://github.com/colinhacks/zod/issues/387
@@ -29,7 +30,7 @@ const formSchema = z.object({
 
 export default function UploadImageForm(/* { images }: { images: ImagesType } */) {
   const supabase = createClientComponentClient();
-
+  const { toast } = useToast();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -37,25 +38,27 @@ export default function UploadImageForm(/* { images }: { images: ImagesType } */
     },
   });
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
-    console.info(values);
+  async function onSubmit({ image }: z.infer<typeof formSchema>) {
+    if (!image) return;
 
+    const { data, error } = await supabase.storage.from("images").upload(image.name, image, {
+      cacheControl: "3600",
+      upsert: true,
+    });
 
-    // const avatarFile = event.target.files[0]
-    // const { data, error } = await supabase
-    //   .storage
-    //   .from('avatars')
-    //   .upload('public/avatar1.png', avatarFile, {
-    //     cacheControl: '3600',
-    //     upsert: false
-    //   })
+    if (error) {
+      console.error(error);
+      return;
+    }
 
-    // const { data, error } = await supabase
-    //   .from("species")
-    //   .upsert({ /* id: uuid(), */ ...values })
-    //   .select();
-
-    // console.log("data, error", data, error);
+    toast({
+      title: "File uploaded",
+      description: (
+        <>
+          Image <i>{data.path}</i> uploaded to bucket <i>images</i>.
+        </>
+      ),
+    });
   }
 
   return (
@@ -63,7 +66,11 @@ export default function UploadImageForm(/* { images }: { images: ImagesType } */
       <form onSubmit={form.handleSubmit(onSubmit)}>
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
           <div className="space-y-4">
-            <FileInput name="image" label="Image *" description="My description..." accept=".jpg" /* multiple */ />
+            <FileInput
+              name="image"
+              label="Image *"
+              /* description="My description..." */ accept=".jpg" /* multiple */
+            />
           </div>
         </div>
 

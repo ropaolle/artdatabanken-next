@@ -1,4 +1,5 @@
 import "./globals.css";
+import { Toaster } from "@/components/ui/toaster";
 
 export const metadata = {
   title: "Artdatabanken",
@@ -8,7 +9,10 @@ export const metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className="light">
-      <body>{children}</body>
+      <body>
+        {children}
+        <Toaster />
+      </body>
     </html>
   );
 }

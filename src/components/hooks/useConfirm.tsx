@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type Dispatch, type SetStateAction } from "react";
+import { useState, type Dispatch, type SetStateAction, type ReactNode } from "react";
 import { Trash2 } from "lucide-react";
 import {
   AlertDialog,
@@ -14,10 +14,10 @@ import {
 } from "@/components/ui/alert-dialog";
 
 type UseConfirm = {
-  title?: JSX.Element | string;
-  message?: JSX.Element | string;
-  cancelTitle?: JSX.Element | string;
-  okTitle?: JSX.Element | string;
+  title?: ReactNode;
+  message?: ReactNode;
+  cancelTitle?: ReactNode;
+  okTitle?: ReactNode;
 };
 
 export default function useConfirm({
@@ -30,11 +30,7 @@ export default function useConfirm({
     </>
   ),
   cancelTitle = "Cancel",
-}: UseConfirm): [
-  () => JSX.Element,
-  () => Promise<unknown>,
-  Dispatch<SetStateAction<string | JSX.Element | undefined>>,
-] {
+}: UseConfirm): [() => JSX.Element, () => Promise<unknown>, Dispatch<SetStateAction<ReactNode>>] {
   const [localTitle /* , setTitle */] = useState(title);
   const [localMessage, setMessage] = useState(message);
   const [promise, setPromise] = useState<{ resolve: (value: unknown) => void } | null>(null);
