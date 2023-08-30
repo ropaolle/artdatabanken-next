@@ -4,6 +4,7 @@
 
 - [ ] Crop image
 - [ ] markera aktiv sida i header.
+- [ ] [Supabase dev locally](https://supabase.com/docs/guides/cli/local-development)
 - BASICS
   - [ ] Check TODO's
   - [ ] Check TypeScript any:s

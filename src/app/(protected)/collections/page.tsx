@@ -1,9 +1,10 @@
 "use client";
 
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useEffect, useState } from "react";
-import { AddSpeciesForm, type ImagesType } from "@/components/forms/AddSpeciesForm";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { type ImagesType } from "@/components/forms/AddSpeciesForm";
 import { UploadImageForm } from "@/components/forms/UploadImageForm";
+import CropImageForm from "@/components/forms/CropImageForm";
 
 export default function Collections() {
   const [images, setImages] = useState<ImagesType>(null);
@@ -17,19 +18,31 @@ export default function Collections() {
         .order("updated_at", { ascending: true })
         .limit(3);
 
+      // const { data, error } = await supabase.storage.from("images").list("", {
+      //   limit: 100,
+      //   offset: 0,
+      //   sortBy: { column: "name", order: "asc" },
+      // });
+
       setImages(data);
     };
 
     getData();
   }, [supabase]);
 
+  // const { data } = supabase.storage.from("images").getPublicUrl("avatar3.png");
+
   return (
     <>
-      <h1>Add species</h1>
-
+      {/* <h1>Add species</h1>
       <div className=" max-w-lg2">
-        <UploadImageForm />
-        {/* <AddSpeciesForm images={images} /> */}
+        <AddSpeciesForm images={images} />
+      </div> */}
+
+      <h1>Upload/crop image</h1>
+      <div className="max-w-xl">
+        {/* <UploadImageForm /> */}
+        <CropImageForm />
       </div>
     </>
   );
