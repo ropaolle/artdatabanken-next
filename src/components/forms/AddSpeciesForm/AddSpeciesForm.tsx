@@ -65,11 +65,11 @@ export default function AddSpeciesForm({ images }: { images: ImagesType }) {
       <form onSubmit={form.handleSubmit(onSubmit)}>
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
           <div className="space-y-4">
-            <Input name="species" label="Species *" /* description="asd" */ />
+            <Input name="species" label="Species *" description="Testbeskrivning" />
             <div className="grid grid-cols-2 gap-4">
               <Input name="kingdom" label="Kingdom" />
               <Input name="taxonomy_order" label="Order" />
-              <Input name="family" label="Family" />
+              <Input name="family" label="Family" placeholder="My placeholder..." />
               <Input name="latin_name" label="Latin" />
               <Input name="place" label="Place" />
               <Checkboxes name="gender" label="Gender" items={gender} />

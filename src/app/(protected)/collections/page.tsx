@@ -3,6 +3,7 @@
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useEffect, useState } from "react";
 import { AddSpeciesForm, type ImagesType } from "@/components/forms/AddSpeciesForm";
+import { UploadImageForm } from "@/components/forms/UploadImageForm";
 
 export default function Collections() {
   const [images, setImages] = useState<ImagesType>(null);
@@ -27,7 +28,8 @@ export default function Collections() {
       <h1>Add species</h1>
 
       <div className=" max-w-lg2">
-        <AddSpeciesForm images={images} />
+        <UploadImageForm />
+        {/* <AddSpeciesForm images={images} /> */}
       </div>
     </>
   );

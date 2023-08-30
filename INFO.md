@@ -2,7 +2,7 @@
 
 ## TODO
 
-- [ ] Checkboxes field
+- [ ] Upload images
 - [ ] markera aktiv sida i header.
 - BASICS
   - [ ] Check TODO's
@@ -74,4 +74,7 @@ Developer tools, ... to the right, select `Show Console Drawer`, select `Renderi
 ```sh
 wget -qO- https://get.pnpm.io/install.sh | sh -
 source /home/olle/.bashrc
+
+# Update
+pnpm add -g pnpm
 ```
