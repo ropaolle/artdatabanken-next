@@ -2,12 +2,12 @@
 
 ## TODO
 
-- [ ] Upload images
+- [ ] Crop image
 - [ ] markera aktiv sida i header.
 - BASICS
   - [ ] Check TODO's
-  - [ ] Check Any:s
-  - [ ] Update dependencies
+  - [ ] Check TypeScript any:s
+  - [ ] Check if [React Hook useEffect has a missing dependencies](https://react.dev/learn/removing-effect-dependencies).
 - NICE TO HAVE
   - [ ] Combobox multi select - https://github.com/shadcn-ui/ui/pull/304/files
 

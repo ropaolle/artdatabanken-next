@@ -6,7 +6,9 @@ import { ActionCell, DataTableColumnHeader, getCheckboxColumn } from "@/componen
 import { Female, Male } from "./icons";
 import { type Database } from "@/lib/database.types";
 
-export type Species = Database["public"]["Tables"]["species"]["Row"];
+export type Species = Database["public"]["Tables"]["species"]["Row"] & {
+  images: { thumbnail_url: string | null } | null;
+};
 
 const columnHelper = createColumnHelper<Species>();
 

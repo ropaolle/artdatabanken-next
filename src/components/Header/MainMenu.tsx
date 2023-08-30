@@ -1,21 +1,13 @@
-// "use client";
-
-// import { useEffect } from "react";
-// import Image from "next/image";
-import NextLink from "next/link";
 import {
   NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuIndicator,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
-  NavigationMenuTrigger,
-  NavigationMenuViewport,
-  navigationMenuTriggerStyle,
+  navigationMenuTriggerStyle
 } from "@/components/ui/navigation-menu";
 import { type User } from "@/lib/auth";
-import React, { ReactNode } from "react";
+import NextLink from "next/link";
+import { ReactNode } from "react";
 
 const MenuLink = ({ href, children }: { href: string; children: ReactNode }) => (
   <NavigationMenuItem>
