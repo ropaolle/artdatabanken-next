@@ -1,6 +1,6 @@
 "use client";
 
-import { Checkboxes, Combobox, DatePicker, Input } from "@/components/fields";
+import { Checkboxes, Combobox, DatePicker, Input, Select } from "@/components/fields";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { type Database } from "@/lib/database.types";
@@ -65,7 +65,7 @@ export default function AddSpeciesForm({ images }: { images: ImagesType }) {
       <form onSubmit={form.handleSubmit(onSubmit)}>
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
           <div className="space-y-4">
-            <Input name="species" label="Species *" description="Testbeskrivning" />
+            <Input name="species" label="Species *" description="Testbeskrivning" vertical />
             <div className="grid grid-cols-2 gap-4">
               <Input name="kingdom" label="Kingdom" />
               <Input name="taxonomy_order" label="Order" />

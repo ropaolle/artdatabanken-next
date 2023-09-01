@@ -2,13 +2,13 @@
 
 import { useEffect, useState } from "react";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import { type ImagesType } from "@/components/forms/AddSpeciesForm";
+import { AddSpeciesForm, type ImagesType } from "@/components/forms/AddSpeciesForm";
 import { UploadImageForm } from "@/components/forms/UploadImageForm";
-import CropImageForm from "@/components/forms/CropImageForm";
+import { CropImageForm } from "@/components/forms/CropImageForm";
 
 export default function Collections() {
   const [images, setImages] = useState<ImagesType>(null);
-  const supabase = createClientComponentClient();
+  const supabase = createClientComponentClient();  
 
   useEffect(() => {
     const getData = async () => {
@@ -40,7 +40,7 @@ export default function Collections() {
       </div> */}
 
       <h1>Upload/crop image</h1>
-      <div className="max-w-xl">
+      <div className="max-w-[1032px]">
         {/* <UploadImageForm /> */}
         <CropImageForm />
       </div>

@@ -5,6 +5,9 @@
 - [ ] Crop image
 - [ ] markera aktiv sida i header.
 - [ ] [Supabase dev locally](https://supabase.com/docs/guides/cli/local-development)
+- [ ] Server vs client components
+  - Use server components if possible, othervise add the 'use client' option.
+  - Server components cannot be imported in a client component. However, a server component can be passed as a child prop to a custom client component.
 - BASICS
   - [ ] Check TODO's
   - [ ] Check TypeScript any:s
