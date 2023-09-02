@@ -1,6 +1,6 @@
 import { type PixelCrop } from "react-image-crop";
 
-export default async function drawImageOnCanvas(
+export default function drawImageOnCanvas(
   image: HTMLImageElement,
   canvas: HTMLCanvasElement,
   crop: PixelCrop,
@@ -8,8 +8,6 @@ export default async function drawImageOnCanvas(
   height: number,
 ) {
   const ctx = canvas.getContext("2d");
-
-  // console.log('width, height', width, height);
 
   if (!ctx) {
     throw new Error("No 2d context");
