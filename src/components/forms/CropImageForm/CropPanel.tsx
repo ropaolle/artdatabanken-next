@@ -1,40 +1,38 @@
 "use client";
 
-import "react-image-crop/dist/ReactCrop.css";
 import { canvasToBlob } from "@/lib/utils";
-import { Dispatch, SetStateAction, memo, useEffect, useRef, useState } from "react";
+import { RefObject, useEffect, useRef, useState } from "react";
 import ReactCrop, { type PixelCrop } from "react-image-crop";
+import "react-image-crop/dist/ReactCrop.css";
 import drawImageOnCanvas from "./drawImageOnCanvas";
 
 const defaultCropArea: PixelCrop = { unit: "px", width: 200, height: 200, x: 100, y: 100 };
 
-export type CompletedCropArea =
-  | (PixelCrop & {
-      naturalWidth: number;
-      naturalHeight: number;
-      naturalSelection: number;
-      naturalSelectionHeight: number;
-      naturalSelectionWidth: number;
-    })
-  | null;
+export type CompletedCropArea = PixelCrop & {
+  naturalWidth: number;
+  naturalHeight: number;
+  naturalSelection: number;
+  naturalSelectionHeight: number;
+  naturalSelectionWidth: number;
+};
 
 type Props = {
-  file: File | null;
-  setPreview: Dispatch<SetStateAction<string | undefined>>;
+  file: Blob | undefined;
+  imageRef: RefObject<HTMLImageElement>;
   onCrop: (crop: CompletedCropArea, preview: string | undefined) => void;
 };
 
-export default function CropPanel({ file, onCrop, setPreview }: Props) {
+export default function CropPanel({ file, onCrop, imageRef }: Props) {
   const [image, setImage] = useState<string>();
-  const imageRef = useRef<HTMLImageElement>(null);
+  // const imageRef = useRef<HTMLImageElement>(null);
   const previewCanvasRef = useRef<HTMLCanvasElement>(null);
   const [cropArea, setCropArea] = useState<PixelCrop>(defaultCropArea);
 
   // Update image and preview canvas
   useEffect(() => {
-    if (!file) {
+    // console.log('file', file);
+    if (!file || typeof file === "string") {
       setImage(undefined);
-      setPreview(undefined);
       return;
     }
 
@@ -43,7 +41,7 @@ export default function CropPanel({ file, onCrop, setPreview }: Props) {
 
     // free memory when ever this component is unmounted
     return () => URL.revokeObjectURL(objectUrl);
-  }, [file, setPreview]);
+  }, [file]);
 
   const handleCompletedCrop = async (cropArea: PixelCrop) => {
     if (!imageRef.current || !previewCanvasRef.current) return;
@@ -62,9 +60,8 @@ export default function CropPanel({ file, onCrop, setPreview }: Props) {
       cropArea.height * previewScale,
     );
 
-    // FIXA: How-to cleanup this object
+    // FIXA: How-to cleanup this object. Is it even needed?
     const preview = URL.createObjectURL(await canvasToBlob(previewCanvasRef.current));
-    setPreview(preview);
 
     onCrop(
       {
@@ -75,7 +72,7 @@ export default function CropPanel({ file, onCrop, setPreview }: Props) {
         naturalSelectionHeight,
         naturalSelectionWidth,
       },
-      "",
+      preview,
     );
   };
 
@@ -95,7 +92,13 @@ export default function CropPanel({ file, onCrop, setPreview }: Props) {
         {/* INFO: We are loading the image dynamically so using a standard img link her is ok. */}
         {/* <Image src={image} ref={imageRef} alt="Crop image" width={rect.width} height={rect.width} /> */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={image} ref={imageRef} alt="Crop image" onLoad={() => handleCompletedCrop(cropArea)} />
+        <img
+          src={image}
+          ref={imageRef}
+          alt="Crop image"
+          className="w-full md:w-auto"
+          onLoad={() => handleCompletedCrop(cropArea)}
+        />
       </ReactCrop>
       <canvas ref={previewCanvasRef} hidden />
     </>

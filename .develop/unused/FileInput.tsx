@@ -1,7 +1,7 @@
 "use client";
 
-import { InputHTMLAttributes, useCallback, useRef, useState, useId } from "react";
-import { useFormContext, type FieldPath, type FieldValues, useController } from "react-hook-form";
+import { InputHTMLAttributes } from "react";
+import { useFormContext, type FieldPath, type FieldValues } from "react-hook-form";
 import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
@@ -11,13 +11,12 @@ type InputProps<TName> = {
   label?: string;
   description?: string;
   vertical?: boolean;
-  setState: (files: FileList | null) => void;
 } & InputHTMLAttributes<HTMLInputElement>;
 
 export default function FileInput<
   TFieldValues extends FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
->({ name, label, description, vertical, setState, /* multiple, */ ...props }: InputProps<TName>) {
+>({ name, label, description, vertical, multiple, ...props }: InputProps<TName>) {
   const { control } = useFormContext();
   return (
     <FormField
@@ -32,12 +31,9 @@ export default function FileInput<
                 type="file"
                 {...fieldProps}
                 {...props}
-                // multiple={multiple}
-                onChange={(e) => {
-                  if (typeof setState === "function") setState(e.target.files);
-                  //  onChange(multiple ? e.target.files : e.target.files?.[0]);
-                  onChange(e.target.files);
-                }}
+                multiple={multiple}
+                className={cn(vertical && "basis-[75%]")}
+                onChange={(event) => onChange(multiple ? event.target.files : event.target.files?.[0])}
               />
             </FormControl>
             <FormDescription className={cn(vertical && "mt-0 basis-full text-right")}>{description}</FormDescription>

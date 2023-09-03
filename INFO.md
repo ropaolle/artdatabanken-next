@@ -38,6 +38,7 @@
   - [Reserved words](https://www.postgresql.org/docs/current/sql-keywords-appendix.html)
 - REACT
   - [Confirm dialog](https://medium.com/@kch062522/useconfirm-a-custom-react-hook-to-prompt-confirmation-before-action-f4cb746ebd4e)
+  - [FileController](https://stackblitz.com/edit/input-file-react-hook-form?file=src%2FFileController.js)
 - OTHER
   - COMPONENTS
     - [Shadcn UI](https://ui.shadcn.com/)
