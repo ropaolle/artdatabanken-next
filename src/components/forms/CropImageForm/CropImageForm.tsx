@@ -11,16 +11,16 @@ import { useToast } from "@/components/ui/use-toast";
 
 export default function CropImageForm() {
   const supabase = createClientComponentClient();
-  const { toast } = useToast();
-  const [file, setFile] = useState<Blob>();
+  const [file, setFile] = useState<File>();
   const [resolution, setResolution] = useState({ width: 500, height: 500 });
   const imageRef = useRef<HTMLImageElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [preview, setPreview] = useState<string>();
   const [crop, setCrop] = useState<CompletedCropArea>();
   const [errorMessage, setErrorMessage] = useState<ReactNode>(null);
+  const { toast } = useToast();
 
-  const handleUpload = async (file: Blob | undefined, resolution: string) => {
+  const handleUpload = async (file: File | undefined, resolution: string) => {
     if (!crop || !imageRef.current || !canvasRef.current) return;
 
     drawImageOnCanvas(imageRef.current, canvasRef.current, crop, 100, 100);

@@ -17,7 +17,7 @@ export type CompletedCropArea = PixelCrop & {
 };
 
 type Props = {
-  file: Blob | undefined;
+  file: File | undefined;
   imageRef: RefObject<HTMLImageElement>;
   onCrop: (crop: CompletedCropArea, preview: string | undefined) => void;
 };

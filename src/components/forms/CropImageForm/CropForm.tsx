@@ -23,9 +23,9 @@ const formSchema = z.object({
 type Props = {
   disabled?: boolean;
   errorMessage?: ReactNode;
-  setFile: Dispatch<SetStateAction<Blob | undefined>>;
+  setFile: Dispatch<SetStateAction<File | undefined>>;
   setResolution: Dispatch<SetStateAction<{ width: number; height: number }>>;
-  onSubmit: (file: Blob | undefined, resolution: string) => void;
+  onSubmit: (file: File | undefined, resolution: string) => void;
 };
 
 export default function CropForm({ disabled, setFile, setResolution, onSubmit, errorMessage }: Props) {
