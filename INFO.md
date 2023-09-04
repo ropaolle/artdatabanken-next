@@ -3,6 +3,7 @@
 ## TODO
 
 - [ ] Crop image
+- [ ] useConfirm master
 - [ ] markera aktiv sida i header.
 - [ ] [Supabase dev locally](https://supabase.com/docs/guides/cli/local-development)
 - [ ] Server vs client components
@@ -37,6 +38,7 @@
   - [Joins](https://supabase.com/docs/guides/api/joins-and-nesting)
   - [Reserved words](https://www.postgresql.org/docs/current/sql-keywords-appendix.html)
 - REACT
+  - [Typescript cheatsheet](https://react-typescript-cheatsheet.netlify.app/docs/basic/getting-started/context/)
   - [Confirm dialog](https://medium.com/@kch062522/useconfirm-a-custom-react-hook-to-prompt-confirmation-before-action-f4cb746ebd4e)
   - [FileController](https://stackblitz.com/edit/input-file-react-hook-form?file=src%2FFileController.js)
 - OTHER

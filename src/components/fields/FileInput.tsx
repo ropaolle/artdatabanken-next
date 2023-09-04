@@ -11,13 +11,13 @@ type InputProps<TName> = {
   label?: string;
   description?: string;
   vertical?: boolean;
-  setState: (files: FileList | null) => void;
+  // setState: (files: FileList | null) => void;
 } & InputHTMLAttributes<HTMLInputElement>;
 
 export default function FileInput<
   TFieldValues extends FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
->({ name, label, description, vertical, setState, /* multiple, */ ...props }: InputProps<TName>) {
+>({ name, label, description, vertical /* , setState */, ...props }: InputProps<TName>) {
   const { control } = useFormContext();
   return (
     <FormField
@@ -32,10 +32,11 @@ export default function FileInput<
                 type="file"
                 {...fieldProps}
                 {...props}
-                // multiple={multiple}
                 onChange={(e) => {
-                  if (typeof setState === "function") setState(e.target.files);
-                  //  onChange(multiple ? e.target.files : e.target.files?.[0]);
+                  // TODO: SetState is not a good whay to handle state to parent
+                  // if (typeof setState === "function") {
+                  //   setState(e.target.files);
+                  // }
                   onChange(e.target.files);
                 }}
               />

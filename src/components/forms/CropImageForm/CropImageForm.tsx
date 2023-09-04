@@ -1,13 +1,36 @@
 "use client";
 
 import { canvasToBlob } from "@/lib/utils";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import { ReactNode, useRef, useState } from "react";
+import { createClientComponentClient, type SupabaseClient } from "@supabase/auth-helpers-nextjs";
+import { ReactNode, createContext, useRef, useState } from "react";
 import "react-image-crop/dist/ReactCrop.css";
-import CropForm from "./CropForm";
+import CropForm, { FormSchema } from "./CropForm";
 import CropPanel, { type CompletedCropArea } from "./CropPanel";
 import drawImageOnCanvas from "./drawImageOnCanvas";
 import { useToast } from "@/components/ui/use-toast";
+
+const uploadFileToSupabase = async (supabase: SupabaseClient, file: Blob, name: string, upsert = false) => {
+  const { data, error } = await supabase.storage.from("images").upload(name, file, {
+    cacheControl: "3600",
+    upsert,
+  });
+
+  if (error?.message === "The resource already exists") {
+    // ask to try again
+    return;
+  }
+
+  if (error) {
+    console.error(error);
+    return;
+  }
+
+  console.log("data", data);
+};
+
+type FormOnChange = (field: string, value: unknown) => void;
+
+export const CustomFormContext = createContext<FormOnChange | null>(null);
 
 export default function CropImageForm() {
   const supabase = createClientComponentClient();
@@ -20,31 +43,29 @@ export default function CropImageForm() {
   const [errorMessage, setErrorMessage] = useState<ReactNode>(null);
   const { toast } = useToast();
 
-  const handleUpload = async (file: File | undefined, resolution: string) => {
-    if (!crop || !imageRef.current || !canvasRef.current) return;
+  const upscaleRequired =
+    crop && (crop.naturalSelectionWidth < resolution.width || crop.naturalSelectionHeight < resolution.height);
 
-    drawImageOnCanvas(imageRef.current, canvasRef.current, crop, 100, 100);
+  const handleSubmit = async ({ files, resolution, options }: FormSchema) => {
+    console.log("onSubmit", files, resolution, options);
+    // if (!crop || !imageRef.current || !canvasRef.current) return;
 
-    const image = await canvasToBlob(canvasRef.current);
+    // // Upload thumbnail
+    // drawImageOnCanvas(imageRef.current, canvasRef.current, crop, 100, 100);
+    // const image = await canvasToBlob(canvasRef.current, "image/jpeg");
+    // await uploadFileToSupabase(supabase, image, "file1.jpg", false);
 
-    const { data, error } = await supabase.storage.from("images").upload("image.name3", image, {
-      cacheControl: "3600",
-      upsert: true,
-    });
+    // Upload image
+    // ...
 
-    if (error) {
-      console.error(error);
-      return;
-    }
-
-    toast({
-      title: "File uploaded",
-      description: (
-        <>
-          Image <i>{data.path}</i> uploaded to bucket <i>images</i>.
-        </>
-      ),
-    });
+    // toast({
+    //   title: "File uploaded",
+    //   description: (
+    //     <>
+    //       Image <i>{data.path}</i> uploaded to bucket <i>images</i>.
+    //     </>
+    //   ),
+    // });
   };
 
   const handleCrop = (crop: CompletedCropArea, preview: string | undefined) => {
@@ -75,15 +96,22 @@ export default function CropImageForm() {
     </div>
   );
 
+  const handleChange = (values:FormSchema) => {
+    console.log("handleChange", values);
+  };
+
   return (
     <>
+      {/* <CustomFormContext.Provider value={log}> */}
       <CropForm
-        setFile={setFile}
-        setResolution={setResolution}
+        // setFile={setFile}
+        // setResolution={setResolution}
+        onChange={handleChange}
+        onSubmit={handleSubmit}
         disabled={false}
-        onSubmit={handleUpload}
         errorMessage={errorMessage}
       />
+      {/* </CustomFormContext.Provider> */}
 
       <div className="mt-8 grid grid-cols-1  gap-8 md:grid-cols-2">
         <div className="md:flex md:flex-col">

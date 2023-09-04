@@ -16,7 +16,7 @@ export const gravatarURL = (email: string) => `https://www.gravatar.com/avatar/$
 
 export const uuid = () => crypto.randomUUID();
 
-export const canvasToBlob = async (ref: HTMLCanvasElement): Promise<Blob> => {
+export const canvasToBlob = async (ref: HTMLCanvasElement, type = "image/jpeg"): Promise<Blob> => {
   return new Promise((resolve, reject) => {
     ref.toBlob((blob) => {
       if (!blob) {
@@ -24,9 +24,21 @@ export const canvasToBlob = async (ref: HTMLCanvasElement): Promise<Blob> => {
         return;
       }
       resolve(blob);
-    }, "image/jpeg");
+    }, type);
   });
 };
+
+/* export const canvasToFile = async (ref: HTMLCanvasElement, filename: string, type = "image/jpeg"): Promise<File> => {
+  return new Promise((resolve, reject) => {
+    ref.toBlob((blob) => {
+      if (!blob) {
+        reject(new Error("Failed to create blob"));
+        return;
+      }
+      resolve(new File([blob], filename, { type }));
+    }, type);
+  });
+}; */
 
 /* const clearCanvas = (canvasRef: RefObject<HTMLCanvasElement>) => {
   const { current: canvas } = canvasRef || {};

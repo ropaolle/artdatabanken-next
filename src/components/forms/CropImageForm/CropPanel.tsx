@@ -24,13 +24,11 @@ type Props = {
 
 export default function CropPanel({ file, onCrop, imageRef }: Props) {
   const [image, setImage] = useState<string>();
-  // const imageRef = useRef<HTMLImageElement>(null);
   const previewCanvasRef = useRef<HTMLCanvasElement>(null);
   const [cropArea, setCropArea] = useState<PixelCrop>(defaultCropArea);
 
   // Update image and preview canvas
   useEffect(() => {
-    // console.log('file', file);
     if (!file || typeof file === "string") {
       setImage(undefined);
       return;

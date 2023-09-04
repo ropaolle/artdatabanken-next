@@ -25,11 +25,11 @@ export default function Checkboxes<
       name={name}
       render={() => (
         <FormItem>
-          <div className="mb-4">
+          <div>
             <FormLabel className="">{label}</FormLabel>
             <FormDescription>{description}</FormDescription>
           </div>
-          <div className="flex flex-row">
+          <div className="flex h-10 flex-row items-center">
             {items.map((item) => (
               <FormField
                 key={item.id}
