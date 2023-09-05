@@ -1,19 +1,19 @@
 import "./globals.css";
-import "tw-elements/dist/css/tw-elements.min.css";
+import { Toaster } from "@/components/ui/toaster";
 
 export const metadata = {
   title: "Artdatabanken",
   description: "Artdatabanken with NextJS, Tailwind, Shadcn UI and Supabase.",
 };
 
-export default async function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className="light">
-      <body>{children}</body>
+      <body>
+        {children}
+        <Toaster />
+      </body>
     </html>
   );
 }
+9;

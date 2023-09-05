@@ -1,66 +1,42 @@
 "use client";
 
-import { type Database } from "@/lib/database.types";
-import { Table, type RowClick, type SelectRow } from "@/components/Table";
-import { truncateString } from "@/lib";
+import { useState } from "react";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import CustomTable from "@/components/CustomTable";
+import useConfirm from "@/components/hooks/useConfirm";
+import { getColumns, type Image } from "./columns";
 
-type Column = { label: string; field: string };
+export default function ImageTable({ rows, count }: { rows: Image[]; count?: number | null }) {
+  const [data, setData] = useState(rows);
+  const supabase = createClientComponentClient();
+  const [ConfirmDialog, confirm, setConfirmMessage] = useConfirm({
+    title: "Are you absolutely sure?",
+  });
 
-const columns = [
-  // created_at
-  // updated_at
-  // { label: "Id", field: "id" },
-  // { label: "User Id", field: "id" },
-  { label: "Filename", field: "filename" },
-  { label: "URL", field: "url" },
-  { label: "Thumbnail URL", field: "thumbnail_url" },
-  { label: "Image", field: "image" },
-];
+  const handleDelete = async (id: string) => {
+    setConfirmMessage(
+      <>
+        This will permanently delete <strong>{id}</strong>.
+      </>,
+    );
+    if (await confirm()) {
+      const { error } = await supabase.from("images").delete().eq("id", id);
 
-type Image = Database["public"]["Tables"]["images"]["Row"];
+      if (error) {
+        return console.error(error);
+      }
 
-export default function ImageTable({
-  rows,
-  count,
-}: {
-  rows: Image[];
-  count: number;
-}) {
-  const handleRowClick = ({ index, row }: RowClick<Image>) => {
-    // console.log("handleRowClick", index, row);
+      const deletedIndex = data.findIndex((row) => row.id === id);
+      if (deletedIndex !== -1) {
+        setData((prevValue) => prevValue.splice(deletedIndex, 1) && [...prevValue]);
+      }
+    }
   };
-
-  const handleSelectRow = ({
-    allSelected,
-    selectedIndexes,
-    selectedRows,
-  }: SelectRow<Image>) => {
-    // console.log("onSelectRow", selectedIndexes);
-  };
-
-  const thumbnail = (url: string | null, placeholder = "/bird.svg") =>
-    url &&
-    `<img src="${
-      url?.length > 30 ? url : placeholder
-    }" alt="image" width="100" loading="lazy" />`;
-
-  const parsedRows = rows.map((row) => ({
-    ...row,
-    url: `<div class="h-24">${truncateString(row.url, 36)}</div>`,
-    thumbnail_url: `<div class="h-24">${truncateString(
-      row.thumbnail_url,
-      36,
-    )}</div>`,
-    // thumbnail_url: thumbnail(row?.thumbnail_url),
-    image: thumbnail(row?.thumbnail_url),
-  }));
 
   return (
-    <Table<Column, Image>
-      rows={parsedRows}
-      columns={columns}
-      onRowClick={handleRowClick}
-      onSelectRow={handleSelectRow}
-    />
+    <>
+      <CustomTable columns={getColumns(handleDelete)} data={data} />
+      <ConfirmDialog />
+    </>
   );
 }

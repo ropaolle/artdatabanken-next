@@ -1,19 +1,30 @@
 import createServerComponentClientWithCookies from "@/lib/createServerComponentClientWithCookies";
+import SpeciesTable from "./SpeciesTable";
 
-//TODO: Why should we use dynamic imports? - https://tailwind-elements.com/docs/standard/integrations/next-integration/
-import dynamic from "next/dynamic";
-// import SpeciesTable from "./SpeciesTable";
-const DynamicSpeciesTable = dynamic(() => import("./SpeciesTable"), {
-  ssr: false,
-});
+// TODO: Not working as expected. Always seems to be cached for 60 seconds, regardless of revalidate or "force-dynamic".
+// export const revalidate = 0
+// export const dynamic = "force-dynamic";
 
-export default async function Images() {
+export default async function Species() {
   const supabase = await createServerComponentClientWithCookies();
-  const { data } = await supabase.from("species").select(`
+  const { data: rows, count } = await supabase
+    .from("species")
+    .select(
+      `
     *,
     images (thumbnail_url)
-  `);
+    `,
+      { count: "exact" /* , head: true  */ },
+    )
+    .order("updated_at", { ascending: true })
+    .limit(100);
 
-  return <>{data && <DynamicSpeciesTable rows={data} />}</>;
-  // return <>{data && <SpeciesTable rows={data} />}</>;
+  // console.log("rows", rows);
+
+  return (
+    <>
+      <h1>Species</h1>
+      {rows && <SpeciesTable rows={rows} count={count} />}
+    </>
+  );
 }
