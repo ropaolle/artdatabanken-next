@@ -16,6 +16,12 @@ export const gravatarURL = (email: string) => `https://www.gravatar.com/avatar/$
 
 export const uuid = () => crypto.randomUUID();
 
+export const suffixFilename = (filename: string, suffix:string) => {
+  const lastIndex = filename.lastIndexOf('.');
+  if (lastIndex === -1) return filename + suffix;
+  return filename.slice(0, lastIndex) + suffix + filename.slice(lastIndex)
+}
+
 export const canvasToBlob = async (ref: HTMLCanvasElement, type = "image/jpeg"): Promise<Blob> => {
   return new Promise((resolve, reject) => {
     ref.toBlob((blob) => {

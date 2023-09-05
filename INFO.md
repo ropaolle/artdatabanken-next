@@ -2,24 +2,28 @@
 
 ## TODO
 
-- [ ] Crop image
-- [ ] useConfirm master
-- [ ] markera aktiv sida i header.
-- [ ] [Supabase dev locally](https://supabase.com/docs/guides/cli/local-development)
-- [ ] Server vs client components
-  - Use server components if possible, othervise add the 'use client' option.
-  - Server components cannot be imported in a client component. However, a server component can be passed as a child prop to a custom client component.
+- [ ] Add species format, select gender, create and update.
+- [ ] useConfirm component in the root layout.
+- [ ] Do I need an image table in the db or can I load the info directly from storage?
 - BASICS
   - [ ] Check TODO's
   - [ ] Check TypeScript any:s
-  - [ ] Check if [React Hook useEffect has a missing dependencies](https://react.dev/learn/removing-effect-dependencies).
 - NICE TO HAVE
+  - [ ] Markera aktiv sida i header.
+  - [ ] Remove unessesarry 'use client' directives.
   - [ ] Combobox multi select - https://github.com/shadcn-ui/ui/pull/304/files
+  - [ ] Check if [React Hook useEffect has a missing dependencies](https://react.dev/learn/removing-effect-dependencies).
 
 ## Known issues
 
 - [ ] DynamicServerError: Dynamic server usage: Page couldn't be rendered statically because it used `cookies`. [See more info here](https://nextjs.org/docs/messages/dynamic-server-error)
   - import { revalidatePath } from "next/cache";
+
+## Info
+
+- Server vs client components
+  - Use server components if possible, othervise add the 'use client' option.
+  - Server components cannot be imported in a client component. However, a server component can be passed as a child prop to a custom client component.
 
 ## Links
 
@@ -37,6 +41,7 @@
   - [CLI TypeScript](https://supabase.com/docs/reference/javascript/typescript-support)
   - [Joins](https://supabase.com/docs/guides/api/joins-and-nesting)
   - [Reserved words](https://www.postgresql.org/docs/current/sql-keywords-appendix.html)
+  - [Supabase dev locally](https://supabase.com/docs/guides/cli/local-development)
 - REACT
   - [Typescript cheatsheet](https://react-typescript-cheatsheet.netlify.app/docs/basic/getting-started/context/)
   - [Confirm dialog](https://medium.com/@kch062522/useconfirm-a-custom-react-hook-to-prompt-confirmation-before-action-f4cb746ebd4e)

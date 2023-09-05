@@ -1,23 +1,22 @@
 "use client";
 
-import { InputHTMLAttributes, useCallback, useRef, useState, useId } from "react";
-import { useFormContext, type FieldPath, type FieldValues, useController } from "react-hook-form";
 import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
+import { InputHTMLAttributes } from "react";
+import { useFormContext, type FieldPath, type FieldValues } from "react-hook-form";
 
 type InputProps<TName> = {
   name: TName;
   label?: string;
   description?: string;
   vertical?: boolean;
-  // setState: (files: FileList | null) => void;
 } & InputHTMLAttributes<HTMLInputElement>;
 
 export default function FileInput<
   TFieldValues extends FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
->({ name, label, description, vertical /* , setState */, ...props }: InputProps<TName>) {
+>({ name, label, description, vertical, ...props }: InputProps<TName>) {
   const { control } = useFormContext();
   return (
     <FormField
@@ -33,10 +32,6 @@ export default function FileInput<
                 {...fieldProps}
                 {...props}
                 onChange={(e) => {
-                  // TODO: SetState is not a good whay to handle state to parent
-                  // if (typeof setState === "function") {
-                  //   setState(e.target.files);
-                  // }
                   onChange(e.target.files);
                 }}
               />
