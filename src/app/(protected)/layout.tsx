@@ -14,7 +14,7 @@ export default async function PageLayout({ children }: { children: React.ReactNo
   return (
     <>
       <Header user={user} />
-      <main className="container my-8">{children}</main>
+      <main className="container my-8 min-h-[20rem]">{children}</main>
       <Footer user={user} />
     </>
   );
