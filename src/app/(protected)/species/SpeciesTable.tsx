@@ -9,16 +9,19 @@ import { getColumns, type Species } from "./columns";
 export default function SpeciesTable({ rows, count }: { rows: Species[]; count?: number | null }) {
   const [data, setData] = useState(rows);
   const supabase = createClientComponentClient();
-  const [ConfirmDialog, confirm, setConfirmMessage] = useConfirm({ title: "Are you absolutely sure?" });
+  const { confirm } = useConfirm();
 
   const handleDelete = async (id: string) => {
-    setConfirmMessage(
-      <>
-        This will permanently delete <strong>{id}</strong>.
-      </>,
-    );
-
-    if (await confirm()) {
+    if (
+      await confirm({
+        title: "Are you absolutely sure?",
+        message: (
+          <>
+            This will permanently delete <strong>{id}</strong>.
+          </>
+        ),
+      })
+    ) {
       const { error } = await supabase.from("species").delete().eq("id", id);
 
       if (error) {
@@ -35,7 +38,6 @@ export default function SpeciesTable({ rows, count }: { rows: Species[]; count?:
   return (
     <>
       <CustomTable columns={getColumns(handleDelete)} data={data} />
-      <ConfirmDialog />
     </>
   );
 }

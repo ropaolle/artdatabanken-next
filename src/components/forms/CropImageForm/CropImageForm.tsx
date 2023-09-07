@@ -8,6 +8,7 @@ import "react-image-crop/dist/ReactCrop.css";
 import CropForm, { FormSchema } from "./CropForm";
 import CropPanel, { type CompletedCropArea } from "./CropPanel";
 import drawImageOnCanvas from "./drawImageOnCanvas";
+import { useAppStore } from "@/state";
 
 const resolutions = [
   { value: "250", label: "250 * 250 px", data: { width: 250, height: 250 } },
@@ -44,12 +45,20 @@ export default function CropImageForm() {
   const [preview, setPreview] = useState<string>();
   const [crop, setCrop] = useState<CompletedCropArea>();
   const { toast } = useToast();
+  const {showConfirm} = useAppStore();
+  // console.log('x', x);
 
   const handleSubmit = async ({ files, resolution, options }: FormSchema) => {
     const data = resolutions.find(({ value }) => value === resolution)?.data;
     const filename = files?.[0]?.name;
 
-    if (!crop || !data || !imageRef.current || !canvasRef.current || !filename) {
+
+    showConfirm()
+    return;
+    
+    
+
+   /*  if (!crop || !data || !imageRef.current || !canvasRef.current || !filename) {
       toast({
         title: "Woops!",
         variant: "destructive",
@@ -88,7 +97,7 @@ export default function CropImageForm() {
           Image <i>{filename}</i> and thumbnail <i>{thumbFilename}</i> was uploaded to bucket <i>images</i>.
         </>
       ),
-    });
+    }); */
   };
 
   const handleChange = (values: FormSchema) => {

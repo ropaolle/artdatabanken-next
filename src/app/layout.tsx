@@ -1,5 +1,6 @@
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
+import Confirmer from '@/components/hooks/Confirmer'
 
 export const metadata = {
   title: "Artdatabanken",
@@ -11,6 +12,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" className="light">
       <body>
         {children}
+        <Confirmer />
         <Toaster />
       </body>
     </html>

@@ -44,6 +44,7 @@
   - [Supabase dev locally](https://supabase.com/docs/guides/cli/local-development)
 - REACT
   - [Typescript cheatsheet](https://react-typescript-cheatsheet.netlify.app/docs/basic/getting-started/context/)
+  - [useConfirm](https://devrecipes.net/custom-confirm-dialog-with-react-hooks-and-the-context-api/)
   - [Confirm dialog](https://medium.com/@kch062522/useconfirm-a-custom-react-hook-to-prompt-confirmation-before-action-f4cb746ebd4e)
   - [FileController](https://stackblitz.com/edit/input-file-react-hook-form?file=src%2FFileController.js)
 - OTHER
