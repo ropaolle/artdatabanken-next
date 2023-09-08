@@ -13,7 +13,12 @@ import {
 import { Trash2 } from "lucide-react";
 import useConfirm from "./useConfirm";
 
-const defaultConfirmLabel = (<><Trash2 className="mr-2 h-4 w-4" />Delete</>);
+const defaultConfirmLabel = (
+  <>
+    <Trash2 className="mr-2 h-4 w-4" />
+    Delete
+  </>
+);
 const defaultCancelLabel = "Cancel";
 
 export default function Confirmer() {
@@ -24,7 +29,7 @@ export default function Confirmer() {
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>{confirmState.title}</AlertDialogTitle>
-          {confirmState.message && <AlertDialogDescription>{confirmState.message}</AlertDialogDescription>}
+          <AlertDialogDescription>{confirmState.message}</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel onClick={onCancel}>{confirmState.cancelLabel || defaultCancelLabel} </AlertDialogCancel>

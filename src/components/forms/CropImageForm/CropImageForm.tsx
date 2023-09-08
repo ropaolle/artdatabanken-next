@@ -1,14 +1,14 @@
 "use client";
 
-import { useToast } from "@/components/ui/use-toast";
+import { useToast, type CustomToastProps } from "@/components/ui/use-toast";
+import { uploadFileToSupabase } from "@/lib/supabase";
 import { canvasToBlob, suffixFilename } from "@/lib/utils";
-import { createClientComponentClient, type SupabaseClient } from "@supabase/auth-helpers-nextjs";
-import { createContext, useRef, useState } from "react";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { useRef, useState } from "react";
 import "react-image-crop/dist/ReactCrop.css";
 import CropForm, { FormSchema } from "./CropForm";
 import CropPanel, { type CompletedCropArea } from "./CropPanel";
 import drawImageOnCanvas from "./drawImageOnCanvas";
-import { useAppStore } from "@/state";
 
 const resolutions = [
   { value: "250", label: "250 * 250 px", data: { width: 250, height: 250 } },
@@ -16,26 +16,27 @@ const resolutions = [
   { value: "1000", label: "1000 * 1000 px", data: { width: 1000, height: 1000 } },
 ];
 
-const uploadFileToSupabase = async (supabase: SupabaseClient, file: Blob, name: string, upsert = false) => {
-  const { data, error } = await supabase.storage.from("images").upload(name, file, {
-    cacheControl: "3600",
-    upsert,
-  });
-
-  if (error?.message === "The resource already exists") {
-    // ask to try again
-    return;
-  }
-
-  if (error) {
-    console.error(error);
-    return;
-  }
+const woops: CustomToastProps = {
+  title: "Woops!",
+  variant: "destructive",
+  description: "Something is missing.",
 };
 
-type FormOnChange = (field: string, value: unknown) => void;
+const upscaleWarning: CustomToastProps = {
+  title: "Upscale required",
+  variant: "warning",
+  description: "The croped image resolution is lower than the target resolution and must be upscaled.",
+};
 
-export const CustomFormContext = createContext<FormOnChange | null>(null);
+const uploadSuccess = (filename: string, thumbFilename: string): CustomToastProps => ({
+  title: "Upload succeeded",
+  variant: "default",
+  description: (
+    <>
+      Image <i>{filename}</i> and thumbnail <i>{thumbFilename}</i> was uploaded to bucket <i>images</i>.
+    </>
+  ),
+});
 
 export default function CropImageForm() {
   const supabase = createClientComponentClient();
@@ -45,59 +46,39 @@ export default function CropImageForm() {
   const [preview, setPreview] = useState<string>();
   const [crop, setCrop] = useState<CompletedCropArea>();
   const { toast } = useToast();
-  const {showConfirm} = useAppStore();
-  // console.log('x', x);
+
+  const uploadImage = async (filename: string, width: number, height: number) => {
+    if (!imageRef.current || !canvasRef.current || !crop) return;
+
+    drawImageOnCanvas(imageRef.current, canvasRef.current, crop, width, height);
+    const blob = await canvasToBlob(canvasRef.current, "image/jpeg");
+    await uploadFileToSupabase(supabase, blob, filename, false);
+  };
 
   const handleSubmit = async ({ files, resolution, options }: FormSchema) => {
     const data = resolutions.find(({ value }) => value === resolution)?.data;
     const filename = files?.[0]?.name;
 
-
-    showConfirm()
-    return;
-    
-    
-
-   /*  if (!crop || !data || !imageRef.current || !canvasRef.current || !filename) {
-      toast({
-        title: "Woops!",
-        variant: "destructive",
-        description: "Something is missing.",
-      });
+    if (!crop || !data || !imageRef.current || !canvasRef.current || !filename) {
+      toast(woops);
       return;
     }
 
     const upscaleForbidden = !options.includes("upscale");
     const upscaleRequired = crop.naturalSelectionWidth < data.width || crop.naturalSelectionHeight < data.height;
     if (upscaleForbidden && upscaleRequired) {
-      toast({
-        title: "Upscale required",
-        variant: "warning",
-        description: "The croped image have to low resolution and reqires to be upscaled.",
-      });
+      toast(upscaleWarning);
       return;
     }
 
     // Upload thumbnail
     const thumbFilename = suffixFilename(filename, "_thumbnail");
-    drawImageOnCanvas(imageRef.current, canvasRef.current, crop, 100, 100);
-    const thumbnail = await canvasToBlob(canvasRef.current, "image/jpeg");
-    await uploadFileToSupabase(supabase, thumbnail, thumbFilename, false);
+    uploadImage(thumbFilename, 100, 100);
 
     // Upload image
-    drawImageOnCanvas(imageRef.current, canvasRef.current, crop, data.width, data.height);
-    const image = await canvasToBlob(canvasRef.current, "image/jpeg");
-    await uploadFileToSupabase(supabase, image, filename, false);
+    uploadImage(filename, data?.width, data?.height);
 
-    toast({
-      title: "Upload succeeded",
-      variant: "default",
-      description: (
-        <>
-          Image <i>{filename}</i> and thumbnail <i>{thumbFilename}</i> was uploaded to bucket <i>images</i>.
-        </>
-      ),
-    }); */
+    toast(uploadSuccess(filename, thumbFilename));
   };
 
   const handleChange = (values: FormSchema) => {

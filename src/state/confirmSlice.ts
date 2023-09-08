@@ -18,10 +18,7 @@ export interface ConfirmSlice {
 export const createConfirmSlice: StateCreator<ConfirmSlice, [], [], ConfirmSlice> = (set /* , get */) => ({
   confirmState: {
     open: false,
-    title: "{title}",
-    // message: "",
-    // confirmLabel: "",
-    // cancelLabel: "",
+    title: "",
   },
   hideConfirm: () => set((state) => ({ ...state, confirmState: { ...state.confirmState, open: false } })),
   showConfirm: (confirmState) => set((state) => ({ ...state, confirmState: { ...confirmState, open: true } })),

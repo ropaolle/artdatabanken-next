@@ -3,7 +3,6 @@
 ## TODO
 
 - [ ] Add species format, select gender, create and update.
-- [ ] useConfirm component in the root layout.
 - [ ] Do I need an image table in the db or can I load the info directly from storage?
 - BASICS
   - [ ] Check TODO's

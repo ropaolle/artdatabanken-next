@@ -6,22 +6,22 @@ import CustomTable from "@/components/CustomTable";
 import useConfirm from "@/components/hooks/useConfirm";
 import { getColumns, type Species } from "./columns";
 
+const confirmDelete = (id: string) => ({
+  title: "Are you absolutely sure?",
+  message: (
+    <>
+      This will permanently delete <strong>{id}</strong>.
+    </>
+  ),
+});
+
 export default function SpeciesTable({ rows, count }: { rows: Species[]; count?: number | null }) {
   const [data, setData] = useState(rows);
   const supabase = createClientComponentClient();
   const { confirm } = useConfirm();
 
   const handleDelete = async (id: string) => {
-    if (
-      await confirm({
-        title: "Are you absolutely sure?",
-        message: (
-          <>
-            This will permanently delete <strong>{id}</strong>.
-          </>
-        ),
-      })
-    ) {
+    if (await confirm(confirmDelete(id))) {
       const { error } = await supabase.from("species").delete().eq("id", id);
 
       if (error) {

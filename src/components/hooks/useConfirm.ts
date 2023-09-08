@@ -20,7 +20,7 @@ export default function useConfirm() {
   const confirm = (state: Omit<typeof confirmState, "open">) => {
     showConfirm(state);
 
-    return new Promise((resolve /* , reject */) => {
+    return new Promise((resolve) => {
       resolveCallback = resolve;
     });
   };
