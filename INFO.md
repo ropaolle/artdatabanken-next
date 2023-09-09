@@ -2,7 +2,10 @@
 
 ## TODO
 
-- [ ] Add species format, select gender, create and update.
+- [ ] Remove semi, width 80
+- [ ] Add species, create and update.
+  - Preview image
+  - Image field, dynamic load - https://github.com/melanieseltzer/example-async-combobox-options/tree/main
 - [ ] Do I need an image table in the db or can I load the info directly from storage?
 - BASICS
   - [ ] Check TODO's
@@ -55,6 +58,8 @@
   - [Zustand slices](https://github.com/pmndrs/zustand/blob/main/docs/guides/slices-pattern.md)
   - [SWR](https://swr.vercel.app/)
   - [Clerk authentication](https://clerk.com/)
+  - ZOD
+    - [File validation](https://github.com/colinhacks/zod/issues/387#issuecomment-1712177211)
   - ICONS
     - [Lucide](https://lucide.dev/icons/)
     - [Iconify](https://iconify.design/)

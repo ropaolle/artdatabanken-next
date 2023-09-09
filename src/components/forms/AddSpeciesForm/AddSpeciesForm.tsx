@@ -1,15 +1,16 @@
 "use client";
 
-import { Checkboxes, Combobox, DatePicker, Input, Select } from "@/components/fields";
+import { Checkboxes, Combobox, ComboboxAsync, DatePicker, Input } from "@/components/fields";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
-import { type Database } from "@/lib/database.types";
+// import { type Database } from "@/lib/database.types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { counties, gender } from "./options";
 import { uuid } from "@/lib/utils";
+import { useEffect, useState } from "react";
 
 const formSchema = z.object({
   species: z.string().nonempty("This field is reqired."),
@@ -27,11 +28,14 @@ const formSchema = z.object({
   // }),
 });
 
-export type ImagesType = Pick<Database["public"]["Tables"]["images"]["Row"], "id" | "filename">[] | null;
+// export type ImagesType = Pick<Database["public"]["Tables"]["images"]["Row"], "id" | "filename">[] | null;
+export type ImageType = { id: string; name: string };
 
-export default function AddSpeciesForm({ images }: { images: ImagesType }) {
+export default function AddSpeciesForm({ images }: { images: ImageType[] }) {
   const supabase = createClientComponentClient();
-  const imageOptions = images?.map(({ filename, id }) => ({ value: id, label: filename || "" })) || [];
+  const [previewURL, setPreviewURL] = useState<string>();
+  // const imageOptions = images?.map(({ filename, id }) => ({ value: id, label: filename || "" })) || [];
+  const imageOptions = images?.map(({ name, id }) => ({ value: name, label: name || "" })) || [];
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -52,20 +56,26 @@ export default function AddSpeciesForm({ images }: { images: ImagesType }) {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     console.info(values);
 
-    const { data, error } = await supabase
-      .from("species")
-      .upsert({ /* id: uuid(), */ ...values })
-      .select();
+    // const { data, error } = await supabase
+    //   .from("species")
+    //   .upsert({ /* id: uuid(), */ ...values })
+    //   .select();
 
-    console.log("data, error", data, error);
+    // console.log("data, error", data, error);
   }
+
+  const image = form.watch("image");
+
+  useEffect(() => {
+    setPreviewURL(image && `https://yeebxkyqwarhmbfpkgir.supabase.co/storage/v1/object/public/images/${image}`);
+  }, [image]);
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
           <div className="space-y-4">
-            <Input name="species" label="Species *" description="Testbeskrivning" vertical />
+            <Input name="species" label="Species *" description="Testbeskrivning" />
             <div className="grid grid-cols-2 gap-4">
               <Input name="kingdom" label="Kingdom" />
               <Input name="taxonomy_order" label="Order" />
@@ -79,17 +89,29 @@ export default function AddSpeciesForm({ images }: { images: ImagesType }) {
           </div>
 
           <div className="flex flex-col space-y-2">
-            <Combobox
+            {/* <Combobox
               name="image"
               label="Image"
               options={imageOptions}
-              isClearable={false}
+              isClearable={true}
               placeholder="Select image…"
+            /> */}
+
+            <ComboboxAsync 
+                 name="image"
+                 label="Image"
+                //  options={imageOptions}
+                 isClearable={true}
+                 placeholder="Select image…"
+            
             />
 
             <div className=" flex flex-1 flex-col">
               <div className="mt-4 text-sm font-medium leading-none">Preview</div>
-              <div className="bg-slate-1002 mt-1 w-full flex-1 rounded-sm border p-2 align-middle">s</div>
+              <div className="mt-1 flex  w-full flex-1 justify-center rounded-sm border bg-slate-50 p-2">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                {previewURL && <img src={previewURL} alt="Preview" className="max-h-[280px]" />}{" "}
+              </div>
             </div>
           </div>
         </div>

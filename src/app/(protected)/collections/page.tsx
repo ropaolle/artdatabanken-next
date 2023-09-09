@@ -10,6 +10,9 @@ export default function Collections() {
       <Link href="/species/add" className="mr-4 text-blue-400">
         Add species
       </Link>
+
+      <h1>combobox-demo.tsx
+</h1>
     </>
   );
 }
