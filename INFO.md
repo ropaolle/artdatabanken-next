@@ -11,6 +11,7 @@
   - [ ] Check TODO's
   - [ ] Check TypeScript any:s
 - NICE TO HAVE
+  - [ ] Unify Combobox and ComboboxAsync
   - [ ] Markera aktiv sida i header.
   - [ ] Remove unessesarry 'use client' directives.
   - [ ] Combobox multi select - https://github.com/shadcn-ui/ui/pull/304/files

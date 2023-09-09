@@ -16,16 +16,28 @@ type ComboboxProps<TName> = {
   label?: string;
   placeholder?: string;
   description?: string;
-  options: /* readonly  */ Option[];
+  options: readonly Option[];
   isClearable?: boolean;
+  closeOnSelect?: boolean;
+  commandEmptyText?: string;
 };
 
 export default function Combobox<
   TFieldValues extends FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
->({ name, label, placeholder, description, options, isClearable = true }: ComboboxProps<TName>) {
+>({
+  name,
+  label,
+  placeholder,
+  description,
+  options,
+  isClearable = true,
+  closeOnSelect = true,
+  commandEmptyText = "No framework found.",
+}: ComboboxProps<TName>) {
   const [open, setOpen] = useState(false);
   const { control, setValue, resetField } = useFormContext();
+
   return (
     <FormField
       control={control}
@@ -44,7 +56,7 @@ export default function Combobox<
                       role="combobox"
                       className={cn("flex h-10 w-full justify-between", !field.value && "text-muted-foreground")}
                     >
-                      {field.value ? options.find((option) => option.value === field.value)?.label : placeholder}
+                      {field.value ? options?.find((option) => option.value === field.value)?.label : placeholder}
                       {!isClearable && <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />}
                     </Button>
                     {isClearable && (
@@ -63,25 +75,23 @@ export default function Combobox<
                   </div>
                 </FormControl>
               </PopoverTrigger>
-              <PopoverContent className="w-[200px] p-0">
+              <PopoverContent className="p-0">
                 <Command>
                   <CommandInput placeholder={placeholder} />
-                  <CommandEmpty>No framework found.</CommandEmpty>
+                  <CommandEmpty>{commandEmptyText}</CommandEmpty>
                   <CommandList>
                     <CommandGroup>
-                      {options.map((option) => (
+                      {options?.map(({ value, label }) => (
                         <CommandItem
-                          value={option.label}
-                          key={option.value}
+                          key={value}
+                          value={value}
                           onSelect={() => {
-                            setValue<string>(name, option.value);
-                            setOpen(false);
+                            setValue<string>(name, value);
+                            closeOnSelect && setOpen(false);
                           }}
                         >
-                          <Check
-                            className={cn("mr-2 h-4 w-4", option.value === field.value ? "opacity-100" : "opacity-0")}
-                          />
-                          {option.label}
+                          <Check className={cn("mr-2 h-4 w-4", value === field.value ? "opacity-100" : "opacity-0")} />
+                          {label}
                         </CommandItem>
                       ))}
                     </CommandGroup>

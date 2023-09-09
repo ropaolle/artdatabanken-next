@@ -3,14 +3,11 @@
 import { Checkboxes, Combobox, ComboboxAsync, DatePicker, Input } from "@/components/fields";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
-// import { type Database } from "@/lib/database.types";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { counties, gender } from "./options";
-import { uuid } from "@/lib/utils";
-import { useEffect, useState } from "react";
 
 const formSchema = z.object({
   species: z.string().nonempty("This field is reqired."),
@@ -23,19 +20,13 @@ const formSchema = z.object({
   image: z.string(),
   date: z.date(),
   gender: z.array(z.string()),
-  // gender: z.array(z.string()).refine((value) => value.some((item) => item), {
-  //   message: "You have to select at least one item.",
-  // }),
 });
 
-// export type ImagesType = Pick<Database["public"]["Tables"]["images"]["Row"], "id" | "filename">[] | null;
-export type ImageType = { id: string; name: string };
+// export type ImageType = { id: string; name: string };
 
-export default function AddSpeciesForm({ images }: { images: ImageType[] }) {
-  const supabase = createClientComponentClient();
+export default function AddSpeciesForm() {
+  // const supabase = createClientComponentClient();
   const [previewURL, setPreviewURL] = useState<string>();
-  // const imageOptions = images?.map(({ filename, id }) => ({ value: id, label: filename || "" })) || [];
-  const imageOptions = images?.map(({ name, id }) => ({ value: name, label: name || "" })) || [];
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -89,21 +80,12 @@ export default function AddSpeciesForm({ images }: { images: ImageType[] }) {
           </div>
 
           <div className="flex flex-col space-y-2">
-            {/* <Combobox
+            <ComboboxAsync
               name="image"
               label="Image"
-              options={imageOptions}
+              //  options={imageOptions}
               isClearable={true}
               placeholder="Select image…"
-            /> */}
-
-            <ComboboxAsync 
-                 name="image"
-                 label="Image"
-                //  options={imageOptions}
-                 isClearable={true}
-                 placeholder="Select image…"
-            
             />
 
             <div className=" flex flex-1 flex-col">
