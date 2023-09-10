@@ -64,6 +64,9 @@
     - [Hero Icons](https://heroicons.com/)
     - [Phosphor Icons](https://phosphoricons.com/)
     - [Favicon](https://realfavicongenerator.net/)
+  - BUN
+    - [Bun](https://bun.sh/)
+      
 
 ## Supabase CLI
 
