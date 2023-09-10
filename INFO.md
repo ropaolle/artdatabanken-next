@@ -4,8 +4,6 @@
 
 - [ ] Remove semi, width 80
 - [ ] Add species, create and update.
-  - Preview image
-  - Image field, dynamic load - https://github.com/melanieseltzer/example-async-combobox-options/tree/main
 - [ ] Do I need an image table in the db or can I load the info directly from storage?
 - BASICS
   - [ ] Check TODO's

@@ -142,11 +142,6 @@ export function Combobox<
 }
 
 export type AsyncComboboxProps<TName> = Omit<BaseComboboxProps<TName>, "loading" | "async" | "onSearch" | "options">;
-// & {
-//   loading: boolean;
-//   async: boolean;
-//   onSearch: (query: string) => void;
-// };
 
 export function ComboboxAsync<
   TFieldValues extends FieldValues,
@@ -156,6 +151,7 @@ export function ComboboxAsync<
   const [loading, setLoading] = useState(false);
   const supabase = createClientComponentClient();
 
+  // TODO: Break out the search function to parent.
   const handleSearch = async (query: string) => {
     setLoading(true);
 
