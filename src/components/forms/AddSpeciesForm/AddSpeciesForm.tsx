@@ -80,17 +80,11 @@ export default function AddSpeciesForm() {
           </div>
 
           <div className="flex flex-col space-y-2">
-            <ComboboxAsync
-              name="image"
-              label="Image"
-              //  options={imageOptions}
-              isClearable={true}
-              placeholder="Select image…"
-            />
+            <ComboboxAsync name="image" label="Image" placeholder="Select image…" />
 
             <div className=" flex flex-1 flex-col">
               <div className="mt-4 text-sm font-medium leading-none">Preview</div>
-              <div className="mt-1 flex  w-full flex-1 justify-center rounded-sm border bg-slate-50-DEL p-2">
+              <div className="bg-slate-50-DEL mt-1  flex w-full flex-1 justify-center rounded-sm border p-2">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 {previewURL && <img src={previewURL} alt="Preview" className="max-h-[280px]" />}{" "}
               </div>
