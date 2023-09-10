@@ -2,8 +2,7 @@
 
 ## TODO
 
-- [ ] Remove semi, width 80
-- [ ] Add species, create and update.
+- [ ] Add, create and update species.
 - [ ] Do I need an image table in the db or can I load the info directly from storage?
 - BASICS
   - [ ] Check TODO's
