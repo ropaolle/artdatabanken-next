@@ -14,6 +14,8 @@
   - [ ] Combobox multi select - https://github.com/shadcn-ui/ui/pull/304/files
   - [ ] Check if [React Hook useEffect has a missing dependencies](https://react.dev/learn/removing-effect-dependencies).
 
+find /home/olle/artdatabanken-next/node_modules -exec du -s {} + | awk '{total = total + $1}END{print (total / 1024 / 1024) "MB"}'
+
 ## Known issues
 
 - [ ] DynamicServerError: Dynamic server usage: Page couldn't be rendered statically because it used `cookies`. [See more info here](https://nextjs.org/docs/messages/dynamic-server-error)
