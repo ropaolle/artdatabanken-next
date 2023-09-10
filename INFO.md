@@ -2,12 +2,13 @@
 
 ## TODO
 
-- [ ] Add species format, select gender, create and update.
+- [ ] Add, create and update species.
 - [ ] Do I need an image table in the db or can I load the info directly from storage?
 - BASICS
   - [ ] Check TODO's
   - [ ] Check TypeScript any:s
 - NICE TO HAVE
+  - [ ] Unify Combobox and ComboboxAsync
   - [ ] Markera aktiv sida i header.
   - [ ] Remove unessesarry 'use client' directives.
   - [ ] Combobox multi select - https://github.com/shadcn-ui/ui/pull/304/files
@@ -55,6 +56,8 @@
   - [Zustand slices](https://github.com/pmndrs/zustand/blob/main/docs/guides/slices-pattern.md)
   - [SWR](https://swr.vercel.app/)
   - [Clerk authentication](https://clerk.com/)
+  - ZOD
+    - [File validation](https://github.com/colinhacks/zod/issues/387#issuecomment-1712177211)
   - ICONS
     - [Lucide](https://lucide.dev/icons/)
     - [Iconify](https://iconify.design/)
