@@ -16,3 +16,15 @@ export const uploadFileToSupabase = async (supabase: SupabaseClient, file: Blob,
     return;
   }
 };
+
+
+export const getPublicUrl = (supabase: SupabaseClient,bucket: string, path:string) => {
+  const { data } = supabase
+  .storage
+  .from(bucket)
+  .getPublicUrl(path)
+
+  // console.error(error)
+
+  return data;
+}

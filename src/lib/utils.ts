@@ -16,12 +16,6 @@ export const gravatarURL = (email: string) => `https://www.gravatar.com/avatar/$
 
 export const uuid = () => crypto.randomUUID();
 
-export const suffixFilename = (filename: string, suffix:string) => {
-  const lastIndex = filename.lastIndexOf('.');
-  if (lastIndex === -1) return filename + suffix;
-  return filename.slice(0, lastIndex) + suffix + filename.slice(lastIndex)
-}
-
 export const canvasToBlob = async (ref: HTMLCanvasElement, type = "image/jpeg"): Promise<Blob> => {
   return new Promise((resolve, reject) => {
     ref.toBlob((blob) => {
@@ -34,7 +28,16 @@ export const canvasToBlob = async (ref: HTMLCanvasElement, type = "image/jpeg"):
   });
 };
 
-/* export const canvasToFile = async (ref: HTMLCanvasElement, filename: string, type = "image/jpeg"): Promise<File> => {
+/* INFO: Unused stuff
+
+export const suffixFilename = (filename: string, suffix:string) => {
+  const lastIndex = filename.lastIndexOf('.');
+  if (lastIndex === -1) return filename + suffix;
+  return filename.slice(0, lastIndex) + suffix + filename.slice(lastIndex)
+}
+
+
+export const canvasToFile = async (ref: HTMLCanvasElement, filename: string, type = "image/jpeg"): Promise<File> => {
   return new Promise((resolve, reject) => {
     ref.toBlob((blob) => {
       if (!blob) {
@@ -44,12 +47,14 @@ export const canvasToBlob = async (ref: HTMLCanvasElement, type = "image/jpeg"):
       resolve(new File([blob], filename, { type }));
     }, type);
   });
-}; */
+}; 
 
-/* const clearCanvas = (canvasRef: RefObject<HTMLCanvasElement>) => {
+const clearCanvas = (canvasRef: RefObject<HTMLCanvasElement>) => {
   const { current: canvas } = canvasRef || {};
   const ctx = canvas?.getContext("2d");
   if (canvas && ctx) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
   }
-}; */
+}; 
+
+*/

@@ -8,6 +8,8 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { counties, gender } from "./options";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { getPublicUrl } from "@/lib/supabase";
 
 const formSchema = z.object({
   species: z.string().nonempty("This field is reqired."),
@@ -25,7 +27,7 @@ const formSchema = z.object({
 // export type ImageType = { id: string; name: string };
 
 export default function AddSpeciesForm() {
-  // const supabase = createClientComponentClient();
+  const supabase = createClientComponentClient();
   const [previewURL, setPreviewURL] = useState<string>();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -47,18 +49,23 @@ export default function AddSpeciesForm() {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     console.info(values);
 
-    // const { data, error } = await supabase
-    //   .from("species")
-    //   .upsert({ /* id: uuid(), */ ...values })
-    //   .select();
+    values.image = null;
 
-    // console.log("data, error", data, error);
+    const { data, error } = await supabase
+      .from("species")
+      .upsert({ /*id: uuid(), */ ...values })
+      .select();
+
+    console.log("data, error", data, error);
   }
 
   const image = form.watch("image");
 
   useEffect(() => {
-    setPreviewURL(image && `https://yeebxkyqwarhmbfpkgir.supabase.co/storage/v1/object/public/images/${image}`);
+    if (!image) return;
+
+    const {publicUrl} = getPublicUrl(supabase, 'images', image)
+    setPreviewURL(publicUrl)
   }, [image]);
 
   return (

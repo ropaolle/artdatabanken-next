@@ -27,17 +27,3 @@ export const counties = [
   { value: "vasterbotten", label: "Västerbottens län", alternativeLabel: "Lapplands län" },
   { value: "norrbotten", label: "Norrbottens län" },
 ] as const;
-
-/* const images = [
-  { value: "image1", label: "Image 1" },
-  { value: "image2", label: "Image 2" },
-  { value: "image3", label: "Image 3" },
-  { value: "image4", label: "Image 4" },
-  { value: "image5", label: "Image 5" },
-  { value: "image6", label: "Image 6" },
-  { value: "image7", label: "Image 7" },
-  { value: "image8", label: "Image 8" },
-  { value: "image9", label: "Image 9" },
-  { value: "image10", label: "Image 10" },
-  { value: "image11", label: "Image 11" },
-] as const; */

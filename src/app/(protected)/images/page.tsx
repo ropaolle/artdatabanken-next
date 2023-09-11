@@ -9,6 +9,8 @@ export default async function Images() {
     .order("updated_at", { ascending: true })
     .limit(11);
 
+    console.log('rows', rows);
+
   return (
     <>
       <h1>Images</h1>

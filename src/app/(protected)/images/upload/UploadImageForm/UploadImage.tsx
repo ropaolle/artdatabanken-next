@@ -2,7 +2,7 @@
 
 import { useToast, type CustomToastProps } from "@/components/ui/use-toast";
 import { uploadFileToSupabase } from "@/lib/supabase";
-import { canvasToBlob, suffixFilename } from "@/lib/utils";
+import { canvasToBlob } from "@/lib/utils";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useRef, useState } from "react";
 import "react-image-crop/dist/ReactCrop.css";
@@ -28,17 +28,17 @@ const upscaleWarning: CustomToastProps = {
   description: "The croped image resolution is lower than the target resolution and must be upscaled.",
 };
 
-const uploadSuccess = (filename: string, thumbFilename: string): CustomToastProps => ({
+const uploadSuccess = (filename: string): CustomToastProps => ({
   title: "Upload succeeded",
   variant: "default",
   description: (
     <>
-      Image <i>{filename}</i> and thumbnail <i>{thumbFilename}</i> was uploaded to bucket <i>images</i>.
+      Image <i>{filename}</i> successfully uploaded to bucket <i>images</i>.
     </>
   ),
 });
 
-export default function CropImageForm() {
+export default function UploadImage() {
   const supabase = createClientComponentClient();
   const [file, setFile] = useState<File>();
   const imageRef = useRef<HTMLImageElement>(null);
@@ -71,14 +71,25 @@ export default function CropImageForm() {
       return;
     }
 
+    // TODO: No thumbnail needed, use transform
+    // const { data, error } = await supabase
+    //   .storage
+    //   .from('avatars')
+    //   .download('folder/avatar1.png', {
+    //     transform: {
+    //       width: 100,
+    //       height: 100,
+    //       quality: 80
+    //     }
+    //   })
     // Upload thumbnail
-    const thumbFilename = suffixFilename(filename, "_thumbnail");
-    uploadImage(thumbFilename, 100, 100);
+    // const thumbFilename = suffixFilename(filename, "_thumbnail");
+    // uploadImage(thumbFilename, 100, 100);
 
     // Upload image
     uploadImage(filename, data?.width, data?.height);
 
-    toast(uploadSuccess(filename, thumbFilename));
+    toast(uploadSuccess(filename));
   };
 
   const handleChange = (values: FormSchema) => {

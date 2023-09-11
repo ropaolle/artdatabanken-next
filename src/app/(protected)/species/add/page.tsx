@@ -1,4 +1,4 @@
-import { AddSpeciesForm } from "@/components/forms/AddSpeciesForm";
+import AddSpeciesForm from "./AddSpeciesForm";
 
 export default function SpeciesAdd() {
   return (
