@@ -62,12 +62,16 @@ export const getColumns = (onDelete: (id: string) => void) => [
 
   columnHelper.accessor("place", { header: "Place" }),
 
-  columnHelper.accessor("images.thumbnail_url", {
+  columnHelper.accessor("images", {
     header: "Thumbnail",
     cell: (info) => {
-      const url = info.getValue();
+      const { thumbnail_url } = info.getValue() || {};
       return (
-        <div>{url && url.length > 30 && <Image src={url} alt="image" width="100" height="100" loading="lazy" />}</div>
+        thumbnail_url && (
+          <div>
+            <Image src={thumbnail_url} alt="image" width="100" height="100" loading="lazy" />
+          </div>
+        )
       );
     },
   }),

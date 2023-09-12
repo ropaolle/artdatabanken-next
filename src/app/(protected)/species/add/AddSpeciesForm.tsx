@@ -64,7 +64,7 @@ export default function AddSpeciesForm() {
   useEffect(() => {
     if (!image) return;
 
-    const publicUrl = getPublicUrl(supabase, "images", image);
+    const { publicUrl } = getPublicUrl(supabase, "images", "pictures/" + image);
     setPreviewURL(publicUrl);
   }, [image]);
 
