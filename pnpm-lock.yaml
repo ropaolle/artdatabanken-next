@@ -41,6 +41,9 @@ dependencies:
   '@supabase/auth-helpers-nextjs':
     specifier: ^0.7.4
     version: 0.7.4(@supabase/supabase-js@2.33.1)
+  '@supabase/storage-js':
+    specifier: ^2.5.4
+    version: 2.5.4
   '@supabase/supabase-js':
     specifier: ^2.33.1
     version: 2.33.1(encoding@0.1.13)
@@ -1371,6 +1374,13 @@ packages:
       whatwg-url: 5.0.0
     dev: false
 
+  /@supabase/node-fetch@2.6.14:
+    resolution: {integrity: sha512-w/Tsd22e/5fAeoxqQ4P2MX6EyF+iM6rc9kmlMVFkHuG0rAltt2TLhFbDJfemnHbtvnazWaRfy5KnFU/SYT37dQ==}
+    engines: {node: 4.x || >=6.0.0}
+    dependencies:
+      whatwg-url: 5.0.0
+    dev: false
+
   /@supabase/postgrest-js@1.8.1:
     resolution: {integrity: sha512-tCBPb5vp0NTQRWRkx1Sjcais3WIp79BuFdenzp852UXxFNJ04RLoyE9IxqjWQQHzHF0ot1V7Uzf1nHDk7DsYdg==}
     dependencies:
@@ -1387,10 +1397,10 @@ packages:
       - supports-color
     dev: false
 
-  /@supabase/storage-js@2.5.2:
-    resolution: {integrity: sha512-AMeObfzjFg779tmjmneIer29NtjgWOhVFxo/yVKpL92MXiO1yg3zqBbxUBePRc2aj5iUJcXt1eVG09ut10gsgw==}
+  /@supabase/storage-js@2.5.4:
+    resolution: {integrity: sha512-yspHD19I9uQUgfTh0J94+/r/g6hnhdQmw6Y7OWqr/EbnL6uvicGV1i1UDkkmeUHqfF9Mbt2sLtuxRycYyKv2ew==}
     dependencies:
-      '@supabase/node-fetch': 2.6.13
+      '@supabase/node-fetch': 2.6.14
     dev: false
 
   /@supabase/supabase-js@2.33.1(encoding@0.1.13):
@@ -1400,7 +1410,7 @@ packages:
       '@supabase/gotrue-js': 2.47.1
       '@supabase/postgrest-js': 1.8.1
       '@supabase/realtime-js': 2.7.4
-      '@supabase/storage-js': 2.5.2
+      '@supabase/storage-js': 2.5.4
       cross-fetch: 3.1.8(encoding@0.1.13)
     transitivePeerDependencies:
       - encoding

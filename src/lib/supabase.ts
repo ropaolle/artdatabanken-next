@@ -1,13 +1,19 @@
 import { SupabaseClient } from "@supabase/auth-helpers-nextjs";
 
-export const uploadFileToSupabase = async (supabase: SupabaseClient, file: Blob, name: string, upsert = false) => {
-  const { data, error } = await supabase.storage.from("images").upload(name, file, {
+export const uploadFileToSupabase = async (
+  supabase: SupabaseClient,
+  file: Blob,
+  bucket: string,
+  path: string,
+  upsert = false,
+) => {
+  const { data, error } = await supabase.storage.from(bucket).upload(path, file, {
     cacheControl: "3600",
     upsert,
   });
 
   if (error?.message === "The resource already exists") {
-    // ask to try again
+    console.error(error?.message);
     return;
   }
 
@@ -17,14 +23,14 @@ export const uploadFileToSupabase = async (supabase: SupabaseClient, file: Blob,
   }
 };
 
+export const getPublicUrl = (supabase: SupabaseClient, bucket?: string, path?: string) => {
+  if (!bucket || !path) return {};
 
-export const getPublicUrl = (supabase: SupabaseClient,bucket: string, path:string) => {
-  const { data } = supabase
-  .storage
-  .from(bucket)
-  .getPublicUrl(path)
+  const {
+    data: { publicUrl },
+  } = supabase.storage.from(bucket).getPublicUrl(path);
 
-  // console.error(error)
+  const basePath = publicUrl.replace(`${path}`, "");
 
-  return data;
-}
+  return { publicUrl, basePath };
+};

@@ -1,17 +1,10 @@
+"use client";
+
 import { createColumnHelper } from "@tanstack/react-table";
 import Image from "next/image";
 import { ActionCell, DataTableColumnHeader, getCheckboxColumn } from "@/components/CustomTable";
 import { type Database } from "@/lib/database.types";
-
-/* {
-  id: 'a84965d0-3d59-442f-9774-48c2478936b1',
-  created_at: '2023-08-15T13:24:33.683335+00:00',
-  updated_at: '2023-08-15T13:24:33.683335+00:00',
-  user_id: null,
-  filename: 'image00x.jpg',
-  url: 'https://image00x.jpg',
-  thumbnail_url: 'https://image00x_thumb.jpg'
-}, */
+import { format, parse, parseISO } from "date-fns";
 
 export type Image = Database["public"]["Tables"]["images"]["Row"];
 
@@ -27,21 +20,36 @@ export function getColumns(onDelete: (id: string) => void) {
       header: ({ column }) => <DataTableColumnHeader column={column} title="Filename" />,
     }),
 
-    columnHelper.accessor("url", {
-      header: ({ column }) => <DataTableColumnHeader column={column} title="URL" />,
-      cell: (info) => {
-        const url = info.getValue();
-        return <div className="text-right font-medium">{url && url?.length > 30 ? url?.slice(0, 19) : url}</div>;
+    columnHelper.accessor("width", {
+      header: ({ column }) => <DataTableColumnHeader column={column} title="Resolution" />,
+      cell: ({ row }) => {
+        const { width, height } = row.original;
+        return `${width} * ${height} px`;
       },
     }),
 
-    columnHelper.accessor("thumbnail_url", { header: "Thumbnail URL" }),
+    columnHelper.accessor("upscaled", {
+      header: ({ column }) => <DataTableColumnHeader column={column} title="Upscaled" />,
+    }),
 
-    columnHelper.display({
-      id: "thumbnail",
-      header: "Thumbnail",
-      cell: ({ row }) => {
-        const url = row.getValue<string | null>("url");
+    columnHelper.accessor("mime_type", {
+      header: ({ column }) => <DataTableColumnHeader column={column} title="Mime type" />,
+    }),
+
+    columnHelper.accessor("created_at", {
+      header: ({ column }) => <DataTableColumnHeader column={column} title="Created" />,
+      cell: (info) => new Date(info.getValue()).toLocaleString(),
+    }),
+
+    columnHelper.accessor("updated_at", {
+      header: ({ column }) => <DataTableColumnHeader column={column} title="Updated" />,
+      cell: (info) => new Date(info.getValue()).toLocaleString(),
+    }),
+
+    columnHelper.accessor("thumbnail_url", {
+      header: ({ column }) => <DataTableColumnHeader column={column} title="Thumbnail" />,
+      cell: (info) => {
+        const url = info.getValue<string>();
         return (
           <div>{url && url.length > 30 && <Image src={url} alt="image" width="100" height="100" loading="lazy" />}</div>
         );

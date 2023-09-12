@@ -1,8 +1,8 @@
 "use client";
 
 import { useToast, type CustomToastProps } from "@/components/ui/use-toast";
-import { uploadFileToSupabase } from "@/lib/supabase";
-import { canvasToBlob } from "@/lib/utils";
+import { getPublicUrl, uploadFileToSupabase } from "@/lib/supabase";
+import { canvasToBlob, suffixFilename } from "@/lib/utils";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useRef, useState } from "react";
 import "react-image-crop/dist/ReactCrop.css";
@@ -47,47 +47,52 @@ export default function UploadImage() {
   const [crop, setCrop] = useState<CompletedCropArea>();
   const { toast } = useToast();
 
-  const uploadImage = async (filename: string, width: number, height: number) => {
+  const uploadImage = async (path: string, width: number, height: number, mimeType = "image/jpeg") => {
     if (!imageRef.current || !canvasRef.current || !crop) return;
 
     drawImageOnCanvas(imageRef.current, canvasRef.current, crop, width, height);
-    const blob = await canvasToBlob(canvasRef.current, "image/jpeg");
-    await uploadFileToSupabase(supabase, blob, filename, false);
+    const blob = await canvasToBlob(canvasRef.current, mimeType);
+
+    await uploadFileToSupabase(supabase, blob, "images", path, false);
   };
 
   const handleSubmit = async ({ files, resolution, options }: FormSchema) => {
-    const data = resolutions.find(({ value }) => value === resolution)?.data;
+    const { width, height } = resolutions.find(({ value }) => value === resolution)?.data || {};
     const filename = files?.[0]?.name;
 
-    if (!crop || !data || !imageRef.current || !canvasRef.current || !filename) {
+    if (!crop || !width || !height || !imageRef.current || !canvasRef.current || !filename) {
       toast(woops);
       return;
     }
 
     const upscaleForbidden = !options.includes("upscale");
-    const upscaleRequired = crop.naturalSelectionWidth < data.width || crop.naturalSelectionHeight < data.height;
+    const upscaleRequired = crop.naturalSelectionWidth < width || crop.naturalSelectionHeight < height;
     if (upscaleForbidden && upscaleRequired) {
       toast(upscaleWarning);
       return;
     }
 
-    // TODO: No thumbnail needed, use transform
-    // const { data, error } = await supabase
-    //   .storage
-    //   .from('avatars')
-    //   .download('folder/avatar1.png', {
-    //     transform: {
-    //       width: 100,
-    //       height: 100,
-    //       quality: 80
-    //     }
-    //   })
-    // Upload thumbnail
-    // const thumbFilename = suffixFilename(filename, "_thumbnail");
-    // uploadImage(thumbFilename, 100, 100);
+    // Upload images
+    const mimeType = "image/jpeg";
+    uploadImage("pictures/" + filename, width, height);
+    uploadImage("thumbnails/" + filename, 100, 100);
 
-    // Upload image
-    uploadImage(filename, data?.width, data?.height);
+    const { basePath } = getPublicUrl(supabase, "images", filename);
+
+    const { data: newImage, error } = await supabase
+      .from("images")
+      .upsert({
+        filename,
+        width,
+        height,
+        upscaled: upscaleRequired,
+        mime_type: mimeType,
+        url: `${basePath}pictures/${filename}`,
+        thumbnail_url: `${basePath}thumbnails/${filename}`,
+      })
+      .select();
+
+    console.log("newImage", newImage);
 
     toast(uploadSuccess(filename));
   };

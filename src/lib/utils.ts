@@ -28,13 +28,25 @@ export const canvasToBlob = async (ref: HTMLCanvasElement, type = "image/jpeg"):
   });
 };
 
-/* INFO: Unused stuff
+export const formatBytes = (bytes: number, decimals = 2) => {
+  if (bytes == 0) return "0 Bytes";
+
+  const k = 1024;
+  const sizes = ["Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
+  const i = Math.floor(Math.log(bytes) / Math.log(k));
+
+  return parseFloat((bytes / Math.pow(k, i)).toFixed(decimals)) + " " + sizes[i];
+};
 
 export const suffixFilename = (filename: string, suffix:string) => {
   const lastIndex = filename.lastIndexOf('.');
   if (lastIndex === -1) return filename + suffix;
   return filename.slice(0, lastIndex) + suffix + filename.slice(lastIndex)
 }
+
+
+/* INFO: Unused stuff
+
 
 
 export const canvasToFile = async (ref: HTMLCanvasElement, filename: string, type = "image/jpeg"): Promise<File> => {

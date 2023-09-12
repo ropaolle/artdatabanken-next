@@ -6,15 +6,13 @@ export default async function Images() {
   const { data: rows, count } = await supabase
     .from("images")
     .select("*", { count: "exact" /* , head: true  */ })
-    .order("updated_at", { ascending: true })
-    .limit(11);
-
-    console.log('rows', rows);
+    .order("updated_at", { ascending: true });
+  // .limit(11);
 
   return (
     <>
       <h1>Images</h1>
-      {rows && <ImageTable rows={rows} count={count} />}
+      {<ImageTable rows={rows || []} count={count || 0} />}
     </>
   );
 }

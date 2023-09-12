@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from "react";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import CustomTable from "@/components/CustomTable";
 import useConfirm from "@/components/hooks/useConfirm";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { useState } from "react";
 import { getColumns, type Image } from "./columns";
 
 const confirmDelete = (id: string) => ({
@@ -15,7 +15,7 @@ const confirmDelete = (id: string) => ({
   ),
 });
 
-export default function ImageTable({ rows, count }: { rows: Image[]; count?: number | null }) {
+export default function ImageTable({ rows, count }: { rows: Image[]; count?: number }) {
   const [data, setData] = useState(rows);
   const supabase = createClientComponentClient();
   const { confirm } = useConfirm();
@@ -34,6 +34,9 @@ export default function ImageTable({ rows, count }: { rows: Image[]; count?: num
       }
     }
   };
+
+  console.log('count', count);
+  console.log('rows', data);
 
   return (
     <>

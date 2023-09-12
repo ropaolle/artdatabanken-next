@@ -19,7 +19,9 @@ export default async function Species() {
     .order("updated_at", { ascending: true })
     .limit(100);
 
-  // console.log("rows", rows);
+  console.log("rows", rows);
+
+
 
   return (
     <>
@@ -28,3 +30,4 @@ export default async function Species() {
     </>
   );
 }
+
