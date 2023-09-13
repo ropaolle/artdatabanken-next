@@ -3,7 +3,7 @@
 ## TODO
 
 - [ ] 
-- [ ] Add, create and update species.
+- [ ] Add update action to species.
 - [ ] Create thumbnails with transform. Kräver för närvarande att betalkonto.
   - Example: `const { data: baseUrl } = supabase.storage.from("images").getPublicUrl(data[0].name, { transform: { width: 100, height: 100 }});`
   - [How-to](https://supabase.com/docs/reference/javascript/storage-from-getpublicurl)

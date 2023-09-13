@@ -5,13 +5,12 @@ import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, Command
 import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { Check, ChevronsUpDown, Loader2, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useFormContext, type FieldPath, type FieldValues } from "react-hook-form";
 import { useDebouncedValue } from "../hooks/useDebouncedValue";
 
-type Option = { label: string; value: string };
+export type Option = { label: string; value: string };
 
 type BaseComboboxProps<TName> = {
   name: TName;
@@ -26,6 +25,7 @@ type BaseComboboxProps<TName> = {
   loading?: boolean;
   async?: boolean;
   onSearch?: (query: string) => void;
+  onChange?: (option: Option) => void;
 };
 
 function BaseCombobox<
@@ -44,6 +44,7 @@ function BaseCombobox<
   loading = false,
   async = false,
   onSearch,
+  onChange,
 }: BaseComboboxProps<TName>) {
   const [open, setOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
@@ -52,10 +53,14 @@ function BaseCombobox<
   const { control, setValue, resetField } = useFormContext();
 
   useEffect(() => {
-    if (typeof onSearch === "function") {
-      onSearch(debouncedSearchQuery);
-    }
+    typeof onSearch === "function" && onSearch(debouncedSearchQuery);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedSearchQuery]);
+
+  // const handleChange = (option: Option) => {
+  //   typeof onChange === "function" && onChange(option);
+  //   console.log('field', field);
+  // };
 
   return (
     <FormField
@@ -95,7 +100,7 @@ function BaseCombobox<
                 </FormControl>
               </PopoverTrigger>
               <PopoverContent className="p-0">
-                <Command shouldFilter={shouldFilter}>
+                <Command shouldFilter={!!shouldFilter}>
                   <CommandInput placeholder={placeholder} value={searchQuery} onValueChange={setSearchQuery} />
                   <CommandEmpty>{commandEmptyText}</CommandEmpty>
                   {async && loading && (
@@ -105,17 +110,20 @@ function BaseCombobox<
                   )}
                   <CommandList>
                     <CommandGroup>
-                      {options?.map(({ value, label }) => (
+                      {options?.map((option) => (
                         <CommandItem
-                          key={value}
-                          value={value}
+                          key={option.value}
+                          value={option.value}
                           onSelect={() => {
-                            setValue<string>(name, value);
+                            setValue<string>(name, option.value);
+                            typeof onChange === "function" && onChange(option);
                             closeOnSelect && setOpen(false);
                           }}
                         >
-                          <Check className={cn("mr-2 h-4 w-4", value === field.value ? "opacity-100" : "opacity-0")} />
-                          {label}
+                          <Check
+                            className={cn("mr-2 h-4 w-4", option.value === field.value ? "opacity-100" : "opacity-0")}
+                          />
+                          {option.label}
                         </CommandItem>
                       ))}
                     </CommandGroup>
@@ -141,39 +149,28 @@ export function Combobox<
   return <BaseCombobox commandEmptyText="No framework found." {...props} />;
 }
 
-export type AsyncComboboxProps<TName> = Omit<BaseComboboxProps<TName>, "loading" | "async" | "onSearch" | "options">;
+export type AsyncComboboxProps<TName> = Omit<BaseComboboxProps<TName>, "loading" | "async" | "onSearch" | "options"> & {
+  loadOptionsAsync: (query: string) => Promise<Option[]>;
+};
 
 export function ComboboxAsync<
   TFieldValues extends FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
->({ ...props }: AsyncComboboxProps<TName>) {
+>({ loadOptionsAsync, ...props }: AsyncComboboxProps<TName>) {
   const [asyncOptions, setAsyncOptions] = useState<Option[]>([]);
   const [loading, setLoading] = useState(false);
-  const supabase = createClientComponentClient();
 
-  // TODO: Break out the search function to parent.
   const handleSearch = async (query: string) => {
     setLoading(true);
-
-    // TODO: Error handeling
-    const { data /* , error */ } = await supabase.storage.from("images").list("pictures", {
-      limit: 100,
-      offset: 0,
-      sortBy: { column: "name", order: "asc" },
-      search: query,
-    });
-
-    const images = data?.map(({ id, name }) => ({ value: name, label: name })) || [];
-    setAsyncOptions(images);
-
+    setAsyncOptions(await loadOptionsAsync(query));
     setLoading(false);
   };
 
   return (
     <BaseCombobox
       commandEmptyText="No data found."
-      shouldFilter
       {...props}
+      shouldFilter={false}
       async
       options={asyncOptions}
       onSearch={handleSearch}

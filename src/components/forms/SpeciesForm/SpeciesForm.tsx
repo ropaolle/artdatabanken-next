@@ -1,6 +1,6 @@
 "use client";
 
-import { Checkboxes, Combobox, ComboboxAsync, DatePicker, Input } from "@/components/fields";
+import { Checkboxes, Combobox, ComboboxAsync, DatePicker, Input, type Option } from "@/components/fields";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -11,62 +11,78 @@ import { counties, gender } from "./options";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { getPublicUrl } from "@/lib/supabase";
 
+// import { type Database } from "@/lib/database.types";
+
+// export type Species = Database["public"]["Tables"]["species"]["Row"] & {
+//   images: { thumbnail_url: string | null } | null;
+// };
+
 const formSchema = z.object({
   species: z.string().nonempty("This field is reqired."),
   kingdom: z.string(),
-  taxonomy_order: z.string(),
+  order: z.string(),
   family: z.string(),
-  latin_name: z.string(),
+  latin: z.string(),
   place: z.string(),
   county: z.string(),
-  image: z.string(),
-  date: z.date(),
+  image: z.string().nullable(),
+  date: z.date().nullable(),
   gender: z.array(z.string()),
 });
 
-// export type ImageType = { id: string; name: string };
+export type SpeciesType = z.infer<typeof formSchema>;
 
-export default function AddSpeciesForm() {
+export default function SpeciesForm({ values }: { values?: SpeciesType | null }) {
   const supabase = createClientComponentClient();
   const [previewURL, setPreviewURL] = useState<string>();
 
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm<SpeciesType>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
+    defaultValues: values || {
       kingdom: "",
-      species: "qweqwe",
-      taxonomy_order: "",
+      species: "",
+      order: "",
       family: "",
-      latin_name: "",
+      latin: "",
       place: "",
       county: "",
-      image: "",
+      image: null,
       date: new Date(),
-      gender: ["male"],
+      gender: [],
     },
   });
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: SpeciesType) {
     console.info(values);
-
-    values.image = null;
 
     const { data, error } = await supabase
       .from("species")
       .upsert({ /*id: uuid(), */ ...values })
       .select();
 
-    console.log("data, error", data, error);
+    if (error) {
+      console.error(error);
+      return;
+    }
+
+    console.log("data", data);
   }
 
-  const image = form.watch("image");
-
-  useEffect(() => {
-    if (!image) return;
-
-    const { publicUrl } = getPublicUrl(supabase, "images", "pictures/" + image);
+  const handleImageChange = ({ label }: Option) => {
+    const { publicUrl } = getPublicUrl(supabase, "images", "pictures/" + label);
     setPreviewURL(publicUrl);
-  }, [image]);
+  };
+
+  const handleLoadImageOptions = async (query: string) => {
+    const { data: rows } = await supabase
+      .from("images")
+      .select("filename, id")
+      .like("filename", `%${query}%`)
+      .order("filename", { ascending: true })
+      .limit(10);
+
+    return rows?.map(({ id, filename }) => ({ value: id, label: filename })) || [];
+  };
 
   return (
     <Form {...form}>
@@ -76,9 +92,9 @@ export default function AddSpeciesForm() {
             <Input name="species" label="Species *" description="Testbeskrivning" />
             <div className="grid grid-cols-2 gap-4">
               <Input name="kingdom" label="Kingdom" />
-              <Input name="taxonomy_order" label="Order" />
+              <Input name="order" label="Order" />
               <Input name="family" label="Family" placeholder="My placeholder..." />
-              <Input name="latin_name" label="Latin" />
+              <Input name="latin" label="Latin" />
               <Input name="place" label="Place" />
               <Checkboxes name="gender" label="Gender" items={gender} />
               <Combobox name="county" label="County" options={counties} placeholder="Select county…" />
@@ -87,7 +103,13 @@ export default function AddSpeciesForm() {
           </div>
 
           <div className="flex flex-col space-y-2">
-            <ComboboxAsync name="image" label="Image" placeholder="Select image…" />
+            <ComboboxAsync
+              name="image"
+              label="Image"
+              placeholder="Select image…"
+              onChange={handleImageChange}
+              loadOptionsAsync={handleLoadImageOptions}
+            />
 
             <div className=" flex flex-1 flex-col">
               <div className="mt-4 text-sm font-medium leading-none">Preview</div>

@@ -10,6 +10,15 @@ export default function Collections() {
       <Link href="/species/add" className="mr-4 text-blue-400">
         Add species
       </Link>
+      <Link
+        href={{
+          pathname: "/species/edit/92ae1d87-ed74-4c96-b936-fe897a6a9bf1",
+          // query: "data", // the data
+        }}
+        className="mr-4 text-blue-400"
+      >
+        Edit species
+      </Link>
     </>
   );
 }

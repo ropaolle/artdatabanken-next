@@ -20,7 +20,7 @@ export const getColumns = (onDelete: (id: string) => void) => [
   columnHelper.accessor("family", {
     header: ({ column }) => <DataTableColumnHeader column={column} title="Family" />,
     cell: ({ row }) => {
-      const { family, kingdom, taxonomy_order: order } = row.original;
+      const { family, kingdom, order: order } = row.original;
       return (
         <>
           <div className="font-bold">{family}</div>
@@ -43,7 +43,7 @@ export const getColumns = (onDelete: (id: string) => void) => [
     cell: (info) => {
       // TODO: row.original overrides cache, use columnHelper and grouping instead
       // console.log('row._valuesCache', row._valuesCache);
-      const { gender, latin_name } = info.row.original;
+      const { gender, latin } = info.row.original;
       const species = info.getValue() || "";
       return (
         <>
@@ -52,7 +52,7 @@ export const getColumns = (onDelete: (id: string) => void) => [
             {gender?.includes("male") && <Male />}
             {gender?.includes("female") && <Female />}
           </div>
-          <div className="mt-2 text-sm text-neutral-600">{latin_name}</div>
+          <div className="mt-2 text-sm text-neutral-600">{latin}</div>
         </>
       );
     },

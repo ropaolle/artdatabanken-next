@@ -60,51 +60,60 @@ export interface Database {
       }
       species: {
         Row: {
-          county: string | null
+          county: string
           created_at: string
           date: string | null
-          family: string | null
+          family: string
           gender: string[] | null
           id: string
-          kingdom: string | null
-          latin_name: string | null
-          place: string | null
-          species: string | null
-          taxonomy_order: string | null
+          image: string | null
+          kingdom: string
+          latin: string
+          order: string
+          place: string
+          species: string
           updated_at: string
           user_id: string | null
         }
         Insert: {
-          county?: string | null
+          county?: string
           created_at?: string
           date?: string | null
-          family?: string | null
+          family?: string
           gender?: string[] | null
           id?: string
-          kingdom?: string | null
-          latin_name?: string | null
-          place?: string | null
-          species?: string | null
-          taxonomy_order?: string | null
+          image?: string | null
+          kingdom?: string
+          latin?: string
+          order?: string
+          place?: string
+          species?: string
           updated_at?: string
           user_id?: string | null
         }
         Update: {
-          county?: string | null
+          county?: string
           created_at?: string
           date?: string | null
-          family?: string | null
+          family?: string
           gender?: string[] | null
           id?: string
-          kingdom?: string | null
-          latin_name?: string | null
-          place?: string | null
-          species?: string | null
-          taxonomy_order?: string | null
+          image?: string | null
+          kingdom?: string
+          latin?: string
+          order?: string
+          place?: string
+          species?: string
           updated_at?: string
           user_id?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "species_image_fkey"
+            columns: ["image"]
+            referencedRelation: "images"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "species_user_id_fkey"
             columns: ["user_id"]
