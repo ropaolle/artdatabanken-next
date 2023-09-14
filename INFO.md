@@ -2,13 +2,13 @@
 
 ## TODO
 
-- [ ] 
+- [ ] ?
 - BASICS
   - [ ] Check TODO's
   - [ ] Check TypeScript any:s
 - NICE TO HAVE
   - [ ] Remove unessesarry 'use client' directives.
-  - [ ] Combobox multi select - https://github.com/shadcn-ui/ui/pull/304/files
+  - [ ] Extend Combobox to support multi select - https://github.com/shadcn-ui/ui/pull/304/files
   - [ ] Check if [React Hook useEffect has a missing dependencies](https://react.dev/learn/removing-effect-dependencies).
 
 ## Known issues
