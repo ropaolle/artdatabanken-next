@@ -3,19 +3,27 @@ import {
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
-  navigationMenuTriggerStyle
+  navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 import { type User } from "@/lib/auth";
 import NextLink from "next/link";
+import { usePathname } from "next/navigation";
 import { ReactNode } from "react";
 
-const MenuLink = ({ href, children }: { href: string; children: ReactNode }) => (
-  <NavigationMenuItem>
-    <NextLink href={href} legacyBehavior passHref>
-      <NavigationMenuLink className={navigationMenuTriggerStyle()}>{children}</NavigationMenuLink>
-    </NextLink>
-  </NavigationMenuItem>
-);
+const MenuLink = ({ href, children }: { href: string; children: ReactNode }) => {
+  const pathname = usePathname();
+  const isActive = pathname === href;
+
+  return (
+    <NavigationMenuItem>
+      <NextLink href={href} legacyBehavior passHref>
+        <NavigationMenuLink className={navigationMenuTriggerStyle()} active={isActive}>
+          {children}
+        </NavigationMenuLink>
+      </NextLink>
+    </NavigationMenuItem>
+  );
+};
 
 export default function MainMenu({ user }: { user: User | null }) {
   return (

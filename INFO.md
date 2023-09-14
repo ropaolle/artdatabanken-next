@@ -3,15 +3,10 @@
 ## TODO
 
 - [ ] 
-- [ ] Add update action to species.
-- [ ] Create thumbnails with transform. Kräver för närvarande att betalkonto.
-  - Example: `const { data: baseUrl } = supabase.storage.from("images").getPublicUrl(data[0].name, { transform: { width: 100, height: 100 }});`
-  - [How-to](https://supabase.com/docs/reference/javascript/storage-from-getpublicurl)
 - BASICS
   - [ ] Check TODO's
   - [ ] Check TypeScript any:s
 - NICE TO HAVE
-  - [ ] Markera aktiv sida i header.
   - [ ] Remove unessesarry 'use client' directives.
   - [ ] Combobox multi select - https://github.com/shadcn-ui/ui/pull/304/files
   - [ ] Check if [React Hook useEffect has a missing dependencies](https://react.dev/learn/removing-effect-dependencies).
@@ -20,6 +15,9 @@
 
 - [ ] DynamicServerError: Dynamic server usage: Page couldn't be rendered statically because it used `cookies`. [See more info here](https://nextjs.org/docs/messages/dynamic-server-error)
   - import { revalidatePath } from "next/cache";
+- [ ] Create thumbnails with transform. Kräver för närvarande att betalkonto.
+  - Example: `const { data: baseUrl } = supabase.storage.from("images").getPublicUrl(data[0].name, { transform: { width: 100, height: 100 }});`
+  - [How-to](https://supabase.com/docs/reference/javascript/storage-from-getpublicurl)
 
 ## Info
 
