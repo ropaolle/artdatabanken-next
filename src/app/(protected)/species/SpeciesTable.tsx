@@ -37,7 +37,7 @@ export default function SpeciesTable({ rows, count }: { rows: Species[]; count?:
 
   return (
     <>
-      <CustomTable columns={getColumns(handleDelete)} data={data} />
+      <CustomTable columns={getColumns({ onDelete: handleDelete, editPath: "/species/edit/" })} data={data} />
     </>
   );
 }

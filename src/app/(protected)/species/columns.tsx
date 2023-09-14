@@ -10,9 +10,14 @@ export type Species = Database["public"]["Tables"]["species"]["Row"] & {
   images: { thumbnail_url: string | null } | null;
 };
 
+type Actions = {
+  onDelete?: (id: string) => void;
+  editPath?: string;
+};
+
 const columnHelper = createColumnHelper<Species>();
 
-export const getColumns = (onDelete: (id: string) => void) => [
+export const getColumns = (actions: Actions) => [
   columnHelper.display(getCheckboxColumn()),
 
   columnHelper.accessor("id", { header: "Id" }),
@@ -79,6 +84,6 @@ export const getColumns = (onDelete: (id: string) => void) => [
   columnHelper.display({
     id: "actions",
     header: "Actions",
-    cell: ({ row }) => <ActionCell row={row} onDelete={onDelete} />,
+    cell: ({ row }) => <ActionCell row={row} {...actions} />,
   }),
 ];
