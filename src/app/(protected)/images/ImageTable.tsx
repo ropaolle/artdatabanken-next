@@ -35,9 +35,6 @@ export default function ImageTable({ rows, count }: { rows: Image[]; count?: num
     }
   };
 
-  console.log('count', count);
-  console.log('rows', data);
-
   return (
     <>
       <CustomTable columns={getColumns(handleDelete)} data={data} />

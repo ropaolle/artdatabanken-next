@@ -92,8 +92,6 @@ export default function UploadImage() {
       })
       .select();
 
-    console.log("newImage", newImage);
-
     toast(uploadSuccess(filename));
   };
 

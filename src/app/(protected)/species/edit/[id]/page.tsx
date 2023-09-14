@@ -5,16 +5,12 @@ export default async function SpeciesAdd({ params }: { params: { id: string } })
   const supabase = await createServerComponentClientWithCookies();
   const { data } = await supabase.from("species").select().eq("id", params.id).single();
 
-  console.log("data", data);
-
   const species =
     data &&
     ({
       ...data,
       date: data.date && new Date(data.date),
     } as SpeciesType);
-
-  console.log("species", species);
 
   return (
     <>

@@ -2,7 +2,7 @@
 
 ## TODO
 
-- [ ] ?
+- [ ] Custom table actions: add species, add image
 - BASICS
   - [ ] Check TODO's
   - [ ] Check TypeScript any:s

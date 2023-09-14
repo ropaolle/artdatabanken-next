@@ -4,7 +4,6 @@ import { createColumnHelper } from "@tanstack/react-table";
 import Image from "next/image";
 import { ActionCell, DataTableColumnHeader, getCheckboxColumn } from "@/components/CustomTable";
 import { type Database } from "@/lib/database.types";
-import { format, parse, parseISO } from "date-fns";
 
 export type Image = Database["public"]["Tables"]["images"]["Row"];
 
