@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowUpDown } from "lucide-react";
 import { ActionCell, DataTableColumnHeader, getCheckboxColumn } from "@/components/CustomTable";
 import { Female, Male } from "./icons";
-import type { Database, Tables } from "@/lib/database.types";
+import type { Tables } from "@/types/app.types";
 
 type Image = { id: string; thumbnail_url: string } | null;
 export type Species = Tables<"species"> & { image: Image };

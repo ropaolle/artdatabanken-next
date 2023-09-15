@@ -4,7 +4,7 @@
 import { type ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
-import { type Database } from "@/lib/database.types";
+import type { Database } from "@/types/database.types";
 
 async function getCookieData(): Promise<ReadonlyRequestCookies> {
   const cookieData = cookies();

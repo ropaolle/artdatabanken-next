@@ -1,6 +1,6 @@
 {
   "extends": "next/core-web-vitals",
-  "ignorePatterns": ["**/src/lib/database.types.ts"],
+  "ignorePatterns": ["**/src/types/database.types.ts"],
   "rules": {
     "no-console": ["warn", { "allow": ["info", "error"] }],
     "no-unused-vars": "off"
