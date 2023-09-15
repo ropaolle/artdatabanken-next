@@ -3,7 +3,7 @@
 import { createColumnHelper } from "@tanstack/react-table";
 import Image from "next/image";
 import { ActionCell, DataTableColumnHeader, getCheckboxColumn } from "@/components/CustomTable";
-import { type Database } from "@/lib/database.types";
+import type { Tables } from "@/types/app.types";
 
 type Actions = {
   onDelete?: (id: string) => void;
@@ -13,7 +13,7 @@ type Actions = {
 // export type Image = Database["public"]["Tables"]["images"]["Row"];
 export type Image = Tables<"images">;
 
-const columnHelper = createColumnHelper<Species>();
+const columnHelper = createColumnHelper<Image>();
 
 export function getColumns(actions: Actions) {
   return [
