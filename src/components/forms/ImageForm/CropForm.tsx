@@ -63,7 +63,7 @@ export default function CropForm({ disabled, resolutions, onChange, onSubmit }: 
           </div>
 
           <Button type="submit" className="ml-auto whitespace-nowrap" disabled={disabled}>
-            Crop image
+            Upload image
           </Button>
         </div>
       </form>

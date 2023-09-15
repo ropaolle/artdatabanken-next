@@ -5,6 +5,7 @@ import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import CustomTable from "@/components/CustomTable";
 import useConfirm from "@/components/hooks/useConfirm";
 import { getColumns, type Species } from "./columns";
+import { Button } from "@/components/ui/button";
 
 const confirmDelete = (id: string) => ({
   title: "Are you absolutely sure?",
@@ -35,9 +36,15 @@ export default function SpeciesTable({ rows, count }: { rows: Species[]; count?:
     }
   };
 
+  const Action = () => <Button variant="secondary">Action</Button>;
+
   return (
     <>
-      <CustomTable columns={getColumns({ onDelete: handleDelete, editPath: "/species/edit/" })} data={data} />
+      <CustomTable
+        columns={getColumns({ onDelete: handleDelete, editPath: "/species/edit/" })}
+        data={data}
+        actions={<Action />}
+      />
     </>
   );
 }

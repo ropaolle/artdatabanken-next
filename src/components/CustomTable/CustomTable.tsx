@@ -22,14 +22,15 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  actions?: ReactNode;
 }
 
-export default function CustomTable<TData, TValue>({ columns, data }: DataTableProps<TData, TValue>) {
+export default function CustomTable<TData, TValue>({ columns, data, actions }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   // const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [globalFilter, setGlobalFilter] = useState("");
@@ -79,6 +80,7 @@ export default function CustomTable<TData, TValue>({ columns, data }: DataTableP
         <div className="ml-auto">
           {/* TODO: Inser action buttons */}
           <Button variant="secondary">Action</Button>
+          {actions}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" className="ml-2">

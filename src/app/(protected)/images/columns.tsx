@@ -5,11 +5,17 @@ import Image from "next/image";
 import { ActionCell, DataTableColumnHeader, getCheckboxColumn } from "@/components/CustomTable";
 import { type Database } from "@/lib/database.types";
 
-export type Image = Database["public"]["Tables"]["images"]["Row"];
+type Actions = {
+  onDelete?: (id: string) => void;
+  editPath?: string;
+};
 
-const columnHelper = createColumnHelper<Image>();
+// export type Image = Database["public"]["Tables"]["images"]["Row"];
+export type Image = Tables<"images">;
 
-export function getColumns(onDelete: (id: string) => void) {
+const columnHelper = createColumnHelper<Species>();
+
+export function getColumns(actions: Actions) {
   return [
     columnHelper.display(getCheckboxColumn()),
 
@@ -19,11 +25,19 @@ export function getColumns(onDelete: (id: string) => void) {
       header: ({ column }) => <DataTableColumnHeader column={column} title="Filename" />,
     }),
 
-    columnHelper.accessor("width", {
-      header: ({ column }) => <DataTableColumnHeader column={column} title="Resolution" />,
+    columnHelper.accessor("crop_width", {
+      header: ({ column }) => <DataTableColumnHeader column={column} title="Crop resolution" />,
       cell: ({ row }) => {
-        const { width, height } = row.original;
-        return `${width} * ${height} px`;
+        const { crop_width, crop_height } = row.original;
+        return `${crop_width} * ${crop_height} px`;
+      },
+    }),
+
+    columnHelper.accessor("natural_width", {
+      header: ({ column }) => <DataTableColumnHeader column={column} title="Org resolution" />,
+      cell: ({ row }) => {
+        const { natural_width, natural_height } = row.original;
+        return `${natural_width} * ${natural_height} px`;
       },
     }),
 
@@ -31,9 +45,9 @@ export function getColumns(onDelete: (id: string) => void) {
       header: ({ column }) => <DataTableColumnHeader column={column} title="Upscaled" />,
     }),
 
-    columnHelper.accessor("mime_type", {
-      header: ({ column }) => <DataTableColumnHeader column={column} title="Mime type" />,
-    }),
+    // columnHelper.accessor("mime_type", {
+    //   header: ({ column }) => <DataTableColumnHeader column={column} title="Mime type" />,
+    // }),
 
     columnHelper.accessor("created_at", {
       header: ({ column }) => <DataTableColumnHeader column={column} title="Created" />,
@@ -58,7 +72,7 @@ export function getColumns(onDelete: (id: string) => void) {
     columnHelper.display({
       id: "actions",
       header: "Actions",
-      cell: ({ row }) => <ActionCell row={row} onDelete={onDelete} />,
+      cell: ({ row }) => <ActionCell row={row} {...actions} />,
     }),
   ];
 }

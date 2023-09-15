@@ -2,11 +2,11 @@ import { SupabaseClient } from "@supabase/auth-helpers-nextjs";
 
 export const uploadFileToSupabase = async (
   supabase: SupabaseClient,
-  file: Blob,
+  file: Blob | File,
   bucket: string,
   path: string,
   upsert = false,
-) => {
+) => {  
   const { data, error } = await supabase.storage.from(bucket).upload(path, file, {
     cacheControl: "3600",
     upsert,

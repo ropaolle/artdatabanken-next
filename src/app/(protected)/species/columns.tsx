@@ -4,11 +4,11 @@ import { Button } from "@/components/ui/button";
 import { ArrowUpDown } from "lucide-react";
 import { ActionCell, DataTableColumnHeader, getCheckboxColumn } from "@/components/CustomTable";
 import { Female, Male } from "./icons";
-import { type Database } from "@/lib/database.types";
+import type { Database, Tables } from "@/lib/database.types";
 
-export type Species = Database["public"]["Tables"]["species"]["Row"] & {
-  images: { thumbnail_url: string | null } | null;
-};
+type Image = { id: string; thumbnail_url: string } | null;
+export type Species = Tables<"species"> & { image: Image };
+// export type Species = Database["public"]["Tables"]["species"]["Row"] & { image: Image };
 
 type Actions = {
   onDelete?: (id: string) => void;
@@ -47,7 +47,7 @@ export const getColumns = (actions: Actions) => [
     },
     cell: (info) => {
       // TODO: row.original overrides cache, use columnHelper and grouping instead
-      // console.log('row._valuesCache', row._valuesCache);
+      // console.info('row._valuesCache', row._valuesCache);
       const { gender, latin } = info.row.original;
       const species = info.getValue() || "";
       return (
@@ -67,17 +67,12 @@ export const getColumns = (actions: Actions) => [
 
   columnHelper.accessor("place", { header: "Place" }),
 
-  columnHelper.accessor("images", {
+  // TODO: image can be null
+  columnHelper.accessor("image.thumbnail_url", {
     header: "Thumbnail",
     cell: (info) => {
-      const { thumbnail_url } = info.getValue() || {};
-      return (
-        thumbnail_url && (
-          <div>
-            <Image src={thumbnail_url} alt="image" width="100" height="100" loading="lazy" />
-          </div>
-        )
-      );
+      const image = info.getValue();
+      return <div>{image && <Image src={image} alt="image" width="100" height="100" loading="lazy" />}</div>;
     },
   }),
 

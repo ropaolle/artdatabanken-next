@@ -38,7 +38,7 @@ const uploadSuccess = (filename: string): CustomToastProps => ({
   ),
 });
 
-export default function UploadImage() {
+export default function ImageForm() {
   const supabase = createClientComponentClient();
   const [file, setFile] = useState<File>();
   const imageRef = useRef<HTMLImageElement>(null);
@@ -47,11 +47,11 @@ export default function UploadImage() {
   const [crop, setCrop] = useState<CompletedCropArea>();
   const { toast } = useToast();
 
-  const uploadImage = async (path: string, width: number, height: number, mimeType = "image/jpeg") => {
+  const uploadImage = async (path: string, width: number, height: number) => {
     if (!imageRef.current || !canvasRef.current || !crop) return;
 
     drawImageOnCanvas(imageRef.current, canvasRef.current, crop, width, height);
-    const blob = await canvasToBlob(canvasRef.current, mimeType);
+    const blob = await canvasToBlob(canvasRef.current);
 
     await uploadFileToSupabase(supabase, blob, "images", path, false);
   };
@@ -60,7 +60,7 @@ export default function UploadImage() {
     const { width, height } = resolutions.find(({ value }) => value === resolution)?.data || {};
     const filename = files?.[0]?.name;
 
-    if (!crop || !width || !height || !imageRef.current || !canvasRef.current || !filename) {
+    if (!file || !crop || !width || !height || !imageRef.current || !canvasRef.current || !filename) {
       toast(woops);
       return;
     }
@@ -73,20 +73,21 @@ export default function UploadImage() {
     }
 
     // Upload images
-    const mimeType = "image/jpeg";
-    uploadImage("pictures/" + filename, width, height);
+    await uploadFileToSupabase(supabase, file, "images", "originals/" + filename, false);
+    uploadImage("crops/" + filename, width, height);
     uploadImage("thumbnails/" + filename, 100, 100);
 
     const { basePath } = getPublicUrl(supabase, "images", filename);
 
-    const { data: newImage, error } = await supabase
+    /*  const { data, error } = */ await supabase
       .from("images")
       .upsert({
         filename,
-        width,
-        height,
+        crop_width: width,
+        crop_height: height,
         upscaled: upscaleRequired,
-        mime_type: mimeType,
+        natural_width: imageRef.current.naturalWidth,
+        natural_height: imageRef.current.naturalHeight,
         url: `${basePath}pictures/${filename}`,
         thumbnail_url: `${basePath}thumbnails/${filename}`,
       })

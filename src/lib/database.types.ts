@@ -6,48 +6,54 @@ export type Json =
   | { [key: string]: Json | undefined }
   | Json[]
 
+export type Tables<T extends keyof Database['public']['Tables']> = Database['public']['Tables'][T]['Row']
+// export type Enums<T extends keyof Database['public']['Enums']> = Database['public']['Enums'][T]
+  
 export interface Database {
   public: {
     Tables: {
       images: {
         Row: {
           created_at: string
-          filename: string | null
-          height: number | null
+          crop_height: number
+          crop_width: number
+          filename: string
           id: string
-          mime_type: string | null
-          thumbnail_url: string | null
+          natural_height: number
+          natural_width: number
+          thumbnail_url: string
           updated_at: string
-          upscaled: boolean | null
-          url: string | null
+          upscaled: boolean
+          url: string
           user_id: string | null
-          width: number | null
         }
         Insert: {
           created_at?: string
-          filename?: string | null
-          height?: number | null
+          crop_height?: number
+          crop_width?: number
+          filename?: string
           id?: string
-          mime_type?: string | null
-          thumbnail_url?: string | null
+          natural_height?: number
+          natural_width?: number
+          thumbnail_url?: string
           updated_at?: string
-          upscaled?: boolean | null
-          url?: string | null
+          upscaled?: boolean
+          url?: string
           user_id?: string | null
-          width?: number | null
         }
         Update: {
           created_at?: string
-          filename?: string | null
-          height?: number | null
+          crop_height?: number
+          crop_width?: number
+          filename?: string
           id?: string
-          mime_type?: string | null
-          thumbnail_url?: string | null
+          natural_height?: number
+          natural_width?: number
+          thumbnail_url?: string
           updated_at?: string
-          upscaled?: boolean | null
-          url?: string | null
+          upscaled?: boolean
+          url?: string
           user_id?: string | null
-          width?: number | null
         }
         Relationships: [
           {

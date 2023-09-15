@@ -12,16 +12,14 @@ export default async function Species() {
     .select(
       `
     *,
-    images (thumbnail_url)
+    image (id, thumbnail_url)
     `,
       { count: "exact" /* , head: true  */ },
     )
     .order("updated_at", { ascending: true })
     .limit(100);
 
-  console.log("rows", rows);
-
-
+  console.log('rows', rows);  
 
   return (
     <>
@@ -30,4 +28,3 @@ export default async function Species() {
     </>
   );
 }
-

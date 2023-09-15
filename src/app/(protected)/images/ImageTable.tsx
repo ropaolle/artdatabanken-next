@@ -37,7 +37,11 @@ export default function ImageTable({ rows, count }: { rows: Image[]; count?: num
 
   return (
     <>
-      <CustomTable columns={getColumns(handleDelete)} data={data} />
+      <CustomTable
+        columns={getColumns({ onDelete: handleDelete, editPath: "/images/edit/" })}
+        data={data}
+        // actions={<Action />}
+      />
     </>
   );
 }
