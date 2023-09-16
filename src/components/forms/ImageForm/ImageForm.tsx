@@ -2,30 +2,18 @@
 
 import { useToast, type CustomToastProps } from "@/components/ui/use-toast";
 import { getPublicUrl, uploadFileToSupabase } from "@/lib/supabase";
-import { canvasToBlob, suffixFilename } from "@/lib/utils";
+import { canvasToBlob } from "@/lib/utils";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "react-image-crop/dist/ReactCrop.css";
-import CropForm, { FormSchema } from "./CropForm";
+import CropForm, { type SubmitValues } from "./CropForm";
 import CropPanel, { type CompletedCropArea } from "./CropPanel";
 import drawImageOnCanvas from "./drawImageOnCanvas";
-
-const resolutions = [
-  { value: "250", label: "250 * 250 px", data: { width: 250, height: 250 } },
-  { value: "500", label: <i>500 * 500 px</i>, data: { width: 500, height: 500 } },
-  { value: "1000", label: "1000 * 1000 px", data: { width: 1000, height: 1000 } },
-];
 
 const woops: CustomToastProps = {
   title: "Woops!",
   variant: "destructive",
   description: "Something is missing.",
-};
-
-const upscaleWarning: CustomToastProps = {
-  title: "Upscale required",
-  variant: "warning",
-  description: "The croped image resolution is lower than the target resolution and must be upscaled.",
 };
 
 const uploadSuccess = (filename: string): CustomToastProps => ({
@@ -38,7 +26,11 @@ const uploadSuccess = (filename: string): CustomToastProps => ({
   ),
 });
 
-export default function ImageForm() {
+type Props = {
+  originalFilename?: string;
+};
+
+export default function ImageForm({ originalFilename }: Props) {
   const supabase = createClientComponentClient();
   const [file, setFile] = useState<File>();
   const imageRef = useRef<HTMLImageElement>(null);
@@ -46,6 +38,17 @@ export default function ImageForm() {
   const [preview, setPreview] = useState<string>();
   const [crop, setCrop] = useState<CompletedCropArea>();
   const { toast } = useToast();
+
+  useEffect(() => {
+    const loadFile = async () => {
+      if (!originalFilename) return;
+      const { data: blob, error } = await supabase.storage.from("images").download(`originals/${originalFilename}`);
+      if (!blob) return;
+      setFile(new File([blob], originalFilename));
+    };
+
+    loadFile();
+  }, [originalFilename /* , supabase.storage */]);
 
   const uploadImage = async (path: string, width: number, height: number) => {
     if (!imageRef.current || !canvasRef.current || !crop) return;
@@ -56,24 +59,22 @@ export default function ImageForm() {
     await uploadFileToSupabase(supabase, blob, "images", path, false);
   };
 
-  const handleSubmit = async ({ files, resolution, options }: FormSchema) => {
-    const { width, height } = resolutions.find(({ value }) => value === resolution)?.data || {};
-    const filename = files?.[0]?.name;
+  const handleSubmit = async ({
+    file,
+    resolution: { width, height },
+    originalFilename,
+    upscaleRequired,
+  }: SubmitValues) => {
+    const filename = file?.name || originalFilename;
 
-    if (!file || !crop || !width || !height || !imageRef.current || !canvasRef.current || !filename) {
+    if (!filename || !imageRef.current) {
       toast(woops);
       return;
     }
 
-    const upscaleForbidden = !options.includes("upscale");
-    const upscaleRequired = crop.naturalSelectionWidth < width || crop.naturalSelectionHeight < height;
-    if (upscaleForbidden && upscaleRequired) {
-      toast(upscaleWarning);
-      return;
+    if (file) {
+      uploadFileToSupabase(supabase, file, "images", "originals/" + filename, false);
     }
-
-    // Upload images
-    await uploadFileToSupabase(supabase, file, "images", "originals/" + filename, false);
     uploadImage("crops/" + filename, width, height);
     uploadImage("thumbnails/" + filename, 100, 100);
 
@@ -82,7 +83,7 @@ export default function ImageForm() {
     /*  const { data, error } = */ await supabase
       .from("images")
       .upsert({
-        filename,
+        filename: filename,
         crop_width: width,
         crop_height: height,
         upscaled: upscaleRequired,
@@ -96,8 +97,8 @@ export default function ImageForm() {
     toast(uploadSuccess(filename));
   };
 
-  const handleChange = (values: FormSchema) => {
-    setFile(values?.files?.[0]);
+  const handleChange = (file?: File) => {
+    setFile(file);
   };
 
   const handleCrop = (crop: CompletedCropArea, preview: string | undefined) => {
@@ -122,7 +123,13 @@ export default function ImageForm() {
 
   return (
     <>
-      <CropForm resolutions={resolutions} onChange={handleChange} onSubmit={handleSubmit} disabled={!crop} />
+      <CropForm
+        onChange={handleChange}
+        onSubmit={handleSubmit}
+        naturalSelectionHeight={crop?.naturalSelectionHeight}
+        naturalSelectionWidth={crop?.naturalSelectionWidth}
+        originalFilename={originalFilename}
+      />
 
       <div className="mt-8 grid grid-cols-1  gap-8 md:grid-cols-2">
         <div className="md:flex md:flex-col">

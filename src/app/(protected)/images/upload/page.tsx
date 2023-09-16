@@ -1,4 +1,4 @@
-import ImageForm from "@/components/forms/ImageForm";
+import { ImageForm } from "@/components/forms";
 
 export default function Upload() {
   return (

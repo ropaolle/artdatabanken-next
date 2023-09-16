@@ -5,6 +5,7 @@ import useConfirm from "@/components/hooks/useConfirm";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useState } from "react";
 import { getColumns, type Image } from "./columns";
+import { useRouter } from "next/navigation";
 
 const confirmDelete = (id: string) => ({
   title: "Are you absolutely sure?",
@@ -19,6 +20,7 @@ export default function ImageTable({ rows, count }: { rows: Image[]; count?: num
   const [data, setData] = useState(rows);
   const supabase = createClientComponentClient();
   const { confirm } = useConfirm();
+  const router = useRouter()
 
   const handleDelete = async (id: string) => {
     if (await confirm(confirmDelete(id))) {
@@ -35,10 +37,14 @@ export default function ImageTable({ rows, count }: { rows: Image[]; count?: num
     }
   };
 
+  const handleEdit = ({ id, filename }: Image) => {
+    router.push(`/images/edit/${id}?filename=${filename}`)
+  };
+
   return (
     <>
       <CustomTable
-        columns={getColumns({ onDelete: handleDelete, editPath: "/images/edit/" })}
+        columns={getColumns({ onDelete: handleDelete, onEdit: handleEdit })}
         data={data}
         // actions={<Action />}
       />

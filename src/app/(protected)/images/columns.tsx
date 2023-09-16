@@ -5,13 +5,13 @@ import Image from "next/image";
 import { ActionCell, DataTableColumnHeader, getCheckboxColumn } from "@/components/CustomTable";
 import type { Tables } from "@/types/app.types";
 
+export type Image = Tables<"images">;
+
 type Actions = {
   onDelete?: (id: string) => void;
+  onEdit?: (row: Image) => void;
   editPath?: string;
 };
-
-// export type Image = Database["public"]["Tables"]["images"]["Row"];
-export type Image = Tables<"images">;
 
 const columnHelper = createColumnHelper<Image>();
 
@@ -44,10 +44,6 @@ export function getColumns(actions: Actions) {
     columnHelper.accessor("upscaled", {
       header: ({ column }) => <DataTableColumnHeader column={column} title="Upscaled" />,
     }),
-
-    // columnHelper.accessor("mime_type", {
-    //   header: ({ column }) => <DataTableColumnHeader column={column} title="Mime type" />,
-    // }),
 
     columnHelper.accessor("created_at", {
       header: ({ column }) => <DataTableColumnHeader column={column} title="Created" />,

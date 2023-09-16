@@ -16,7 +16,7 @@ type InputProps<TName> = {
 export default function Input<
   TFieldValues extends FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
->({ name, label, description, vertical, placeholder }: InputProps<TName>) {
+>({ name, label, description, vertical, placeholder, ...props }: InputProps<TName>) {
   const { control } = useFormContext();
   return (
     <FormField
@@ -26,7 +26,7 @@ export default function Input<
         <FormItem className={cn(vertical && "flex flex-wrap")}>
           <FormLabel className={cn(vertical && "basis-[25%] self-center")}>{label || name}</FormLabel>
           <FormControl>
-            <InputComponent placeholder={placeholder} {...field} className={cn(vertical && "basis-[75%]")} />
+            <InputComponent placeholder={placeholder} {...field} {...props} className={cn(vertical && "basis-[75%]")} />
           </FormControl>
           <FormDescription className={cn(vertical && "mt-0 basis-full text-right")}>{description}</FormDescription>
           <FormMessage className={cn(vertical && "mt-0 basis-full text-right font-normal")} />

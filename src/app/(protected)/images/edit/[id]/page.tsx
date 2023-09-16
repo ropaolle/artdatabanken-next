@@ -1,22 +1,16 @@
-import createServerComponentClientWithCookies from "@/lib/createServerComponentClientWithCookies";
-import ImageForm from "@/components/forms/ImageForm";
+import { ImageForm } from "@/components/forms";
 
-export default async function SpeciesAdd({ params }: { params: { id: string } }) {
-  const supabase = await createServerComponentClientWithCookies();
-  const { data } = await supabase.from("species").select().eq("id", params.id).single();
+type Props = {
+  // params: { id: string };
+  searchParams: { filename: string };
+};
 
-  // const species =
-  //   data &&
-  //   ({
-  //     ...data,
-  //     date: data.date && new Date(data.date),
-  //   } as SpeciesType);
-
+export default async function SpeciesAdd({ /* params: { id }, */ searchParams: { filename } }: Props) {
   return (
     <>
       <h1>Update image</h1>
-      <div className=" max-w-lg2">
-        <ImageForm values={} />
+      <div className="max-w-lg2">
+        <ImageForm originalFilename={filename} />
       </div>
     </>
   );

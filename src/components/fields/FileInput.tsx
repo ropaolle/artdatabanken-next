@@ -16,7 +16,7 @@ type InputProps<TName> = {
 export default function FileInput<
   TFieldValues extends FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
->({ name, label, description, vertical, ...props }: InputProps<TName>) {
+>({ name, label, description, vertical, multiple, ...props }: InputProps<TName>) {
   const { control } = useFormContext();
   return (
     <FormField
@@ -31,8 +31,9 @@ export default function FileInput<
                 type="file"
                 {...fieldProps}
                 {...props}
+                multiple={multiple}
                 onChange={(e) => {
-                  onChange(e.target.files);
+                  onChange(multiple ? e.target.files : e.target.files?.[0]);
                 }}
               />
             </FormControl>
