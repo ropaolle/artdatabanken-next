@@ -2,8 +2,7 @@
 
 ## TODO
 
-- [ ] Custom table actions: add species, add image
-- [ ] Error handeleing!
+- [ ]
 - BASICS
   - [ ] Check TODO's
   - [ ] Check TypeScript any:s
@@ -14,6 +13,7 @@
 
 ## Known issues
 
+- [ ] [Relationships between tables are not typed correctly](https://github.com/supabase/cli/issues/736)
 - [ ] DynamicServerError: Dynamic server usage: Page couldn't be rendered statically because it used `cookies`. [See more info here](https://nextjs.org/docs/messages/dynamic-server-error)
   - import { revalidatePath } from "next/cache";
 - [ ] Create thumbnails with transform. Kräver för närvarande att betalkonto.

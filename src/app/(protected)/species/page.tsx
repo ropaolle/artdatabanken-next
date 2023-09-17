@@ -1,4 +1,5 @@
 import createServerComponentClientWithCookies from "@/lib/createServerComponentClientWithCookies";
+import type { SpeciesImage } from "@/types/app.types";
 import SpeciesTable from "./SpeciesTable";
 
 // TODO: Not working as expected. Always seems to be cached for 60 seconds, regardless of revalidate or "force-dynamic".
@@ -7,7 +8,7 @@ import SpeciesTable from "./SpeciesTable";
 
 export default async function Species() {
   const supabase = await createServerComponentClientWithCookies();
-  const { data: rows, count } = await supabase
+  const { data, count } = await supabase
     .from("species")
     .select(
       `
@@ -18,12 +19,13 @@ export default async function Species() {
     )
     .order("updated_at", { ascending: true })
     .limit(100)
-    .returns<any>();
+    // TODO: [Relationships between tables are not typed correctly](https://github.com/supabase/cli/issues/736)
+    .returns<SpeciesImage[]>();
 
   return (
     <>
       <h1>Species</h1>
-      {rows && <SpeciesTable rows={rows} count={count} />}
+      {<SpeciesTable rows={data || []} count={count} />}
     </>
   );
 }

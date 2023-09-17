@@ -1,11 +1,9 @@
 "use client";
 
+import { ActionCell, DataTableColumnHeader, getCheckboxColumn } from "@/components/CustomTable";
+import type { Image } from "@/types/app.types";
 import { createColumnHelper } from "@tanstack/react-table";
 import NextImage from "next/image";
-import { ActionCell, DataTableColumnHeader, getCheckboxColumn } from "@/components/CustomTable";
-import type { Tables } from "@/types/app.types";
-
-export type Image = Tables<"images">;
 
 type Actions = {
   onDelete?: (id: string) => void;
@@ -13,9 +11,9 @@ type Actions = {
   editPath?: string;
 };
 
-const columnHelper = createColumnHelper<Image>();
-
 export function getColumns(actions: Actions) {
+  const columnHelper = createColumnHelper<Image>();
+
   return [
     columnHelper.display(getCheckboxColumn()),
 

@@ -3,7 +3,7 @@ import ImageTable from "./ImageTable";
 
 export default async function Images() {
   const supabase = await createServerComponentClientWithCookies();
-  const { data: rows, count } = await supabase
+  const { data, count } = await supabase
     .from("images")
     .select("*", { count: "exact" /* , head: true  */ })
     .order("updated_at", { ascending: true });
@@ -12,7 +12,7 @@ export default async function Images() {
   return (
     <>
       <h1>Images</h1>
-      {<ImageTable rows={rows|| []} count={count || 0} />}
+      {<ImageTable rows={data || []} count={count || 0} />}
     </>
   );
 }

@@ -1,11 +1,12 @@
 "use client";
 
-import { useState } from "react";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import CustomTable from "@/components/CustomTable";
 import useConfirm from "@/components/hooks/useConfirm";
-import { getColumns, type Species } from "./columns";
 import { Button } from "@/components/ui/button";
+import type { SpeciesImage } from "@/types/app.types";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { useState } from "react";
+import { getColumns } from "./columns";
 
 const confirmDelete = (id: string) => ({
   title: "Are you absolutely sure?",
@@ -16,7 +17,7 @@ const confirmDelete = (id: string) => ({
   ),
 });
 
-export default function SpeciesTable({ rows, count }: { rows: Species[]; count?: number | null }) {
+export default function SpeciesTable({ rows, count }: { rows: SpeciesImage[]; count?: number | null }) {
   const [data, setData] = useState(rows);
   const supabase = createClientComponentClient();
   const { confirm } = useConfirm();

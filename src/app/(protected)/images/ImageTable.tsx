@@ -2,10 +2,11 @@
 
 import CustomTable from "@/components/CustomTable";
 import useConfirm from "@/components/hooks/useConfirm";
+import type { Image } from "@/types/app.types";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import { useState } from "react";
-import { getColumns, type Image } from "./columns";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { getColumns } from "./columns";
 
 const confirmDelete = (id: string) => ({
   title: "Are you absolutely sure?",
@@ -20,7 +21,7 @@ export default function ImageTable({ rows, count }: { rows: Image[]; count?: num
   const [data, setData] = useState(rows);
   const supabase = createClientComponentClient();
   const { confirm } = useConfirm();
-  const router = useRouter()
+  const router = useRouter();
 
   const handleDelete = async (id: string) => {
     if (await confirm(confirmDelete(id))) {
@@ -38,7 +39,7 @@ export default function ImageTable({ rows, count }: { rows: Image[]; count?: num
   };
 
   const handleEdit = ({ id, filename }: Image) => {
-    router.push(`/images/edit/${id}?filename=${filename}`)
+    router.push(`/images/edit/${id}?filename=${filename}`);
   };
 
   return (
