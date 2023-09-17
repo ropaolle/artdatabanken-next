@@ -43,12 +43,10 @@ export default function ImageTable({ rows, count }: { rows: Image[]; count?: num
   };
 
   return (
-    <>
-      <CustomTable
-        columns={getColumns({ onDelete: handleDelete, onEdit: handleEdit })}
-        data={data}
-        // actions={<Action />}
-      />
-    </>
+    <CustomTable
+      columns={getColumns({ onDelete: handleDelete, onEdit: handleEdit })}
+      data={data}
+      // actions={<Action />}
+    />
   );
 }

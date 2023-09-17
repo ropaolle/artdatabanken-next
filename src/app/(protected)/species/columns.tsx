@@ -11,9 +11,9 @@ type Actions = {
   editPath?: string;
 };
 
-export const getColumns = (actions: Actions) => {
-  const columnHelper = createColumnHelper<SpeciesImage>();
+const columnHelper = createColumnHelper<SpeciesImage>();
 
+export const getColumns = (actions: Actions) => {
   return [
     columnHelper.display(getCheckboxColumn()),
 

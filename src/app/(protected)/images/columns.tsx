@@ -1,5 +1,3 @@
-"use client";
-
 import { ActionCell, DataTableColumnHeader, getCheckboxColumn } from "@/components/CustomTable";
 import type { Image } from "@/types/app.types";
 import { createColumnHelper } from "@tanstack/react-table";
@@ -11,9 +9,9 @@ type Actions = {
   editPath?: string;
 };
 
-export function getColumns(actions: Actions) {
-  const columnHelper = createColumnHelper<Image>();
+const columnHelper = createColumnHelper<Image>();
 
+export function getColumns(actions: Actions) {
   return [
     columnHelper.display(getCheckboxColumn()),
 
@@ -56,7 +54,7 @@ export function getColumns(actions: Actions) {
     columnHelper.accessor("thumbnail_url", {
       header: ({ column }) => <DataTableColumnHeader column={column} title="Thumbnail" />,
       cell: (info) => {
-        const url = info.getValue<string>();
+        const url = info.getValue();
         return <div>{url && <NextImage src={url} alt="image" width="100" height="100" loading="lazy" />}</div>;
       },
     }),
