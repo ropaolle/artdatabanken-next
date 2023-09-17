@@ -1,7 +1,8 @@
 "use client";
 
-import { useToast, type CustomToastProps } from "@/components/ui/use-toast";
-import { getPublicUrl, uploadFileToSupabase } from "@/lib/supabase";
+import useConfirm from "@/components/hooks/useConfirm";
+import { useToast } from "@/components/ui/use-toast";
+import { getImageId, getPublicUrl, uploadFileToSupabase } from "@/lib/supabase";
 import { canvasToBlob } from "@/lib/utils";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useEffect, useRef, useState } from "react";
@@ -10,27 +11,18 @@ import CropForm, { type SubmitValues } from "./CropForm";
 import CropPanel, { type CompletedCropArea } from "./CropPanel";
 import drawImageOnCanvas from "./drawImageOnCanvas";
 
-const woops: CustomToastProps = {
-  title: "Woops!",
-  variant: "destructive",
-  description: "Something is missing.",
-};
 
-const uploadSuccess = (filename: string): CustomToastProps => ({
-  title: "Upload succeeded",
-  variant: "default",
-  description: (
+const confirmDelete = (filename: string) => ({
+  title: "Overwrite existing image?",
+  message: (
     <>
-      Image <i>{filename}</i> successfully uploaded to bucket <i>images</i>.
+      Image <strong>{filename}</strong> already exists. Do you like to replace the existing image?
     </>
   ),
+  confirmLabel: "Overwrite image",
 });
 
-type Props = {
-  originalFilename?: string;
-};
-
-export default function ImageForm({ originalFilename }: Props) {
+export default function ImageForm({ originalFilename }: { originalFilename?: string }) {
   const supabase = createClientComponentClient();
   const [file, setFile] = useState<File>();
   const imageRef = useRef<HTMLImageElement>(null);
@@ -38,6 +30,7 @@ export default function ImageForm({ originalFilename }: Props) {
   const [preview, setPreview] = useState<string>();
   const [crop, setCrop] = useState<CompletedCropArea>();
   const { toast } = useToast();
+  const { confirm } = useConfirm();
 
   useEffect(() => {
     const loadFile = async () => {
@@ -48,15 +41,15 @@ export default function ImageForm({ originalFilename }: Props) {
     };
 
     loadFile();
-  }, [originalFilename /* , supabase.storage */]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [originalFilename]);
 
-  const uploadImage = async (path: string, width: number, height: number) => {
+  const uploadImage = async (path: string, width: number, height: number, owerwrite: boolean) => {
     if (!imageRef.current || !canvasRef.current || !crop) return;
-
     drawImageOnCanvas(imageRef.current, canvasRef.current, crop, width, height);
     const blob = await canvasToBlob(canvasRef.current);
 
-    await uploadFileToSupabase(supabase, blob, "images", path, false);
+    await uploadFileToSupabase(supabase, blob, "images", path, owerwrite);
   };
 
   const handleSubmit = async ({
@@ -68,33 +61,50 @@ export default function ImageForm({ originalFilename }: Props) {
     const filename = file?.name || originalFilename;
 
     if (!filename || !imageRef.current) {
-      toast(woops);
+      toast({
+        title: "Woops!",
+        variant: "destructive",
+        description: "Something is missing.",
+      });
+      return;
+    }
+
+    const imageId = await getImageId(supabase, filename);
+    if (imageId && !(await confirm(confirmDelete(filename)))) {
       return;
     }
 
     if (file) {
-      uploadFileToSupabase(supabase, file, "images", "originals/" + filename, false);
+      uploadFileToSupabase(supabase, file, "images", "originals/" + filename, true);
     }
-    uploadImage("crops/" + filename, width, height);
-    uploadImage("thumbnails/" + filename, 100, 100);
+    uploadImage("crops/" + filename, width, height, true);
+    uploadImage("thumbnails/" + filename, 100, 100, true);
 
-    const { basePath } = getPublicUrl(supabase, "images", filename);
+    const basePath = getPublicUrl(supabase, "images", filename);
 
     /*  const { data, error } = */ await supabase
       .from("images")
       .upsert({
+        id: imageId,
         filename: filename,
         crop_width: width,
         crop_height: height,
         upscaled: upscaleRequired,
         natural_width: imageRef.current.naturalWidth,
         natural_height: imageRef.current.naturalHeight,
-        url: `${basePath}pictures/${filename}`,
-        thumbnail_url: `${basePath}thumbnails/${filename}`,
+        url: basePath && `${basePath}crops/${filename}`,
+        thumbnail_url: basePath && `${basePath}thumbnails/${filename}`,
       })
       .select();
 
-    toast(uploadSuccess(filename));
+    toast({
+      title: "Upload succeeded",
+      description: (
+        <>
+          Image <i>{filename}</i> successfully uploaded to bucket <i>images</i>.
+        </>
+      ),
+    });
   };
 
   const handleChange = (file?: File) => {

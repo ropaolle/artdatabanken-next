@@ -3,21 +3,17 @@
 import { Checkboxes, Combobox, ComboboxAsync, DatePicker, Input, type Option } from "@/components/fields";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
+import { useToast } from "@/components/ui/use-toast";
+import { getPublicUrl } from "@/lib/supabase";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, useState } from "react";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { counties, gender } from "./options";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import { getPublicUrl } from "@/lib/supabase";
-
-// import { type Database } from "@/lib/database.types";
-
-// export type Species = Database["public"]["Tables"]["species"]["Row"] & {
-//   images: { thumbnail_url: string | null } | null;
-// };
 
 const formSchema = z.object({
+  id: z.string().nullish(),
   species: z.string().nonempty("This field is reqired."),
   kingdom: z.string(),
   order: z.string(),
@@ -32,13 +28,16 @@ const formSchema = z.object({
 
 export type SpeciesType = z.infer<typeof formSchema>;
 
-export default function SpeciesForm({ values }: { values?: SpeciesType | null }) {
+export default function SpeciesForm({ values }: { values?: SpeciesType }) {
   const supabase = createClientComponentClient();
   const [previewURL, setPreviewURL] = useState<string>();
+  const { toast } = useToast();
+  const mode: "edit" | "create" = values ? "edit" : "create";
 
   const form = useForm<SpeciesType>({
     resolver: zodResolver(formSchema),
-    defaultValues: values || {
+    defaultValues: {
+      id: "",
       kingdom: "",
       species: "",
       order: "",
@@ -50,14 +49,17 @@ export default function SpeciesForm({ values }: { values?: SpeciesType | null })
       date: new Date(),
       gender: [],
     },
+    values,
   });
 
   async function onSubmit(values: SpeciesType) {
-    console.info(values);
+    // console.info(values);
+
+    if (mode === "create") delete values.id;
 
     const { data, error } = await supabase
       .from("species")
-      .upsert({ /*id: uuid(), */ ...values })
+      .upsert({ ...values })
       .select();
 
     if (error) {
@@ -65,13 +67,14 @@ export default function SpeciesForm({ values }: { values?: SpeciesType | null })
       return;
     }
 
-    console.log("data", data);
-    // TODO: Add toast
+    toast({
+      title: `${values.id ? "Species updated" : "New species created"}`,
+      description: `Species ${values.species} ${values.id ? "updated" : "created"}.`,
+    });
   }
 
-  const handleImageChange = ({ label }: Option) => {
-    const { publicUrl } = getPublicUrl(supabase, "images", "pictures/" + label);
-    setPreviewURL(publicUrl);
+  const handleImageChange = (option: Option | null) => {
+    setPreviewURL(option ? getPublicUrl(supabase, "images", "crops/" + option.label) : undefined);
   };
 
   const handleLoadImageOptions = async (query: string) => {
@@ -92,6 +95,7 @@ export default function SpeciesForm({ values }: { values?: SpeciesType | null })
           <div className="space-y-4">
             <Input name="species" label="Species *" description="Testbeskrivning" />
             <div className="grid grid-cols-2 gap-4">
+              <Input name="id" label="Id" hidden />
               <Input name="kingdom" label="Kingdom" />
               <Input name="order" label="Order" />
               <Input name="family" label="Family" placeholder="My placeholder..." />
@@ -125,7 +129,7 @@ export default function SpeciesForm({ values }: { values?: SpeciesType | null })
         <div className="space-y-8">
           <div></div>
           <div className="flex justify-end ">
-            <Button type="submit">Add species</Button>
+            <Button type="submit">{mode === "edit" ? "Update species" : "Add species"}</Button>
           </div>
         </div>
       </form>

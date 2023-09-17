@@ -11,15 +11,14 @@ export default async function Species() {
     .from("species")
     .select(
       `
-    *,
-    image (id, thumbnail_url)
+      *,
+      image (id, thumbnail_url)
     `,
       { count: "exact" /* , head: true  */ },
     )
     .order("updated_at", { ascending: true })
-    .limit(100);
-
-  console.log('rows', rows);  
+    .limit(100)
+    .returns<any>();
 
   return (
     <>

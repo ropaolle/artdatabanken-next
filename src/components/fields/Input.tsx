@@ -16,14 +16,14 @@ type InputProps<TName> = {
 export default function Input<
   TFieldValues extends FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
->({ name, label, description, vertical, placeholder, ...props }: InputProps<TName>) {
+>({ name, label, description, vertical, placeholder, hidden, ...props }: InputProps<TName>) {
   const { control } = useFormContext();
   return (
     <FormField
       control={control}
       name={name}
       render={({ field }) => (
-        <FormItem className={cn(vertical && "flex flex-wrap")}>
+        <FormItem className={cn(hidden && "hidden", !hidden && vertical && "flex flex-wrap")}>
           <FormLabel className={cn(vertical && "basis-[25%] self-center")}>{label || name}</FormLabel>
           <FormControl>
             <InputComponent placeholder={placeholder} {...field} {...props} className={cn(vertical && "basis-[75%]")} />

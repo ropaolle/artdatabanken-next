@@ -8,7 +8,6 @@ import type { Tables } from "@/types/app.types";
 
 type Image = { id: string; thumbnail_url: string } | null;
 export type Species = Tables<"species"> & { image: Image };
-// export type Species = Database["public"]["Tables"]["species"]["Row"] & { image: Image };
 
 type Actions = {
   onDelete?: (id: string) => void;
@@ -71,8 +70,8 @@ export const getColumns = (actions: Actions) => [
   columnHelper.accessor("image.thumbnail_url", {
     header: "Thumbnail",
     cell: (info) => {
-      const image = info.getValue();
-      return <div>{image && <Image src={image} alt="image" width="100" height="100" loading="lazy" />}</div>;
+      const url = info.getValue();
+      return <div>{url && <Image src={url} alt="image" width="100" height="100" loading="lazy" />}</div>;
     },
   }),
 

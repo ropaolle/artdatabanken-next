@@ -32,7 +32,7 @@ const upscaleRequired = (
 export type SubmitValues = {
   file?: File;
   resolution: { width: number; height: number };
-  originalFilename?: string;
+  originalFilename: string;
   upscaleRequired: boolean;
 };
 
@@ -88,7 +88,6 @@ export default function CropForm({
     // each re-render.But if we only use a string, like the filename, the effect will only
     // be trigger when the name actually is changed.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    // }, [values.files?.[0]?.name]);
   }, [values.file?.name]);
 
   const handleSubmit = ({ resolution, file, options }: z.infer<typeof formSchema>) => {

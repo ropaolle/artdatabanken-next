@@ -25,7 +25,7 @@ type BaseComboboxProps<TName> = {
   loading?: boolean;
   async?: boolean;
   onSearch?: (query: string) => void;
-  onChange?: (option: Option) => void;
+  onChange?: (option: Option | null) => void;
 };
 
 function BaseCombobox<
@@ -57,11 +57,6 @@ function BaseCombobox<
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedSearchQuery]);
 
-  // const handleChange = (option: Option) => {
-  //   typeof onChange === "function" && onChange(option);
-  //   console.log('field', field);
-  // };
-
   return (
     <FormField
       control={control}
@@ -90,7 +85,8 @@ function BaseCombobox<
                         title="clear field"
                         onClick={(e) => {
                           e.preventDefault();
-                          resetField(name);
+                          resetField<string>(name, { defaultValue: "" });
+                          typeof onChange === "function" && onChange(null);
                         }}
                       >
                         <X className="h-4 w-4 opacity-50" />

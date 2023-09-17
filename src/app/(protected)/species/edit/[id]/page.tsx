@@ -3,7 +3,12 @@ import { SpeciesForm, type SpeciesType } from "@/components/forms";
 
 export default async function SpeciesAdd({ params }: { params: { id: string } }) {
   const supabase = await createServerComponentClientWithCookies();
-  const { data } = await supabase.from("species").select().eq("id", params.id).single();
+  const { data, error } = await supabase.from("species").select().eq("id", params.id).single();
+
+  if (error || !data) {
+    console.error(error, data);
+    return;
+  }
 
   const species =
     data &&

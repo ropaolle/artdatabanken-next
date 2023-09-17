@@ -45,6 +45,7 @@
     "tailwind-merge": "^1.14.0",
     "tailwindcss": "3.3.3",
     "tailwindcss-animate": "^1.0.7",
+    "typescript": "^5.2.2",
     "zod": "^3.22.2",
     "zustand": "^4.4.1"
   },
@@ -54,7 +55,6 @@
     "@types/react-dom": "18.2.7",
     "encoding": "^0.1.13",
     "prettier-plugin-tailwindcss": "^0.5.4",
-    "supabase": "^1.93.0",
-    "typescript": "^5.2.2"
+    "supabase": "^1.93.0"
   }
 }

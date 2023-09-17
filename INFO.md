@@ -3,6 +3,7 @@
 ## TODO
 
 - [ ] Custom table actions: add species, add image
+- [ ] Error handeleing!
 - BASICS
   - [ ] Check TODO's
   - [ ] Check TypeScript any:s
