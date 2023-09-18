@@ -78,8 +78,6 @@ export default function CustomTable<TData, TValue>({ columns, data, actions }: D
           placeholder="Search all columns..."
         />
         <div className="ml-auto">
-          {/* TODO: Inser action buttons */}
-          <Button variant="secondary">Action</Button>
           {actions}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>

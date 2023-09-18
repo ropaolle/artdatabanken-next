@@ -2,8 +2,10 @@
 
 import CustomTable from "@/components/CustomTable";
 import useConfirm from "@/components/hooks/useConfirm";
+import { buttonVariants } from "@/components/ui/button";
 import type { Image } from "@/types/app.types";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { getColumns } from "./columns";
@@ -42,11 +44,17 @@ export default function ImageTable({ rows, count }: { rows: Image[]; count?: num
     router.push(`/images/edit/${id}?filename=${filename}`);
   };
 
+  const UploadAction = () => (
+    <Link href="/images/upload" className={buttonVariants({ variant: "default" })}>
+      Upload image
+    </Link>
+  );
+
   return (
     <CustomTable
       columns={getColumns({ onDelete: handleDelete, onEdit: handleEdit })}
       data={data}
-      // actions={<Action />}
+      actions={<UploadAction />}
     />
   );
 }

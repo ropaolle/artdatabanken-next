@@ -2,9 +2,10 @@
 
 import CustomTable from "@/components/CustomTable";
 import useConfirm from "@/components/hooks/useConfirm";
-import { Button } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import type { SpeciesImage } from "@/types/app.types";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import Link from "next/link";
 import { useState } from "react";
 import { getColumns } from "./columns";
 
@@ -37,14 +38,18 @@ export default function SpeciesTable({ rows, count }: { rows: SpeciesImage[]; co
     }
   };
 
-  const Action = () => <Button variant="secondary">Action</Button>;
+  const AddSpeciesAction = () => (
+    <Link href="/images/upload" className={buttonVariants({ variant: "default" })}>
+      AddSpecies
+    </Link>
+  );
 
   return (
     <>
       <CustomTable
         columns={getColumns({ onDelete: handleDelete, editPath: "/species/edit/" })}
         data={data}
-        actions={<Action />}
+        actions={<AddSpeciesAction />}
       />
     </>
   );
