@@ -37,3 +37,27 @@ create policy "Users can delete a images."
 on images for delete
 to authenticated
 using ( auth.uid() = user_id );
+
+-- Species
+
+alter table species enable row level security;
+
+create policy "User can see their own species only."
+on species for select
+to authenticated
+using ( auth.uid() = user_id );
+
+create policy "Users can create a species."
+on species for insert 
+to authenticated
+with check ( auth.uid() = user_id );
+
+create policy "Users can update their own species."
+on species for update
+to authenticated
+using ( auth.uid() = user_id ); 
+
+create policy "Users can delete a species."
+on species for delete
+to authenticated
+using ( auth.uid() = user_id );

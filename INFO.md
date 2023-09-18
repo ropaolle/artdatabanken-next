@@ -2,7 +2,6 @@
 
 ## TODO
 
-- [ ] Policy for species - Load own images/species only.
 - [ ] Add logged in user to state.
 - [ ] Generic supabase fetch? See load.tsx in .development.
 - BASICS
