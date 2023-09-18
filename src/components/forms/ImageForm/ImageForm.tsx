@@ -3,14 +3,13 @@
 import useConfirm from "@/components/hooks/useConfirm";
 import { useToast } from "@/components/ui/use-toast";
 import { getImageId, getPublicUrl, uploadFileToSupabase } from "@/lib/supabase";
-import { canvasToBlob } from "@/lib/utils";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { canvasToBlob, suffixFilename } from "@/lib/utils";
+import { User, createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useEffect, useRef, useState } from "react";
 import "react-image-crop/dist/ReactCrop.css";
 import CropForm, { type SubmitValues } from "./CropForm";
 import CropPanel, { type CompletedCropArea } from "./CropPanel";
 import drawImageOnCanvas from "./drawImageOnCanvas";
-
 
 const confirmDelete = (filename: string) => ({
   title: "Overwrite existing image?",
@@ -31,25 +30,47 @@ export default function ImageForm({ originalFilename }: { originalFilename?: str
   const [crop, setCrop] = useState<CompletedCropArea>();
   const { toast } = useToast();
   const { confirm } = useConfirm();
+  const [user, setUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    const loadUser = async () => {
+      const { data } = await supabase.auth.getUser();
+      setUser(data.user);
+    };
+
+    loadUser();
+  }, [supabase]);
 
   useEffect(() => {
     const loadFile = async () => {
-      if (!originalFilename) return;
-      const { data: blob, error } = await supabase.storage.from("images").download(`originals/${originalFilename}`);
+      if (!originalFilename || !user) return;
+      const { data: blob, error } = await supabase.storage.from("images").download(`${user?.id}/${originalFilename}`);
       if (!blob) return;
       setFile(new File([blob], originalFilename));
     };
 
     loadFile();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [originalFilename]);
+  }, [originalFilename, user]);
 
-  const uploadImage = async (path: string, width: number, height: number, owerwrite: boolean) => {
-    if (!imageRef.current || !canvasRef.current || !crop) return;
-    drawImageOnCanvas(imageRef.current, canvasRef.current, crop, width, height);
-    const blob = await canvasToBlob(canvasRef.current);
+  const uploadImage = async ({
+    path,
+    width,
+    height,
+    file,
+  }: {
+    path: string;
+    width?: number;
+    height?: number;
+    file?: File | Blob;
+  }) => {
+    if (!file) {
+      if (!imageRef.current || !canvasRef.current || !crop || !width || !height) return;
+      drawImageOnCanvas(imageRef.current, canvasRef.current, crop, width, height);
+      file = await canvasToBlob(canvasRef.current);
+    }
 
-    await uploadFileToSupabase(supabase, blob, "images", path, owerwrite);
+    await uploadFileToSupabase(supabase, file, "images", path, true);
   };
 
   const handleSubmit = async ({
@@ -59,8 +80,7 @@ export default function ImageForm({ originalFilename }: { originalFilename?: str
     upscaleRequired,
   }: SubmitValues) => {
     const filename = file?.name || originalFilename;
-
-    if (!filename || !imageRef.current) {
+    if (!user || !filename || !imageRef.current) {
       toast({
         title: "Woops!",
         variant: "destructive",
@@ -69,18 +89,18 @@ export default function ImageForm({ originalFilename }: { originalFilename?: str
       return;
     }
 
-    const imageId = await getImageId(supabase, filename);
+    const imagePath = user.id + "/" + filename;
+    const cropPath = user.id + "/" + suffixFilename(filename, "-crop");
+    const thumbPath = user.id + "/" + suffixFilename(filename, "-thumbnail");
+
+    const imageId = await getImageId(supabase, user.id, filename);
     if (imageId && !(await confirm(confirmDelete(filename)))) {
       return;
     }
 
-    if (file) {
-      uploadFileToSupabase(supabase, file, "images", "originals/" + filename, true);
-    }
-    uploadImage("crops/" + filename, width, height, true);
-    uploadImage("thumbnails/" + filename, 100, 100, true);
-
-    const basePath = getPublicUrl(supabase, "images", filename);
+    if (file) uploadImage({ path: imagePath, file });
+    uploadImage({ path: cropPath, width, height });
+    uploadImage({ path: thumbPath, width: 100, height: 100 });
 
     /*  const { data, error } = */ await supabase
       .from("images")
@@ -92,8 +112,9 @@ export default function ImageForm({ originalFilename }: { originalFilename?: str
         upscaled: upscaleRequired,
         natural_width: imageRef.current.naturalWidth,
         natural_height: imageRef.current.naturalHeight,
-        url: basePath && `${basePath}crops/${filename}`,
-        thumbnail_url: basePath && `${basePath}thumbnails/${filename}`,
+        url: getPublicUrl(supabase, "images", imagePath),
+        crop_url: getPublicUrl(supabase, "images", cropPath),
+        thumbnail_url: getPublicUrl(supabase, "images", thumbPath),
       })
       .select();
 

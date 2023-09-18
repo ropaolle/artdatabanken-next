@@ -1,3 +1,4 @@
+import { Image } from "@/types/app.types";
 import { SupabaseClient } from "@supabase/auth-helpers-nextjs";
 
 const uploadFileToSupabase = async (
@@ -23,20 +24,10 @@ const uploadFileToSupabase = async (
   }
 };
 
-const getPublicUrl = (supabase: SupabaseClient, bucket?: string, path?: string) => {
+const getPublicUrl = (supabase: SupabaseClient, bucket: string, path: string | undefined) => {
   if (!bucket || !path) return;
-
-  const {
-    data: { publicUrl },
-  } = supabase.storage.from(bucket).getPublicUrl(path);
-
-  return publicUrl;
-};
-
-const getBaseUrl = (supabase: SupabaseClient, bucket?: string, path?: string) => {
-  const publicUrl = getPublicUrl(supabase, bucket, path);
-
-  return publicUrl && publicUrl.replace(`${path}`, "");
+  const { data } = supabase.storage.from(bucket).getPublicUrl(path);
+  return data.publicUrl;
 };
 
 const imageExists = async (supabase: SupabaseClient, filename: string) => {
@@ -46,11 +37,16 @@ const imageExists = async (supabase: SupabaseClient, filename: string) => {
   return Boolean(data);
 };
 
-const getImageId = async (supabase: SupabaseClient, filename: string) => {
-  if (!filename) return false;
-  const { data } = await supabase.from("images").select().eq("filename", filename).single();
+const getImageId = async (supabase: SupabaseClient, userId: string, filename: string) => {
+  if (!filename) return;
+  const { data /* , error */ } = await supabase
+    .from("images")
+    .select()
+    .eq("user_id", userId)
+    .eq("filename", filename)
+    .single<Image>();
 
   return data?.id;
 };
 
-export { uploadFileToSupabase, getPublicUrl, getBaseUrl, imageExists, getImageId };
+export { uploadFileToSupabase, getPublicUrl, /* getBaseUrl, */ imageExists, getImageId };

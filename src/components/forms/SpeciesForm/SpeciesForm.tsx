@@ -6,11 +6,12 @@ import { Form } from "@/components/ui/form";
 import { useToast } from "@/components/ui/use-toast";
 import { getPublicUrl } from "@/lib/supabase";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import { useState } from "react";
+import { User, createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { counties, gender } from "./options";
+import { suffixFilename } from "@/lib/utils";
 
 const formSchema = z.object({
   id: z.string().nullish(),
@@ -32,7 +33,17 @@ export default function SpeciesForm({ values }: { values?: SpeciesType }) {
   const supabase = createClientComponentClient();
   const [previewURL, setPreviewURL] = useState<string>();
   const { toast } = useToast();
+  const [user, setUser] = useState<User | null>(null);
   const mode: "edit" | "create" = values ? "edit" : "create";
+
+  useEffect(() => {
+    const loadUser = async () => {
+      const { data } = await supabase.auth.getUser();
+      setUser(data.user);
+    };
+
+    loadUser();
+  }, [supabase]);
 
   const form = useForm<SpeciesType>({
     resolver: zodResolver(formSchema),
@@ -74,18 +85,20 @@ export default function SpeciesForm({ values }: { values?: SpeciesType }) {
   }
 
   const handleImageChange = (option: Option | null) => {
-    setPreviewURL(option ? getPublicUrl(supabase, "images", "crops/" + option.label) : undefined);
+    if (!user) return;
+    const path = user.id + "/" + suffixFilename(option?.label, "-crop");
+    setPreviewURL(getPublicUrl(supabase, "images", path));
   };
 
   const handleLoadImageOptions = async (query: string) => {
-    const { data: rows } = await supabase
+    const { data } = await supabase
       .from("images")
       .select("filename, id")
       .like("filename", `%${query}%`)
       .order("filename", { ascending: true })
       .limit(10);
 
-    return rows?.map(({ id, filename }) => ({ value: id, label: filename })) || [];
+    return data?.map(({ id, filename }) => ({ value: id, label: filename })) || [];
   };
 
   return (

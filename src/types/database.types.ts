@@ -13,6 +13,7 @@ export interface Database {
         Row: {
           created_at: string
           crop_height: number
+          crop_url: string
           crop_width: number
           filename: string
           id: string
@@ -27,6 +28,7 @@ export interface Database {
         Insert: {
           created_at?: string
           crop_height?: number
+          crop_url?: string
           crop_width?: number
           filename?: string
           id?: string
@@ -41,6 +43,7 @@ export interface Database {
         Update: {
           created_at?: string
           crop_height?: number
+          crop_url?: string
           crop_width?: number
           filename?: string
           id?: string

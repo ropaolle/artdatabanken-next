@@ -42,15 +42,18 @@ const formatBytes = (bytes: number, decimals = 2) => {
 const toOptions = (options: { [key: string]: { value: string; label: ReactNode } }) =>
   Object.values(options).map(({ value, label }) => ({ value, label }));
 
-export { cn, sleep, truncateString, gravatarURL, uuid, canvasToBlob, formatBytes, toOptions };
-
-/* INFO: Unused stuff
-
-export const suffixFilename = (filename: string, suffix: string) => {
+const suffixFilename = (filename: string | undefined, suffix: string) => {
+  if (!filename) return;
   const lastIndex = filename.lastIndexOf(".");
   if (lastIndex === -1) return filename + suffix;
-  return filename.slice(0, lastIndex) + suffix + filename.slice(lastIndex);
+  const name = filename.slice(0, lastIndex);
+  const ext = filename.slice(lastIndex);
+  return `${name}${suffix}${ext}`;
 };
+
+export { cn, sleep, truncateString, gravatarURL, uuid, canvasToBlob, formatBytes, toOptions, suffixFilename };
+
+/* INFO: Unused stuff
 
 export const canvasToFile = async (ref: HTMLCanvasElement, filename: string, type = "image/jpeg"): Promise<File> => {
   return new Promise((resolve, reject) => {

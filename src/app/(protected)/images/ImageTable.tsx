@@ -27,12 +27,18 @@ export default function ImageTable({ rows, count }: { rows: Image[]; count?: num
 
   const handleDelete = async (id: string) => {
     if (await confirm(confirmDelete(id))) {
+      // Delete db record
       const { error } = await supabase.from("images").delete().eq("id", id);
 
-      if (error) {
-        return console.error(error);
+      // Delete image files
+      const { filename } = data.find((row) => row.id === id) || {};
+      if (filename) {
+        await supabase.storage
+          .from("images")
+          .remove([`originals/${filename}`, `crops/${filename}`, `thumbnails/${filename}`]);
       }
 
+      // Remove from table
       const deletedIndex = data.findIndex((row) => row.id === id);
       if (deletedIndex !== -1) {
         setData((prevValue) => prevValue.splice(deletedIndex, 1) && [...prevValue]);
