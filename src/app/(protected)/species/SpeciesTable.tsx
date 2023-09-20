@@ -39,7 +39,7 @@ export default function SpeciesTable({ rows, count }: { rows: SpeciesImage[]; co
   };
 
   const AddSpeciesAction = () => (
-    <Link href="/images/upload" className={buttonVariants({ variant: "default" })}>
+    <Link href="/species/add" className={buttonVariants({ variant: "default" })}>
       AddSpecies
     </Link>
   );

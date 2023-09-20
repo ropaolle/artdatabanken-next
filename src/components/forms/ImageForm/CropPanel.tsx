@@ -1,5 +1,3 @@
-"use client";
-
 import { canvasToBlob } from "@/lib/utils";
 import { RefObject, useEffect, useRef, useState } from "react";
 import ReactCrop, { type PixelCrop } from "react-image-crop";
