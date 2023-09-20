@@ -2,7 +2,7 @@
 
 ## TODO
 
-- [ ] Add logged in user to state.
+- [ ] Add logged in user to state?
 - [ ] Generic supabase fetch? See load.tsx in .development.
 - BASICS
   - [ ] Check TODO's
