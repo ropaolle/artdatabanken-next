@@ -1,7 +1,7 @@
-import "../globals.css";
-import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import Header from "@/components/Header";
 import getUser from "@/lib/auth";
+import "../globals.css";
 
 export default async function PageLayout({ children }: { children: React.ReactNode }) {
   const user = await getUser();

@@ -1,6 +1,6 @@
-import "./globals.css";
+import Confirmer from "@/components/hooks/Confirmer";
 import { Toaster } from "@/components/ui/toaster";
-import Confirmer from '@/components/hooks/Confirmer'
+import "./globals.css";
 
 export const metadata = {
   title: "Artdatabanken",
@@ -18,4 +18,3 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     </html>
   );
 }
-9;
