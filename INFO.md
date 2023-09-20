@@ -49,6 +49,8 @@
   - [useConfirm](https://devrecipes.net/custom-confirm-dialog-with-react-hooks-and-the-context-api/)
   - [Confirm dialog](https://medium.com/@kch062522/useconfirm-a-custom-react-hook-to-prompt-confirmation-before-action-f4cb746ebd4e)
   - [FileController](https://stackblitz.com/edit/input-file-react-hook-form?file=src%2FFileController.js)
+- NextJS
+  - [Server vs client components in NextJs 13](https://www.youtube.com/watch?v=3Dw6D_WuzSE&t=993s)
 - OTHER
   - COMPONENTS
     - [Shadcn UI](https://ui.shadcn.com/)

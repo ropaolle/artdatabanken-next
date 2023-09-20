@@ -1,7 +1,6 @@
 import { createRouteHandlerClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
-import { useAppStore } from "@/state";
 
 export const dynamic = "force-dynamic";
 
@@ -11,8 +10,6 @@ export async function POST(request: Request) {
   const email = String(formData.get("email"));
   const password = String(formData.get("password"));
   const supabase = createRouteHandlerClient({ cookies });
-  // TODO: useAppStore in server componet
-  console.log('x', useAppStore.getState());
 
   const { error } = await supabase.auth.signInWithPassword({
     email,

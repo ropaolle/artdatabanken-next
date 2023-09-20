@@ -1,15 +1,15 @@
 import { create } from "zustand";
 // import { persist } from "zustand/middleware";
-// import { CartSlice, createCartSlice } from "./createCartSlice";
+import { UserSlice, createUserSlice } from "./userSlice";
 import { ConfirmSlice, createConfirmSlice } from "./confirmSlice";
 
-type StoreState = ConfirmSlice /* & CartSlice */;
+type StoreState = ConfirmSlice & UserSlice ;
 
 export const useAppStore = create<StoreState>()(
   // persist(
     (...a) => ({
       ...createConfirmSlice(...a),
-      // ...createCartSlice(...a),
+      ...createUserSlice(...a),
     }),
     // {
     //   name: "thespeciesdb",

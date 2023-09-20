@@ -1,18 +1,18 @@
-import Link from "next/link";
+import type { User } from "@/types/app.types";
 import {
-  Box as Qube,
-  Home,
   Mail as Email,
-  Phone,
-  Globe as Web,
   Facebook,
-  Twitter,
+  Github,
+  Home,
   Instagram,
   Linkedin,
-  Github,
   Lock,
+  Phone,
+  Box as Qube,
+  Twitter,
+  Globe as Web,
 } from "lucide-react";
-import { type User } from "@/lib/auth";
+import Link from "next/link";
 
 export default function Footer({ user }: { user: User | null }) {
   const SocialLink = ({ href, icon }: { href: string; icon: JSX.Element }) => (

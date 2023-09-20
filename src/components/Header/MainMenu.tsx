@@ -5,7 +5,7 @@ import {
   NavigationMenuList,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
-import { type User } from "@/lib/auth";
+import type { User } from "@/types/app.types";
 import NextLink from "next/link";
 import { usePathname } from "next/navigation";
 import { ReactNode } from "react";

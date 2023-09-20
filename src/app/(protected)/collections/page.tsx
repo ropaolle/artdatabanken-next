@@ -1,8 +1,15 @@
+"use client";
+
+import { useAppStore } from "@/state";
 import Link from "next/link";
 
 export default function Collections() {
+  const { user } = useAppStore();
+
   return (
     <>
+      <h1>User</h1>
+      <p>Email: {user?.email}</p>
       <h1>Collections</h1>
       <Link href="/images/upload" className="mr-4 text-blue-400">
         Upload image

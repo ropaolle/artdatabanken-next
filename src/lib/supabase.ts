@@ -1,5 +1,21 @@
-import { Image } from "@/types/app.types";
-import { SupabaseClient } from "@supabase/auth-helpers-nextjs";
+import type { Image, User } from "@/types/app.types";
+import { type SupabaseClient } from "@supabase/auth-helpers-nextjs";
+import { gravatarURL } from "./utils";
+
+const fetchUser = async (supabase: SupabaseClient) => {
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) return null;
+
+  return {
+    id: user.id,
+    role: user.role,
+    email: user.email,
+    gravatar: gravatarURL(user.email || ""),
+  } as User;
+};
 
 const uploadFileToSupabase = async (
   supabase: SupabaseClient,
@@ -49,4 +65,10 @@ const getImageId = async (supabase: SupabaseClient, userId: string, filename: st
   return data?.id;
 };
 
-export { uploadFileToSupabase, getPublicUrl, /* getBaseUrl, */ imageExists, getImageId };
+export {
+  fetchUser,
+  getImageId,
+  getPublicUrl,
+  imageExists,
+  uploadFileToSupabase,
+};

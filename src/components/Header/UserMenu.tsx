@@ -1,5 +1,5 @@
-import NextLink from "next/link";
-import Image from "next/image";
+"use client";
+
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -10,8 +10,10 @@ import {
   NavigationMenuTrigger,
   NavigationMenuViewport,
 } from "@/components/ui/navigation-menu";
-import { type User } from "@/lib/auth";
-import React, { ReactNode } from "react";
+import type { User } from "@/types/app.types";
+import Image from "next/image";
+import NextLink from "next/link";
+import { ReactNode } from "react";
 
 const navigationButton =
   "group flex h-10 w-full items-center justify-start bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground";
