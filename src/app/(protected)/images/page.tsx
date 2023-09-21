@@ -11,6 +11,8 @@ export default async function Images() {
     .order("updated_at", { ascending: true });
   // .limit(11);
 
+  // TODO: getUserId from server and pass ass a promise
+
   return (
     <>
       <h1>Images</h1>

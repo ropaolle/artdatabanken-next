@@ -13,6 +13,8 @@ export default async function PageLayout({ children }: { children: React.ReactNo
     redirect("/login/?message=You are not authorized to access that resource.");
   }
 
+  // TODO: Pass user this as a promise to the client side
+  
   return (
     <>
       <Header user={user} />

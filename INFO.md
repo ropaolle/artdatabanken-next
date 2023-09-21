@@ -2,13 +2,14 @@
 
 ## TODO
 
-- [ ] Update tables when user/images are added/deleted
-- [ ] Generic supabase fetch? See load.tsx in .development.
+- [ ] ?
+- [ ] [Supabase and React Query](https://makerkit.dev/blog/saas/supabase-react-query)
+  - [ ] Update tables when user/images are added/deleted
+  - [ ] Generic supabase fetch? See load.tsx in .development.
 - BASICS
   - [ ] Check TODO's
   - [ ] Check TypeScript any:s
 - NICE TO HAVE
-  - [ ] Remove unessesarry 'use client' directives.
   - [ ] Extend Combobox to support multi select - https://github.com/shadcn-ui/ui/pull/304/files
   - [ ] Check if [React Hook useEffect has a missing dependencies](https://react.dev/learn/removing-effect-dependencies).
 
@@ -44,6 +45,7 @@
   - [Joins](https://supabase.com/docs/guides/api/joins-and-nesting)
   - [Reserved words](https://www.postgresql.org/docs/current/sql-keywords-appendix.html)
   - [Supabase dev locally](https://supabase.com/docs/guides/cli/local-development)
+  - [Supabase and React Query](https://makerkit.dev/blog/saas/supabase-react-query)
 - REACT
   - [Typescript cheatsheet](https://react-typescript-cheatsheet.netlify.app/docs/basic/getting-started/context/)
   - [useConfirm](https://devrecipes.net/custom-confirm-dialog-with-react-hooks-and-the-context-api/)

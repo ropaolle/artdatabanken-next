@@ -8,7 +8,7 @@ import type { Image } from "@/types/app.types";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { getColumns } from "./columns";
 
 const confirmDelete = (id: string) => ({
@@ -26,6 +26,17 @@ export default function ImageTable({ rows, count }: { rows: Image[]; count?: num
   const { confirm } = useConfirm();
   const router = useRouter();
   const { user } = useAppStore();
+
+  const UploadAction = () => (
+    <Link href="/images/upload" className={buttonVariants({ variant: "default" })}>
+      Upload image
+    </Link>
+  );
+
+  const handleEdit = ({ id }: Image) => {
+    const filename = data.find((row) => row.id === id)?.filename;
+    router.push(`/images/edit/${user?.id}?filename=${filename}`);
+  };
 
   const handleDelete = async (id: string) => {
     if (await confirm(confirmDelete(id))) {
@@ -48,22 +59,7 @@ export default function ImageTable({ rows, count }: { rows: Image[]; count?: num
     }
   };
 
-  const handleEdit = ({ id }: Image) => {
-    const filename = data.find((row) => row.id === id)?.filename;
-    router.push(`/images/edit/${user?.id}?filename=${filename}`);
-  };
+  const columns = getColumns({ onDelete: handleDelete, onEdit: handleEdit });
 
-  const UploadAction = () => (
-    <Link href="/images/upload" className={buttonVariants({ variant: "default" })}>
-      Upload image
-    </Link>
-  );
-
-  return (
-    <CustomTable
-      columns={getColumns({ onDelete: handleDelete, onEdit: handleEdit })}
-      data={data}
-      actions={<UploadAction />}
-    />
-  );
+  return <CustomTable columns={columns} data={data} actions={<UploadAction />} />;
 }
