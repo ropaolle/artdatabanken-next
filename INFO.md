@@ -2,7 +2,7 @@
 
 ## TODO
 
-- [ ] Add logged in user to state?
+- [ ] Update tables when user/images are added/deleted
 - [ ] Generic supabase fetch? See load.tsx in .development.
 - BASICS
   - [ ] Check TODO's
