@@ -23,3 +23,18 @@ export default async function PageLayout({ children }: { children: React.ReactNo
     </>
   );
 }
+
+
+// pnpm i @tanstack/react-table@latest
+// pnpm i @supabase/supabase-js@latest
+// pnpm i @types/node@latest
+// pnpm i @types/react@latest
+// pnpm i @supabase/auth-helpers-nextjs@latest
+// pnpm i autoprefixer@latest
+// pnpm i postcss@latest
+// pnpm i react-day-picker@latest
+// pnpm i react-hook-form@latest
+// pnpm i eslint-config-next@latest
+// pnpm i next@latest
+// pnpm i supabase@latest
+// pnpm i lucide-react@latest

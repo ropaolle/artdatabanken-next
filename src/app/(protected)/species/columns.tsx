@@ -64,12 +64,12 @@ export const getColumns = (actions: Actions) => {
 
     columnHelper.accessor("place", { header: "Place" }),
 
-    // TODO: image can be null
+    // TODO: Console warning - "thumbnail_url" in deeply nested key "image.thumbnail_url" returned undefined.
     columnHelper.accessor("image.thumbnail_url", {
       header: "Thumbnail",
       cell: (info) => {
         const url = info.getValue();
-        return <div>{url && <Image src={url} alt="image" width="100" height="100" loading="lazy" />}</div>;
+        return url && <Image src={url} alt="image" width="100" height="100" loading="lazy" />;
       },
     }),
 

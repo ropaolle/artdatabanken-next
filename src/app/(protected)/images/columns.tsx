@@ -55,7 +55,7 @@ export function getColumns(actions: Actions) {
       header: ({ column }) => <DataTableColumnHeader column={column} title="Thumbnail" />,
       cell: (info) => {
         const url = info.getValue();
-        return <div>{url && <NextImage src={url} alt="image" width="100" height="100" loading="lazy" />}</div>;
+        return <NextImage src={url} alt="image" width="100" height="100" loading="lazy" />;
       },
     }),
 

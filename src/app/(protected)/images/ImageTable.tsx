@@ -8,7 +8,7 @@ import type { Image } from "@/types/app.types";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useCallback, useMemo, useState } from "react";
+import { useState } from "react";
 import { getColumns } from "./columns";
 
 const confirmDelete = (id: string) => ({
