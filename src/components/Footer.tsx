@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import type { User } from "@/types/app.types";
+import { useAppStore } from "@/state";
 import {
   Mail as Email,
   Facebook,
@@ -14,14 +14,11 @@ import {
   Globe as Web,
 } from "lucide-react";
 import Link from "next/link";
-import { Suspense, use } from "react";
-import { useAppStore } from "@/state";
+import { Suspense } from "react";
 
-export default function Footer(/* { isAuthenticated }: { isAuthenticated: Promise<boolean> } */) {
+export default function Footer() {
   const { user } = useAppStore.getState();
   const isAuth = Boolean(user?.id);
-
-  // console.log("user footer", user);
 
   const SocialLink = ({ href, icon }: { href: string; icon: JSX.Element }) => (
     <Link href={href} target="_blank" className="mr-6 text-neutral-600 dark:text-neutral-200">
@@ -52,24 +49,20 @@ export default function Footer(/* { isAuthenticated }: { isAuthenticated: Promis
     href,
     newTab,
     protectedPage,
-    // isAuthenticated,
   }: {
     label: string;
     href: string;
     newTab?: boolean;
     protectedPage?: boolean;
-    // isAuthenticated?: Promise<boolean>;
   }) {
-    // const protectedPage = isAuthenticated !== undefined;
-    // const isAuth = isAuthenticated && use(isAuthenticated);
     return (
       <p className="mb-4 last:mb-0">
         <Link
           href={href}
           target={newTab ? "_blank" : "_self"}
           className={cn(
-            "pointer-events-none flex text-neutral-600 dark:text-neutral-200",
-            protectedPage && isAuth && "pointer-events-auto",
+            "flex text-neutral-600 dark:text-neutral-200",
+            protectedPage && !isAuth && "pointer-events-none",
           )}
         >
           {label} {protectedPage && !isAuth && <Lock size={16} className="ml-1" />}

@@ -7,8 +7,6 @@ const fetchUser = async (supabase: SupabaseClient) => {
     data: { user },
   } = await supabase.auth.getUser();
 
-  // await sleep(1000);
-
   if (!user) return null;
 
   return {

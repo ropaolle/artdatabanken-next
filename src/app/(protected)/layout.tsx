@@ -2,28 +2,25 @@ import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import createServerComponentClientWithCookies from "@/lib/createServerComponentClientWithCookies";
 import { fetchUser } from "@/lib/supabase";
+import { useAppStore } from "@/state";
 import { redirect } from "next/navigation";
 import "../globals.css";
-import { useAppStore } from "@/state";
 
 export default async function PageLayout({ children }: { children: React.ReactNode }) {
-  // const state = useAppStore.getState();
-  // console.log('state', state);
-
   const supabase = await createServerComponentClientWithCookies();
-  const userPromise = fetchUser(supabase);
-  // const isAuthenticatedPromise = userPromise.then((user) => Boolean(user?.id));
+  const user = await fetchUser(supabase);
 
-  // TODO: How to keep this check?
-  // if (!user) {
-  //   redirect("/login/?message=You are not authorized to access that resource.");
-  // }
+  if (!user) {
+    redirect("/login/?message=You are not authorized to access that resource.");
+  }
+
+  useAppStore.setState({ user });
 
   return (
     <>
-      <Header userPromise={userPromise} />
+      <Header />
       <main className="container my-8 min-h-[20rem]">{children}</main>
-      <Footer /* isAuthenticated={isAuthenticatedPromise} */ />
+      <Footer />
     </>
   );
 }

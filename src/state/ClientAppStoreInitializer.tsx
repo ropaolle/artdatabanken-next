@@ -7,7 +7,7 @@ import { useEffect } from "react";
 
 export default function ClientAppStoreInitializer() {
   const supabase = createClientComponentClient();
-  const {setUser } = useAppStore();
+  const { setUser } = useAppStore();
 
   useEffect(() => {
     const loadUser = async () => {
@@ -15,7 +15,7 @@ export default function ClientAppStoreInitializer() {
     };
 
     loadUser();
-  },[setUser, supabase]);
+  }, [setUser, supabase]);
 
   return null;
 }

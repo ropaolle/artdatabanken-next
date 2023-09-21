@@ -2,7 +2,9 @@
 
 ## TODO
 
-TODO: Footer init with server app store, header init with user promise. Change to appStore.
+
+- [ ] 
+- [ ] Publish and test prod!
 
 - [ ] [Supabase and React Query](https://makerkit.dev/blog/saas/supabase-react-query)
   - [ ] Update tables when user/images are added/deleted
