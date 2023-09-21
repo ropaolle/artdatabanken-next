@@ -2,10 +2,12 @@
 
 ## TODO
 
-- [ ] ?
+TODO: Footer init with server app store, header init with user promise. Change to appStore.
+
 - [ ] [Supabase and React Query](https://makerkit.dev/blog/saas/supabase-react-query)
   - [ ] Update tables when user/images are added/deleted
   - [ ] Generic supabase fetch? See load.tsx in .development.
+- [ ] [Updated image component](https://github.com/vercel/next.js/tree/86d2ead1fe612432f7aee73f295a3753bd421ebe/examples/image-component)
 - BASICS
   - [ ] Check TODO's
   - [ ] Check TypeScript any:s
@@ -46,13 +48,16 @@
   - [Reserved words](https://www.postgresql.org/docs/current/sql-keywords-appendix.html)
   - [Supabase dev locally](https://supabase.com/docs/guides/cli/local-development)
   - [Supabase and React Query](https://makerkit.dev/blog/saas/supabase-react-query)
+  - [Supabase pagination](https://makerkit.dev/blog/tutorials/pagination-supabase-react)
 - REACT
+  - [React DEV](https://react.dev/)
   - [Typescript cheatsheet](https://react-typescript-cheatsheet.netlify.app/docs/basic/getting-started/context/)
   - [useConfirm](https://devrecipes.net/custom-confirm-dialog-with-react-hooks-and-the-context-api/)
   - [Confirm dialog](https://medium.com/@kch062522/useconfirm-a-custom-react-hook-to-prompt-confirmation-before-action-f4cb746ebd4e)
   - [FileController](https://stackblitz.com/edit/input-file-react-hook-form?file=src%2FFileController.js)
 - NextJS
   - [Server vs client components in NextJs 13](https://www.youtube.com/watch?v=3Dw6D_WuzSE&t=993s)
+  - [Updated image component](https://github.com/vercel/next.js/tree/86d2ead1fe612432f7aee73f295a3753bd421ebe/examples/image-component)
 - OTHER
   - COMPONENTS
     - [Shadcn UI](https://ui.shadcn.com/)

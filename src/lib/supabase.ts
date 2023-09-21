@@ -7,6 +7,8 @@ const fetchUser = async (supabase: SupabaseClient) => {
     data: { user },
   } = await supabase.auth.getUser();
 
+  // await sleep(1000);
+
   if (!user) return null;
 
   return {
@@ -16,6 +18,8 @@ const fetchUser = async (supabase: SupabaseClient) => {
     gravatar: gravatarURL(user.email || ""),
   } as User;
 };
+
+// const isAuthenticated = async (supabase: SupabaseClient) => fetchUser(supabase).then((user) => Boolean(user?.id));
 
 const uploadFileToSupabase = async (
   supabase: SupabaseClient,
@@ -65,10 +69,4 @@ const getImageId = async (supabase: SupabaseClient, userId: string, filename: st
   return data?.id;
 };
 
-export {
-  fetchUser,
-  getImageId,
-  getPublicUrl,
-  imageExists,
-  uploadFileToSupabase,
-};
+export { fetchUser, /* isAuthenticated,  */ getImageId, getPublicUrl, imageExists, uploadFileToSupabase };

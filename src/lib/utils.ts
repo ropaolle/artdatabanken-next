@@ -6,7 +6,11 @@ import { ReactNode } from "react";
 function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
-const sleep = (milliseconds: number) => new Promise((resolve) => setTimeout(resolve, milliseconds));
+const sleep = (milliseconds: number) =>
+  new Promise((resolve) => {
+    console.info(`Sleping... ${milliseconds} milliseconds`);
+    return setTimeout(resolve, milliseconds);
+  });
 
 const truncateString = (text: string | null, maxLength = 18) =>
   text ? (text.length > maxLength ? text.slice(0, maxLength - 1) + "&hellip;" : text) : "";

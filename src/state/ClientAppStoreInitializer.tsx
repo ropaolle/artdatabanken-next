@@ -5,7 +5,7 @@ import { useAppStore } from "@/state";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useEffect } from "react";
 
-export default function AppStoreInitializer() {
+export default function ClientAppStoreInitializer() {
   const supabase = createClientComponentClient();
   const {setUser } = useAppStore();
 
