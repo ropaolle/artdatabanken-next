@@ -1,11 +1,11 @@
-import "../globals.css";
-import { redirect } from "next/navigation";
-import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import getUser from "@/lib/auth";
+import Header from "@/components/Header";
+import { fetchServerUser } from "@/supabase/server";
+import { redirect } from "next/navigation";
+import "../globals.css";
 
 export default async function PageLayout({ children }: { children: React.ReactNode }) {
-  const user = await getUser();
+  const { user } = await fetchServerUser();
 
   if (!user) {
     redirect("/login/?message=You are not authorized to access that resource.");
@@ -13,9 +13,9 @@ export default async function PageLayout({ children }: { children: React.ReactNo
 
   return (
     <>
-      <Header user={user} />
+      <Header />
       <main className="container my-8 min-h-[20rem]">{children}</main>
-      <Footer user={user} />
+      <Footer />
     </>
   );
 }

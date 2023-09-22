@@ -2,9 +2,10 @@
 
 import useConfirm from "@/components/hooks/useConfirm";
 import { useToast } from "@/components/ui/use-toast";
-import { getImageId, getPublicUrl, uploadFileToSupabase } from "@/lib/supabase";
 import { canvasToBlob, suffixFilename } from "@/lib/utils";
-import { User, createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { useAppStore } from "@/state";
+import { getImageId, getPublicUrl, uploadFileToSupabase } from "@/supabase/client";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useEffect, useRef, useState } from "react";
 import "react-image-crop/dist/ReactCrop.css";
 import CropForm, { type SubmitValues } from "./CropForm";
@@ -30,20 +31,11 @@ export default function ImageForm({ originalFilename }: { originalFilename?: str
   const [crop, setCrop] = useState<CompletedCropArea>();
   const { toast } = useToast();
   const { confirm } = useConfirm();
-  const [user, setUser] = useState<User | null>(null);
-
-  useEffect(() => {
-    const loadUser = async () => {
-      const { data } = await supabase.auth.getUser();
-      setUser(data.user);
-    };
-
-    loadUser();
-  }, [supabase]);
+  const { user } = useAppStore();
 
   useEffect(() => {
     const loadFile = async () => {
-      if (!originalFilename || !user) return;
+      if (!originalFilename) return;
       const { data: blob, error } = await supabase.storage.from("images").download(`${user?.id}/${originalFilename}`);
       if (!blob) return;
       setFile(new File([blob], originalFilename));
@@ -51,7 +43,7 @@ export default function ImageForm({ originalFilename }: { originalFilename?: str
 
     loadFile();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [originalFilename, user]);
+  }, [originalFilename]);
 
   const uploadImage = async ({
     path,

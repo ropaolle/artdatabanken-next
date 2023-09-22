@@ -1,16 +1,13 @@
-import "../globals.css";
-import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import getUser from "@/lib/auth";
+import Header from "@/components/Header";
+import "../globals.css";
 
 export default async function PageLayout({ children }: { children: React.ReactNode }) {
-  const user = await getUser();
-
   return (
     <>
-      <Header user={user} />
+      <Header />
       <main className="container my-8">{children}</main>
-      <Footer user={user} />
+      <Footer />
     </>
   );
 }

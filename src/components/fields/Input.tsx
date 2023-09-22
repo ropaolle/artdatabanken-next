@@ -1,5 +1,3 @@
-"use client";
-
 import { InputHTMLAttributes } from "react";
 import { useFormContext, type FieldPath, type FieldValues } from "react-hook-form";
 import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";

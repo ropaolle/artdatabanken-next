@@ -1,4 +1,4 @@
-import createServerComponentClientWithCookies from "@/lib/createServerComponentClientWithCookies";
+import { createServerComponentClientWithCookies } from "@/supabase/server";
 import ImageTable from "./ImageTable";
 
 // export const dynamic = 'force-dynamic'
@@ -10,6 +10,8 @@ export default async function Images() {
     .select("*", { count: "exact" /* , head: true  */ })
     .order("updated_at", { ascending: true });
   // .limit(11);
+
+  // TODO: getUserId from server and pass ass a promise
 
   return (
     <>

@@ -1,5 +1,3 @@
-"use client";
-
 import { Checkboxes, FileInput, Input, Select } from "@/components/fields";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";

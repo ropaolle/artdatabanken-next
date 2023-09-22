@@ -1,20 +1,23 @@
-import Link from "next/link";
+import { cn } from "@/lib/utils";
+import { fetchServerUser } from "@/supabase/server";
 import {
-  Box as Qube,
-  Home,
   Mail as Email,
-  Phone,
-  Globe as Web,
   Facebook,
-  Twitter,
+  Github,
+  Home,
   Instagram,
   Linkedin,
-  Github,
   Lock,
+  Phone,
+  Box as Qube,
+  Twitter,
+  Globe as Web,
 } from "lucide-react";
-import { type User } from "@/lib/auth";
+import Link from "next/link";
 
-export default function Footer({ user }: { user: User | null }) {
+export default async function Footer() {
+  const { isAuthenticated } = await fetchServerUser();
+
   const SocialLink = ({ href, icon }: { href: string; icon: JSX.Element }) => (
     <Link href={href} target="_blank" className="mr-6 text-neutral-600 dark:text-neutral-200">
       {icon}
@@ -39,27 +42,32 @@ export default function Footer({ user }: { user: User | null }) {
     </div>
   );
 
-  const FooterLink = ({
+  function FooterLink({
     label,
     href,
-    newTab = false,
-    protectedPage = false,
+    newTab,
+    protectedPage,
   }: {
     label: string;
     href: string;
     newTab?: boolean;
     protectedPage?: boolean;
-  }) => (
-    <p className="mb-4 last:mb-0">
-      <Link
-        href={href}
-        target={newTab ? "_blank" : "_self"}
-        className={`flex text-neutral-600 dark:text-neutral-200 ${protectedPage && !user && "pointer-events-none"}`}
-      >
-        {label} {protectedPage && !user && <Lock size={16} className="ml-1"/>}
-      </Link>
-    </p>
-  );
+  }) {
+    return (
+      <p className="mb-4 last:mb-0">
+        <Link
+          href={href}
+          target={newTab ? "_blank" : "_self"}
+          className={cn(
+            "flex text-neutral-600 dark:text-neutral-200",
+            protectedPage && !isAuthenticated && "pointer-events-none",
+          )}
+        >
+          {label} {protectedPage && !isAuthenticated && <Lock size={16} className="ml-1" />}
+        </Link>
+      </p>
+    );
+  }
 
   const IconItem = ({ children }: { children: React.ReactNode }) => (
     <p className="mb-4 flex items-center justify-center last:mb-0 md:justify-start">{children}</p>
@@ -74,7 +82,7 @@ export default function Footer({ user }: { user: User | null }) {
           </div>
 
           <div className="flex justify-center">
-            <SocialLink href="https://facebook.com/" icon={<Facebook size={20}/>} />
+            <SocialLink href="https://facebook.com/" icon={<Facebook size={20} />} />
             <SocialLink href="https://twitter.com/ropaolle" icon={<Twitter size={20} />} />
             {/* <SocialLink href="https://www.google.com/" icon={<Google />} /> */}
             <SocialLink href="https://www.instagram.com/ropaolle/" icon={<Instagram size={20} />} />
@@ -97,10 +105,12 @@ export default function Footer({ user }: { user: User | null }) {
             </FooterSection>
 
             <FooterSection label="Useful links">
-              <FooterLink label="Species" href="species" protectedPage />
-              <FooterLink label="Images" href="images" protectedPage />
-              <FooterLink label="Collections" href="collections" protectedPage />
-              <FooterLink label="About" href="about" />
+              {/* <Suspense fallback={<p>⌛ Fetching links...</p>}> */}
+                <FooterLink label="Species" href="species" protectedPage />
+                <FooterLink label="Images" href="images" protectedPage />
+                <FooterLink label="Collections" href="collections" protectedPage />
+                <FooterLink label="About" href="about" />
+              {/* </Suspense> */}
             </FooterSection>
 
             <FooterSection label="Contact">

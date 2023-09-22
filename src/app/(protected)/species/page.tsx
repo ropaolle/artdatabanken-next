@@ -1,4 +1,4 @@
-import createServerComponentClientWithCookies from "@/lib/createServerComponentClientWithCookies";
+import {createServerComponentClientWithCookies} from "@/supabase/server";
 import type { SpeciesImage } from "@/types/app.types";
 import SpeciesTable from "./SpeciesTable";
 

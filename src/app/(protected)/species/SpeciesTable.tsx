@@ -39,18 +39,16 @@ export default function SpeciesTable({ rows, count }: { rows: SpeciesImage[]; co
   };
 
   const AddSpeciesAction = () => (
-    <Link href="/images/upload" className={buttonVariants({ variant: "default" })}>
+    <Link href="/species/add" className={buttonVariants({ variant: "default" })}>
       AddSpecies
     </Link>
   );
 
+  const columns = getColumns({ onDelete: handleDelete, editPath: "/species/edit/" });
+
   return (
     <>
-      <CustomTable
-        columns={getColumns({ onDelete: handleDelete, editPath: "/species/edit/" })}
-        data={data}
-        actions={<AddSpeciesAction />}
-      />
+      <CustomTable columns={columns} data={data} actions={<AddSpeciesAction />} />
     </>
   );
 }

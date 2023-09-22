@@ -1,3 +1,5 @@
+"use client";
+
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -5,7 +7,6 @@ import {
   NavigationMenuList,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
-import { type User } from "@/lib/auth";
 import NextLink from "next/link";
 import { usePathname } from "next/navigation";
 import { ReactNode } from "react";
@@ -25,18 +26,19 @@ const MenuLink = ({ href, children }: { href: string; children: ReactNode }) => 
   );
 };
 
-export default function MainMenu({ user }: { user: User | null }) {
+export default function MainMenu({ isAuthenticated }: { isAuthenticated: boolean }) {
   return (
     <NavigationMenu>
       <NavigationMenuList>
-        {user && (
+        {isAuthenticated ? (
           <>
             <MenuLink href="/species">Species</MenuLink>
             <MenuLink href="/images">Images</MenuLink>
             <MenuLink href="/collections">Collections</MenuLink>
           </>
+        ) : (
+          <MenuLink href="/examples">Examples</MenuLink>
         )}
-        {!user && <MenuLink href="/examples">Examples</MenuLink>}
       </NavigationMenuList>
     </NavigationMenu>
   );
