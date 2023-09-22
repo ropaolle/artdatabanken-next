@@ -1,5 +1,5 @@
 import { createServerComponentClientWithCookies } from "@/supabase/server";
-import ImageTable from "./ImageTable";
+// import ImageTable from "./ImageTable";
 
 // export const dynamic = 'force-dynamic'
 
