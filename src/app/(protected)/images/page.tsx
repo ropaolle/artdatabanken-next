@@ -16,7 +16,7 @@ export default async function Images() {
   return (
     <>
       <h1>Images</h1>
-      {<ImageTable rows={data || []} count={count || 0} />}
+      {/* {<ImageTable rows={data || []} count={count || 0} />} */}
     </>
   );
 }
