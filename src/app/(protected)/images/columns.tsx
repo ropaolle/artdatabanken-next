@@ -51,18 +51,18 @@ export function getColumns(actions: Actions) {
       cell: (info) => new Date(info.getValue()).toLocaleString(),
     }),
 
-    columnHelper.accessor("thumbnail_url", {
-      header: ({ column }) => <DataTableColumnHeader column={column} title="Thumbnail" />,
-      cell: (info) => {
-        const url = info.getValue();
-        return <NextImage src={url} alt="image" width="100" height="100" loading="lazy" />;
-      },
-    }),
+    // columnHelper.accessor("thumbnail_url", {
+    //   header: ({ column }) => <DataTableColumnHeader column={column} title="Thumbnail" />,
+    //   cell: (info) => {
+    //     const url = info.getValue();
+    //     return <NextImage src={url} alt="image" width="100" height="100" loading="lazy" />;
+    //   },
+    // }),
 
-    columnHelper.display({
-      id: "actions",
-      header: "Actions",
-      cell: ({ row }) => <ActionCell row={row} {...actions} />,
-    }),
+    // columnHelper.display({
+    //   id: "actions",
+    //   header: "Actions",
+    //   cell: ({ row }) => <ActionCell row={row} {...actions} />,
+    // }),
   ];
 }
