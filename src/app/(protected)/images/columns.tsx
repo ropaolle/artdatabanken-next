@@ -5,7 +5,7 @@ import NextImage from "next/image";
 
 type Actions = {
   onDelete?: (id: string) => void;
-  onEdit?: (row: Image) => Promise<void> | void;
+  onEdit?: (row: Image) => void;
   editPath?: string;
 };
 
@@ -21,33 +21,22 @@ export function getColumns(actions: Actions) {
       header: ({ column }) => <DataTableColumnHeader column={column} title="Filename" />,
     }),
 
-    // TODO: Don't work, none string based value
-    // columnHelper.accessor("crop_width", {
-    //   header: ({ column }) => <DataTableColumnHeader column={column} title="Crop resolution" />,
-    //   cell: ({ row }) => {
-    //     const { crop_width, crop_height } = row.original;
-    //     return `${crop_width} * ${crop_height} px`;
-    //   },
-    // }),
+    // INFO: None string based columns needs an accessory function that returns the string that
+    // will be displayd, sorted etc.
+    columnHelper.accessor((row) => `${row.crop_width} * ${row.crop_height} px`, {
+      id: "crop_width",
+      header: ({ column }) => <DataTableColumnHeader column={column} title="Crop resolution" />,
+    }),
 
-    // TODO: Don't work, none string based value
-    // columnHelper.accessor("natural_width", {
-    //   header: ({ column }) => <DataTableColumnHeader column={column} title="Org resolution" />,
-    //   cell: ({ row }) => {
-    //     const { natural_width, natural_height } = row.original;
-    //     return `${natural_width} * ${natural_height} px`;
-    //   },
-    // }),
+    columnHelper.accessor((row) => `${row.natural_width} * ${row.natural_height} px`, {
+      id: "natural_width",
+      header: ({ column }) => <DataTableColumnHeader column={column} title="Org resolution" />,
+    }),
 
-    // TODO: Don't work
-    // columnHelper.accessor("upscaled", {
-    //   header: ({ column }) => <DataTableColumnHeader column={column} title="Upscaled" />,
-    // }),
-
-    // columnHelper.accessor((row) => row.upscaled, {
-    //   id: "upscaled",
-    //   header: ({ column }) => <DataTableColumnHeader column={column} title="Upscaled" />,
-    // }),
+    columnHelper.accessor((row) => (row.upscaled ? "True" : "False"), {
+      id: "upscaled",
+      header: ({ column }) => <DataTableColumnHeader column={column} title="Upscaled" />,
+    }),
 
     columnHelper.accessor("created_at", {
       header: ({ column }) => <DataTableColumnHeader column={column} title="Created" />,

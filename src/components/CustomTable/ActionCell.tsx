@@ -7,7 +7,7 @@ import Link from "next/link";
 interface ActionCellProps<TData> extends React.HTMLAttributes<HTMLDivElement> {
   row: Row<TData>;
   onDelete?: (id: string) => void;
-  onEdit?: (row: TData) => Promise<void> | void;
+  onEdit?: (row: TData) => void;
   editPath?: string;
 }
 
