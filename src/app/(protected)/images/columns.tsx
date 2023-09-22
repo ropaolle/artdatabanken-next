@@ -21,6 +21,7 @@ export function getColumns(actions: Actions) {
       header: ({ column }) => <DataTableColumnHeader column={column} title="Filename" />,
     }),
 
+    // TODO: Don't work, none string based value
     // columnHelper.accessor("crop_width", {
     //   header: ({ column }) => <DataTableColumnHeader column={column} title="Crop resolution" />,
     //   cell: ({ row }) => {
@@ -29,6 +30,7 @@ export function getColumns(actions: Actions) {
     //   },
     // }),
 
+    // TODO: Don't work, none string based value
     // columnHelper.accessor("natural_width", {
     //   header: ({ column }) => <DataTableColumnHeader column={column} title="Org resolution" />,
     //   cell: ({ row }) => {
@@ -37,7 +39,13 @@ export function getColumns(actions: Actions) {
     //   },
     // }),
 
+    // TODO: Don't work
     // columnHelper.accessor("upscaled", {
+    //   header: ({ column }) => <DataTableColumnHeader column={column} title="Upscaled" />,
+    // }),
+
+    // columnHelper.accessor((row) => row.upscaled, {
+    //   id: "upscaled",
     //   header: ({ column }) => <DataTableColumnHeader column={column} title="Upscaled" />,
     // }),
 
@@ -51,13 +59,13 @@ export function getColumns(actions: Actions) {
       cell: (info) => new Date(info.getValue()).toLocaleString(),
     }),
 
-    // columnHelper.accessor("thumbnail_url", {
-    //   header: ({ column }) => <DataTableColumnHeader column={column} title="Thumbnail" />,
-    //   cell: (info) => {
-    //     const url = info.getValue();
-    //     return <NextImage src={url} alt="image" width="100" height="100" loading="lazy" />;
-    //   },
-    // }),
+    columnHelper.accessor("thumbnail_url", {
+      header: ({ column }) => <DataTableColumnHeader column={column} title="Thumbnail" />,
+      cell: (info) => {
+        const url = info.getValue();
+        return <NextImage src={url} alt="image" width="100" height="100" loading="lazy" />;
+      },
+    }),
 
     columnHelper.display({
       id: "actions",
