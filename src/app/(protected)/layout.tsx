@@ -1,20 +1,15 @@
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
-import createServerComponentClientWithCookies from "@/lib/createServerComponentClientWithCookies";
-import { fetchUser } from "@/lib/supabase";
-import { useAppStore } from "@/state";
+import { fetchServerUser } from "@/supabase/server";
 import { redirect } from "next/navigation";
 import "../globals.css";
 
 export default async function PageLayout({ children }: { children: React.ReactNode }) {
-  const supabase = await createServerComponentClientWithCookies();
-  const user = await fetchUser(supabase);
+  const { user } = await fetchServerUser();
 
   if (!user) {
     redirect("/login/?message=You are not authorized to access that resource.");
   }
-
-  useAppStore.setState({ user });
 
   return (
     <>

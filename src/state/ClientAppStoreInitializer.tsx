@@ -1,21 +1,20 @@
 "use client";
 
-import { fetchUser } from "@/lib/supabase";
 import { useAppStore } from "@/state";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { fetchClientUser } from "@/supabase/client";
 import { useEffect } from "react";
 
 export default function ClientAppStoreInitializer() {
-  const supabase = createClientComponentClient();
   const { setUser } = useAppStore();
 
   useEffect(() => {
     const loadUser = async () => {
-      setUser(await fetchUser(supabase));
+      const { user } = await fetchClientUser();
+      setUser(user);
     };
 
     loadUser();
-  }, [setUser, supabase]);
+  }, [setUser]);
 
   return null;
 }

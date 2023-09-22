@@ -1,12 +1,11 @@
-import { useAppStore } from "@/state";
 import Link from "next/link";
 import { Bird } from "./Bird";
 import MainMenu from "./MainMenu";
 import UserMenu from "./UserMenu";
+import { fetchServerUser } from "@/supabase/server";
 
-export default function Header() {
-  const { user } = useAppStore.getState();
-  const isAuth = Boolean(user?.id);
+export default async function Header() {
+  const { user, isAuthenticated } = await fetchServerUser();
 
   return (
     <header className="flex-no-wrap relative flex w-full items-center justify-between bg-[#FBFBFB] py-2 shadow-md shadow-black/5 dark:bg-neutral-600 dark:shadow-black/10 lg:flex-wrap lg:justify-start">
@@ -19,7 +18,7 @@ export default function Header() {
             <Bird className="h-5 w-5" />
             <span className=" mx-2 font-bold text-neutral-600 dark:text-neutral-200">Artdatabanken</span>
           </Link>
-          <MainMenu isAuth={isAuth} />
+          <MainMenu isAuthenticated={isAuthenticated} />
         </div>
         <UserMenu user={user} />
       </div>

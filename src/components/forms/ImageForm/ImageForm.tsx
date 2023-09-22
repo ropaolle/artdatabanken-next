@@ -2,9 +2,9 @@
 
 import useConfirm from "@/components/hooks/useConfirm";
 import { useToast } from "@/components/ui/use-toast";
-import { getImageId, getPublicUrl, uploadFileToSupabase } from "@/lib/supabase";
 import { canvasToBlob, suffixFilename } from "@/lib/utils";
 import { useAppStore } from "@/state";
+import { getImageId, getPublicUrl, uploadFileToSupabase } from "@/supabase/client";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useEffect, useRef, useState } from "react";
 import "react-image-crop/dist/ReactCrop.css";

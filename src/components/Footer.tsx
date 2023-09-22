@@ -1,5 +1,5 @@
+import { fetchServerUser } from "@/supabase/server";
 import { cn } from "@/lib/utils";
-import { useAppStore } from "@/state";
 import {
   Mail as Email,
   Facebook,
@@ -16,9 +16,8 @@ import {
 import Link from "next/link";
 import { Suspense } from "react";
 
-export default function Footer() {
-  const { user } = useAppStore.getState();
-  const isAuth = Boolean(user?.id);
+export default async function Footer() {
+  const { isAuthenticated } = await fetchServerUser();
 
   const SocialLink = ({ href, icon }: { href: string; icon: JSX.Element }) => (
     <Link href={href} target="_blank" className="mr-6 text-neutral-600 dark:text-neutral-200">
@@ -62,10 +61,10 @@ export default function Footer() {
           target={newTab ? "_blank" : "_self"}
           className={cn(
             "flex text-neutral-600 dark:text-neutral-200",
-            protectedPage && !isAuth && "pointer-events-none",
+            protectedPage && !isAuthenticated && "pointer-events-none",
           )}
         >
-          {label} {protectedPage && !isAuth && <Lock size={16} className="ml-1" />}
+          {label} {protectedPage && !isAuthenticated && <Lock size={16} className="ml-1" />}
         </Link>
       </p>
     );

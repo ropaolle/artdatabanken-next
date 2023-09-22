@@ -4,9 +4,9 @@ import { Checkboxes, Combobox, ComboboxAsync, DatePicker, Input, type Option } f
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { useToast } from "@/components/ui/use-toast";
-import { getPublicUrl } from "@/lib/supabase";
 import { suffixFilename } from "@/lib/utils";
 import { useAppStore } from "@/state";
+import { getPublicUrl } from "@/supabase/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useState } from "react";

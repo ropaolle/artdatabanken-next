@@ -1,11 +1,11 @@
-import * as crypto from "crypto";
-import { type ClassValue, clsx } from "clsx";
-import { twMerge } from "tailwind-merge";
+import { clsx, type ClassValue } from "clsx";
 import { ReactNode } from "react";
+import { twMerge } from "tailwind-merge";
 
 function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
+
 const sleep = (milliseconds: number) =>
   new Promise((resolve) => {
     console.info(`Sleping... ${milliseconds} milliseconds`);
@@ -14,10 +14,6 @@ const sleep = (milliseconds: number) =>
 
 const truncateString = (text: string | null, maxLength = 18) =>
   text ? (text.length > maxLength ? text.slice(0, maxLength - 1) + "&hellip;" : text) : "";
-
-const md5 = (contents: string) => crypto.createHash("md5").update(contents).digest("hex");
-
-const gravatarURL = (email: string) => `https://www.gravatar.com/avatar/${md5(email)}?d=robohash`;
 
 const uuid = () => crypto.randomUUID();
 
@@ -55,7 +51,7 @@ const suffixFilename = (filename: string | undefined, suffix: string) => {
   return `${name}${suffix}${ext}`;
 };
 
-export { cn, sleep, truncateString, gravatarURL, uuid, canvasToBlob, formatBytes, toOptions, suffixFilename };
+export { canvasToBlob, cn, formatBytes, sleep, suffixFilename, toOptions, truncateString, uuid };
 
 /* INFO: Unused stuff
 

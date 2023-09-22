@@ -1,4 +1,4 @@
-import createServerComponentClientWithCookies from "@/lib/createServerComponentClientWithCookies";
+import { createServerComponentClientWithCookies } from "@/supabase/server";
 import { SpeciesForm, type SpeciesType } from "@/components/forms";
 
 export default async function SpeciesAdd({ params }: { params: { id: string } }) {

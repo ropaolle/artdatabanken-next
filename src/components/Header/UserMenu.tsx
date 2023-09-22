@@ -34,13 +34,13 @@ const LogoutButton = () => (
   </li>
 );
 
-export default function UserMenu({ user }: { user: User | null }) {
-  const isAuth = user?.gravatar;
+export default function UserMenu({ user }: { user: User }) {
+  const isAuthenticated = user?.id;
 
   return (
     <NavigationMenu>
       <NavigationMenuList>
-        {isAuth ? (
+        {isAuthenticated ? (
           <NavigationMenuItem>
             <NavigationMenuTrigger>
               <div>

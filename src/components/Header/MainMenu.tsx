@@ -26,11 +26,11 @@ const MenuLink = ({ href, children }: { href: string; children: ReactNode }) => 
   );
 };
 
-export default function MainMenu({ isAuth }: { isAuth: boolean }) {
+export default function MainMenu({ isAuthenticated }: { isAuthenticated: boolean }) {
   return (
     <NavigationMenu>
       <NavigationMenuList>
-        {isAuth ? (
+        {isAuthenticated ? (
           <>
             <MenuLink href="/species">Species</MenuLink>
             <MenuLink href="/images">Images</MenuLink>
