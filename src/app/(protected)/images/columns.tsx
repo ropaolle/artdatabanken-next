@@ -5,7 +5,7 @@ import NextImage from "next/image";
 
 type Actions = {
   onDelete?: (id: string) => void;
-  onEdit?: (row: Image) => void;
+  onEdit?: (row: Image) => Promise<void> | void;
   editPath?: string;
 };
 
@@ -55,8 +55,7 @@ export function getColumns(actions: Actions) {
       header: ({ column }) => <DataTableColumnHeader column={column} title="Thumbnail" />,
       cell: (info) => {
         const url = info.getValue();
-        return <>{url}</>
-        // return <NextImage src={url} alt="image" width="100" height="100" loading="lazy" />;
+        return <NextImage src={url} alt="image" width="100" height="100" loading="lazy" />;
       },
     }),
 

@@ -2,10 +2,12 @@ import { Row } from "@tanstack/react-table";
 import { Pencil, Trash2 } from "lucide-react";
 import Link from "next/link";
 
+
+
 interface ActionCellProps<TData> extends React.HTMLAttributes<HTMLDivElement> {
   row: Row<TData>;
   onDelete?: (id: string) => void;
-  onEdit?: (row: TData) => void;
+  onEdit?: (row: TData) => Promise<void> | void;
   editPath?: string;
 }
 
