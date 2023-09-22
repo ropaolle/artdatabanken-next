@@ -1,5 +1,5 @@
-import { fetchServerUser } from "@/supabase/server";
 import { cn } from "@/lib/utils";
+import { fetchServerUser } from "@/supabase/server";
 import {
   Mail as Email,
   Facebook,
@@ -14,7 +14,6 @@ import {
   Globe as Web,
 } from "lucide-react";
 import Link from "next/link";
-import { Suspense } from "react";
 
 export default async function Footer() {
   const { isAuthenticated } = await fetchServerUser();
@@ -106,12 +105,12 @@ export default async function Footer() {
             </FooterSection>
 
             <FooterSection label="Useful links">
-              <Suspense fallback={<p>⌛ Fetching links...</p>}>
+              {/* <Suspense fallback={<p>⌛ Fetching links...</p>}> */}
                 <FooterLink label="Species" href="species" protectedPage />
                 <FooterLink label="Images" href="images" protectedPage />
                 <FooterLink label="Collections" href="collections" protectedPage />
                 <FooterLink label="About" href="about" />
-              </Suspense>
+              {/* </Suspense> */}
             </FooterSection>
 
             <FooterSection label="Contact">
