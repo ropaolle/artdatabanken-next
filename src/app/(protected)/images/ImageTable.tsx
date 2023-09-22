@@ -1,6 +1,6 @@
 "use client";
 
-import CustomTable from "@/components/CustomTable";
+import { CustomTable } from "@/components/CustomTable";
 import useConfirm from "@/components/hooks/useConfirm";
 import { buttonVariants } from "@/components/ui/button";
 import { useAppStore } from "@/state";

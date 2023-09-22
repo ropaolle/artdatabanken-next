@@ -1,4 +1,4 @@
-import { ActionCell, DataTableColumnHeader, getCheckboxColumn } from "@/components/CustomTable";
+import { ActionCell, DataTableColumnHeader, getCheckboxColumn, type Actions } from "@/components/CustomTable";
 import { Button } from "@/components/ui/button";
 import type { SpeciesImage } from "@/types/app.types";
 import { createColumnHelper } from "@tanstack/react-table";
@@ -6,14 +6,9 @@ import { ArrowUpDown } from "lucide-react";
 import Image from "next/image";
 import { Female, Male } from "./icons";
 
-type Actions = {
-  onDelete?: (id: string) => void;
-  editPath?: string;
-};
-
 const columnHelper = createColumnHelper<SpeciesImage>();
 
-export const getColumns = (actions: Actions) => {
+export const getColumns = (actions: Actions<SpeciesImage>) => {
   return [
     columnHelper.display(getCheckboxColumn()),
 
