@@ -43,6 +43,9 @@ type Props = {
   naturalSelectionWidth?: number;
 };
 
+const MAX_FILE_SIZE = 5000000;
+const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/jpg" /* , "image/png", "image/webp" */];
+
 export default function CropForm({
   onChange,
   onSubmit,
@@ -52,7 +55,12 @@ export default function CropForm({
 }: Props) {
   const formSchema = z
     .object({
-      file: typeof window === "undefined" ? z.undefined() : z.instanceof(File).optional(),
+      // file: typeof window === "undefined" ? z.undefined() : z.instanceof(File).optional(),
+      file: z
+        .any()
+        .refine((file) => !!file, "Image is required.")
+        .refine((file) => file?.size <= MAX_FILE_SIZE, `Max file size is 5MB.`)
+        .refine((file) => ACCEPTED_IMAGE_TYPES.includes(file?.type), "Only .jpg and .jpeg files are accepted."),
       resolution: z.string(),
       originalFilename: z.string(),
       options: z.array(z.string()),

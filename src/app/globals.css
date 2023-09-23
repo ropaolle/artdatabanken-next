@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+.ReactCrop__crop-selection {  
+  box-shadow: 0 0 0 9999px white !important;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
