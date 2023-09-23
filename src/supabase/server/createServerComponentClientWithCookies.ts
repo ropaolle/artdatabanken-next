@@ -15,8 +15,8 @@ import type { Database } from "@/types/database.types";
 //   );
 // }
 
-export default async function createServerComponentClientWithCookies() {
+export default /* async */ function createServerComponentClientWithCookies() {
   // const tempCookies = await getCookieData();
-  const tempCookies = await cookies();
+  const tempCookies = /* await  */cookies();
   return createServerComponentClient<Database>({ cookies: () => tempCookies });
 }

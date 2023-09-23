@@ -3,10 +3,10 @@
 import { CustomTable } from "@/components/CustomTable";
 import useConfirm from "@/components/hooks/useConfirm";
 import { buttonVariants } from "@/components/ui/button";
-import type { SpeciesImage } from "@/types/app.types";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import useSpeciesQuery from "@/supabase/hooks/use-species-query";
+import useSupabase from "@/supabase/hooks/use-supabase";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
-import { useState } from "react";
 import { getColumns } from "./columns";
 
 const confirmDelete = (id: string) => ({
@@ -18,23 +18,23 @@ const confirmDelete = (id: string) => ({
   ),
 });
 
-export default function SpeciesTable({ rows, count }: { rows: SpeciesImage[]; count?: number | null }) {
-  const [data, setData] = useState(rows);
-  const supabase = createClientComponentClient();
+export default function SpeciesTable() {
   const { confirm } = useConfirm();
+  const client = useSupabase();
+  const queryClient = useQueryClient();
+  const { data: species /* , isLoading, isError */ } = useSpeciesQuery();
+
+  const deleteSpecies = useMutation({
+    mutationFn: async (id: string) => await client.from("species").delete().eq("id", id).throwOnError(),
+    onSuccess: () => {
+      queryClient.invalidateQueries(["species"]);
+    },
+    onError: (error) => console.error(error),
+  });
 
   const handleDelete = async (id: string) => {
     if (await confirm(confirmDelete(id))) {
-      const { error } = await supabase.from("species").delete().eq("id", id);
-
-      if (error) {
-        return console.error(error);
-      }
-
-      const deletedIndex = data.findIndex((row) => row.id === id);
-      if (deletedIndex !== -1) {
-        setData((prevValue) => prevValue.splice(deletedIndex, 1) && [...prevValue]);
-      }
+      deleteSpecies.mutate(id);
     }
   };
 
@@ -48,7 +48,7 @@ export default function SpeciesTable({ rows, count }: { rows: SpeciesImage[]; co
 
   return (
     <>
-      <CustomTable columns={columns} data={data} actions={<AddSpeciesAction />} />
+      <CustomTable columns={columns} data={species || []} actions={<AddSpeciesAction />} />
     </>
   );
 }

@@ -4,7 +4,7 @@ import ImageTable from "./ImageTable";
 // export const dynamic = 'force-dynamic'
 
 export default async function Images() {
-  const supabase = await createServerComponentClientWithCookies();
+  const supabase = createServerComponentClientWithCookies();
   const { data, count } = await supabase
     .from("images")
     .select("*", { count: "exact" /* , head: true  */ })

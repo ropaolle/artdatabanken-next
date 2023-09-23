@@ -13,6 +13,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { counties, gender } from "./options";
+import {useSpeciesQueryById} from "@/supabase/hooks/use-species-query";
 
 const formSchema = z.object({
   id: z.string().nullish(),
@@ -30,12 +31,13 @@ const formSchema = z.object({
 
 export type SpeciesType = z.infer<typeof formSchema>;
 
-export default function SpeciesForm({ values }: { values?: SpeciesType }) {
+export default function SpeciesForm({ /* values ,*/ id }: { /* values?: SpeciesType; */ id: string }) {
   const supabase = createClientComponentClient();
+  const { data: species /* , isLoading, isError */ } = useSpeciesQueryById(id);
   const [previewURL, setPreviewURL] = useState<string>();
   const { toast } = useToast();
   const { user } = useAppStore();
-  const mode: "edit" | "create" = values ? "edit" : "create";
+  const mode: "edit" | "create" = id ? "edit" : "create";
 
   const form = useForm<SpeciesType>({
     resolver: zodResolver(formSchema),
@@ -52,7 +54,8 @@ export default function SpeciesForm({ values }: { values?: SpeciesType }) {
       date: new Date(),
       gender: [],
     },
-    values,
+    // TODO: Save date as timestamp reather than string.
+    values: species ? { ...species, date: typeof species.date === "string" ? new Date(species.date): null } : undefined,
   });
 
   async function onSubmit(values: SpeciesType) {

@@ -3,7 +3,7 @@
 ## TODO
 
 
-- [ ] 
+- [ ] Supabase: add realtime and edge functions
 - [ ] [Supabase and React Query](https://makerkit.dev/blog/saas/supabase-react-query)
   - [ ] Update tables when user/images are added/deleted
   - [ ] Generic supabase fetch? See load.tsx in .development.

@@ -2,9 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-.ReactCrop__crop-selection {  
-  box-shadow: 0 0 0 9999px white !important;
-}
+/* .ReactCrop__crop-selection {
+  box-shadow: 0 0 0 9999px rgb(0, 0, 0, 0.5) !important;
+} */
 
 @layer base {
   :root {
@@ -78,15 +78,15 @@
     @apply bg-background text-foreground;
   }
   h1 {
-    @apply text-3xl font-semibold mb-8;
+    @apply mb-8 text-3xl font-semibold;
   }
   h2 {
-    @apply text-2xl font-semibold mb-4;
+    @apply mb-4 text-2xl font-semibold;
   }
   h3 {
-    @apply text-xl font-semibold mb-4;
+    @apply mb-4 text-xl font-semibold;
   }
   h4 {
-    @apply text-lg font-semibold mb-4;
+    @apply mb-4 text-lg font-semibold;
   }
 }

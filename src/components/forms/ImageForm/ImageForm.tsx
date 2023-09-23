@@ -4,7 +4,8 @@ import useConfirm from "@/components/hooks/useConfirm";
 import { useToast } from "@/components/ui/use-toast";
 import { canvasToBlob, suffixFilename } from "@/lib/utils";
 import { useAppStore } from "@/state";
-import { getImageId, getPublicUrl, uploadFileToSupabase } from "@/supabase/client";
+import { getPublicUrl, uploadFileToSupabase } from "@/supabase/client";
+import useImageId from "@/supabase/hooks/use-image-id";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useEffect, useRef, useState } from "react";
 import "react-image-crop/dist/ReactCrop.css";
@@ -32,6 +33,10 @@ export default function ImageForm({ originalFilename }: { originalFilename?: str
   const { toast } = useToast();
   const { confirm } = useConfirm();
   const { user } = useAppStore();
+  // Image id will only be fetched if user and file exists.
+  const { data: image } = useImageId(user?.id, file?.name);
+
+  // console.log('mutation', mutation);
 
   useEffect(() => {
     const loadFile = async () => {
@@ -85,7 +90,7 @@ export default function ImageForm({ originalFilename }: { originalFilename?: str
     const cropPath = user.id + "/" + suffixFilename(filename, "-crop");
     const thumbPath = user.id + "/" + suffixFilename(filename, "-thumbnail");
 
-    const imageId = await getImageId(supabase, user.id, filename);
+    const imageId = image?.id;
     if (imageId && !(await confirm(confirmDelete(filename)))) {
       return;
     }
