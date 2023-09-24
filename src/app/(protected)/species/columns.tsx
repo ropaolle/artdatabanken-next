@@ -58,7 +58,7 @@ export const getColumns = (actions: Actions<SpeciesImage>) => {
     columnHelper.accessor("county", { header: "County" }),
 
     columnHelper.accessor("place", { header: "Place" }),
-
+    
     // TODO: Console warning - "thumbnail_url" in deeply nested key "image.thumbnail_url" returned undefined.
     columnHelper.accessor("image.thumbnail_url", {
       header: "Thumbnail",
@@ -67,6 +67,8 @@ export const getColumns = (actions: Actions<SpeciesImage>) => {
         return url && <Image src={url} alt="image" width="100" height="100" loading="lazy" />;
       },
     }),
+
+    columnHelper.accessor("date", { header: "Date" }),
 
     columnHelper.display({
       id: "actions",

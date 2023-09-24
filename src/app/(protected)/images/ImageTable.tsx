@@ -3,12 +3,14 @@
 import { CustomTable } from "@/components/CustomTable";
 import useConfirm from "@/components/hooks/useConfirm";
 import { buttonVariants } from "@/components/ui/button";
+import { suffixFilename } from "@/lib/utils";
 import { useAppStore } from "@/state";
+import useDeleteImageMutation from "@/supabase/hooks/use-delete-image-mutation";
+import useImageQuery from "@/supabase/hooks/use-image-query";
+import { useDeleteFiles } from "@/supabase/storage/use-delete-files";
 import type { Image } from "@/types/app.types";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
 import { getColumns } from "./columns";
 
 const confirmDelete = (id: string) => ({
@@ -20,12 +22,14 @@ const confirmDelete = (id: string) => ({
   ),
 });
 
-export default function ImageTable({ rows, count }: { rows: Image[]; count?: number }) {
-  const [data, setData] = useState(rows);
-  const supabase = createClientComponentClient();
+export default function ImageTable() {
   const { confirm } = useConfirm();
   const router = useRouter();
+
   const { user } = useAppStore();
+  const { data: images } = useImageQuery();
+  const { mutate: deleteImage } = useDeleteImageMutation();
+  const deleteFiles = useDeleteFiles();
 
   const UploadAction = () => (
     <Link href="/images/upload" className={buttonVariants({ variant: "default" })}>
@@ -33,33 +37,27 @@ export default function ImageTable({ rows, count }: { rows: Image[]; count?: num
     </Link>
   );
 
-  const handleEdit = ({ id }: Image) => {
-    const filename = data.find((row) => row.id === id)?.filename;
+  const handleEdit = ({ filename }: Image) => {
     router.push(`/images/edit/${user?.id}?filename=${filename}`);
   };
 
-  const handleDelete = async (id: string) => {
+  const handleDelete = async ({ id, filename }: Image) => {
     if (await confirm(confirmDelete(id))) {
-      // Delete db record
-      const { error } = await supabase.from("images").delete().eq("id", id);
+      const { error } = await deleteFiles("images", [
+        filename,
+        suffixFilename(filename, "-crop"),
+        suffixFilename(filename, "-thumbnail"),
+      ]);
 
-      // Delete image files
-      const { filename } = data.find((row) => row.id === id) || {};
-      if (filename) {
-        await supabase.storage
-          .from("images")
-          .remove([`originals/${filename}`, `crops/${filename}`, `thumbnails/${filename}`]);
+      if (error) {
+        return console.error(error);
       }
 
-      // Remove from table
-      const deletedIndex = data.findIndex((row) => row.id === id);
-      if (deletedIndex !== -1) {
-        setData((prevValue) => prevValue.splice(deletedIndex, 1) && [...prevValue]);
-      }
+      deleteImage(id);
     }
   };
 
   const columns = getColumns({ onDelete: handleDelete, onEdit: handleEdit });
 
-  return <CustomTable columns={columns} data={data} actions={<UploadAction />} />;
+  return <CustomTable columns={columns} data={images || []} actions={<UploadAction />} />;
 }

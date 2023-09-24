@@ -3,9 +3,8 @@
 import { CustomTable } from "@/components/CustomTable";
 import useConfirm from "@/components/hooks/useConfirm";
 import { buttonVariants } from "@/components/ui/button";
+import useDeleteSpeciesMutation from "@/supabase/hooks/use-delete-species-mutation";
 import useSpeciesQuery from "@/supabase/hooks/use-species-query";
-import useSupabase from "@/supabase/hooks/use-supabase";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
 import { getColumns } from "./columns";
 
@@ -20,21 +19,12 @@ const confirmDelete = (id: string) => ({
 
 export default function SpeciesTable() {
   const { confirm } = useConfirm();
-  const client = useSupabase();
-  const queryClient = useQueryClient();
-  const { data: species /* , isLoading, isError */ } = useSpeciesQuery();
+  const { data: species } = useSpeciesQuery();
+  const { mutate: deleteSpecies } = useDeleteSpeciesMutation();
 
-  const deleteSpecies = useMutation({
-    mutationFn: async (id: string) => await client.from("species").delete().eq("id", id).throwOnError(),
-    onSuccess: () => {
-      queryClient.invalidateQueries(["species"]);
-    },
-    onError: (error) => console.error(error),
-  });
-
-  const handleDelete = async (id: string) => {
+  const handleDelete = async ({ id }: { id: string }) => {
     if (await confirm(confirmDelete(id))) {
-      deleteSpecies.mutate(id);
+      deleteSpecies(id);
     }
   };
 

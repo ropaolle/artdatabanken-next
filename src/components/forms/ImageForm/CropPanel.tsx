@@ -31,7 +31,6 @@ export default function CropPanel({ file, onCrop, imageRef }: Props) {
       setImage(undefined);
       return;
     }
-
     const objectUrl = URL.createObjectURL(file);
     setImage(objectUrl);
 
@@ -92,7 +91,7 @@ export default function CropPanel({ file, onCrop, imageRef }: Props) {
           src={image}
           ref={imageRef}
           alt="Crop image"
-          className="w-full md:w-auto bg-red-600"
+          className="w-full bg-red-600 md:w-auto"
           onLoad={() => handleCompletedCrop(cropArea)}
         />
       </ReactCrop>

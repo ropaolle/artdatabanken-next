@@ -2,7 +2,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { getImageId } from "./get-image-id";
 import useSupabase from "./use-supabase";
 
-export default function useImageId2(userId: string | undefined, filename: string | undefined) {
+export default function useImageId(userId: string | undefined, filename: string | undefined) {
   const client = useSupabase();
   const key = ["images", filename];
 

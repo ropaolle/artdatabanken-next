@@ -12,11 +12,15 @@ export default function useSpeciesQuery() {
   });
 }
 
-export function useSpeciesQueryById(id: string) {
+export function useSpeciesQueryById(id: string | undefined) {
   const client = useSupabase();
   const key = ["species", id];
 
-  return useQuery(key, async () => {
-    return getSpeciesById(client, id).then((result) => result.data);
-  });
+  return useQuery(
+    key,
+    async () => {
+      return getSpeciesById(client, id as string).then((result) => result.data);
+    },
+    { enabled: !!id },
+  );
 }

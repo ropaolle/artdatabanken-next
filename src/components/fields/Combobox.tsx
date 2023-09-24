@@ -12,7 +12,7 @@ export type Option = { label: string; value: string };
 
 type BaseComboboxProps<TName> = {
   name: TName;
-  options: readonly Option[];
+  options?: readonly Option[];
   label?: string;
   description?: string;
   placeholder?: string;
@@ -143,32 +143,13 @@ export function Combobox<
   return <BaseCombobox commandEmptyText="No framework found." {...props} />;
 }
 
-export type AsyncComboboxProps<TName> = Omit<BaseComboboxProps<TName>, "loading" | "async" | "onSearch" | "options"> & {
-  loadOptionsAsync: (query: string) => Promise<Option[]>;
+export type AsyncComboboxProps<TName> = Omit<BaseComboboxProps<TName>, "loading" | "async"> & {
+  loading: boolean;
 };
 
 export function ComboboxAsync<
   TFieldValues extends FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
->({ loadOptionsAsync, ...props }: AsyncComboboxProps<TName>) {
-  const [asyncOptions, setAsyncOptions] = useState<Option[]>([]);
-  const [loading, setLoading] = useState(false);
-
-  const handleSearch = async (query: string) => {
-    setLoading(true);
-    setAsyncOptions(await loadOptionsAsync(query));
-    setLoading(false);
-  };
-
-  return (
-    <BaseCombobox
-      commandEmptyText="No data found."
-      {...props}
-      shouldFilter={false}
-      async
-      options={asyncOptions}
-      onSearch={handleSearch}
-      loading={loading}
-    />
-  );
+>({ loading, ...props }: AsyncComboboxProps<TName>) {
+  return <BaseCombobox commandEmptyText="No data found." {...props} shouldFilter={false} async loading={loading} />;
 }

@@ -4,7 +4,7 @@ import useConfirm from "@/components/hooks/useConfirm";
 import { useToast } from "@/components/ui/use-toast";
 import { canvasToBlob, suffixFilename } from "@/lib/utils";
 import { useAppStore } from "@/state";
-import { getPublicUrl, uploadFileToSupabase } from "@/supabase/client";
+import { uploadFileToSupabase } from "@/supabase/client";
 import useImageId from "@/supabase/hooks/use-image-id";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useEffect, useRef, useState } from "react";
@@ -12,6 +12,8 @@ import "react-image-crop/dist/ReactCrop.css";
 import CropForm, { type SubmitValues } from "./CropForm";
 import CropPanel, { type CompletedCropArea } from "./CropPanel";
 import drawImageOnCanvas from "./drawImageOnCanvas";
+import useUpsertSpeciesMutation from "@/supabase/hooks/use-upsert-species-mutation";
+import { usePublicUrl } from "@/supabase/storage/use-public-url";
 
 const confirmDelete = (filename: string) => ({
   title: "Overwrite existing image?",
@@ -35,6 +37,7 @@ export default function ImageForm({ originalFilename }: { originalFilename?: str
   const { user } = useAppStore();
   // Image id will only be fetched if user and file exists.
   const { data: image } = useImageId(user?.id, file?.name);
+  const getPublicURL = usePublicUrl();
 
   // console.log('mutation', mutation);
 
@@ -95,10 +98,12 @@ export default function ImageForm({ originalFilename }: { originalFilename?: str
       return;
     }
 
+    // TODO: Create hook
     if (file) uploadImage({ path: imagePath, file });
     uploadImage({ path: cropPath, width, height });
     uploadImage({ path: thumbPath, width: 100, height: 100 });
 
+    // TODO: use-upsert-image-mutation.ts
     /*  const { data, error } = */ await supabase
       .from("images")
       .upsert({
@@ -109,9 +114,9 @@ export default function ImageForm({ originalFilename }: { originalFilename?: str
         upscaled: upscaleRequired,
         natural_width: imageRef.current.naturalWidth,
         natural_height: imageRef.current.naturalHeight,
-        url: getPublicUrl(supabase, "images", imagePath),
-        crop_url: getPublicUrl(supabase, "images", cropPath),
-        thumbnail_url: getPublicUrl(supabase, "images", thumbPath),
+        url: getPublicURL("images", imagePath, false),
+        crop_url: getPublicURL("images", cropPath, false),
+        thumbnail_url: getPublicURL("images", thumbPath, false),
       })
       .select();
 
@@ -162,7 +167,7 @@ export default function ImageForm({ originalFilename }: { originalFilename?: str
       <div className="mt-8 grid grid-cols-1  gap-8 md:grid-cols-2">
         <div className="md:flex md:flex-col">
           <Header label="Original" width={crop?.naturalWidth} height={crop?.naturalHeight} />
-          {Boolean(file) ? (
+          {file?.name ? (
             <CropPanel file={file} onCrop={handleCrop} imageRef={imageRef} />
           ) : (
             <PreviewPane label="Original" />
