@@ -1,21 +1,22 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { getImageId } from "./get-image-id";
+import { useQuery } from "@tanstack/react-query";
 import useSupabase from "./use-supabase";
 
-export default function useImageId(userId: string | undefined, filename: string | undefined) {
+export default function useImageId(filename: string | undefined) {
   const client = useSupabase();
   const key = ["images", filename];
 
-  return useQuery(key, async () => {
-    if (!userId || !filename) return;
-    return getImageId(client, userId, filename).then((result) => result.data);
-  }, {enabled: !!userId && !!filename});
+  return useQuery(
+    key,
+    async () => {
+      return (
+        filename &&
+        (await client
+          .from("images")
+          .select("id")
+          .eq("filename", filename)
+          .then(({ data }) => (Array.isArray(data) && data.length ? data[0].id : undefined)))
+      );
+    },
+    { retry: false, enabled: !!filename },
+  );
 }
-
-// export default function useImageId() {
-//   const client = useSupabase();
-
-//   return useMutation(async ({ id, filename }: { id?: string; filename?: string }) => {
-//     return id && filename ? getImageId(client, id, filename).then((result) => result.data) : null;
-//   });
-// }

@@ -10,9 +10,9 @@ export function useDeleteFiles() {
       return { error: "No user found!", data: null };
     }
 
-    return await client.storage
-      .from(bucket)
-      .remove(prefixPathWithUserId ? paths.map((path) => user?.id + "/" + path) : paths);
+    const prefixedPaths = prefixPathWithUserId ? paths.map((path) => user?.id + "/" + path) : paths;
+
+    return await client.storage.from(bucket).remove(prefixedPaths);
   };
 
   return deleteFiles;

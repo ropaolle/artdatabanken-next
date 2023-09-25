@@ -3,17 +3,18 @@
 import useConfirm from "@/components/hooks/useConfirm";
 import { useToast } from "@/components/ui/use-toast";
 import { canvasToBlob, suffixFilename } from "@/lib/utils";
-import { useAppStore } from "@/state";
-import { uploadFileToSupabase } from "@/supabase/client";
 import useImageId from "@/supabase/hooks/use-image-id";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import { useEffect, useRef, useState } from "react";
+import useUpsertImageMutation from "@/supabase/hooks/use-upsert-image-mutation";
+import { useLoadFile } from "@/supabase/storage/use-load-file";
+import { usePublicUrl } from "@/supabase/storage/use-public-url";
+import useUploadFile from "@/supabase/storage/use-upload-file";
+import { useCallback, useEffect, useRef, useState } from "react";
 import "react-image-crop/dist/ReactCrop.css";
 import CropForm, { type SubmitValues } from "./CropForm";
 import CropPanel, { type CompletedCropArea } from "./CropPanel";
 import drawImageOnCanvas from "./drawImageOnCanvas";
-import useUpsertSpeciesMutation from "@/supabase/hooks/use-upsert-species-mutation";
-import { usePublicUrl } from "@/supabase/storage/use-public-url";
+
+const SUPABASE_BUCKET = "images";
 
 const confirmDelete = (filename: string) => ({
   title: "Overwrite existing image?",
@@ -26,7 +27,6 @@ const confirmDelete = (filename: string) => ({
 });
 
 export default function ImageForm({ originalFilename }: { originalFilename?: string }) {
-  const supabase = createClientComponentClient();
   const [file, setFile] = useState<File>();
   const imageRef = useRef<HTMLImageElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -34,44 +34,32 @@ export default function ImageForm({ originalFilename }: { originalFilename?: str
   const [crop, setCrop] = useState<CompletedCropArea>();
   const { toast } = useToast();
   const { confirm } = useConfirm();
-  const { user } = useAppStore();
-  // Image id will only be fetched if user and file exists.
-  const { data: image } = useImageId(user?.id, file?.name);
+  const { data: imageId } = useImageId(file?.name);
+  const { mutate: updateImage } = useUpsertImageMutation();
+  // TODO: merge into useStorage?
   const getPublicURL = usePublicUrl();
-
-  // console.log('mutation', mutation);
+  const uploadFile = useUploadFile();
+  const loadFile = useLoadFile();
 
   useEffect(() => {
-    const loadFile = async () => {
-      if (!originalFilename) return;
-      const { data: blob, error } = await supabase.storage.from("images").download(`${user?.id}/${originalFilename}`);
-      if (!blob) return;
-      setFile(new File([blob], originalFilename));
+    if (!originalFilename || (originalFilename && file)) return;
+
+    const loadOriginalFile = async () => {
+      const { data: blob } = await loadFile(SUPABASE_BUCKET, originalFilename);
+      setFile(blob ? new File([blob], originalFilename) : undefined);
     };
 
-    loadFile();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [originalFilename]);
+    loadOriginalFile();
+  }, [originalFilename, loadFile, file]);
 
-  const uploadImage = async ({
-    path,
-    width,
-    height,
-    file,
-  }: {
-    path: string;
-    width?: number;
-    height?: number;
-    file?: File | Blob;
-  }) => {
-    if (!file) {
-      if (!imageRef.current || !canvasRef.current || !crop || !width || !height) return;
+  const getBlob = useCallback(
+    async (width: number, height: number) => {
+      if (!imageRef.current || !canvasRef.current || !crop) return;
       drawImageOnCanvas(imageRef.current, canvasRef.current, crop, width, height);
-      file = await canvasToBlob(canvasRef.current);
-    }
-
-    await uploadFileToSupabase(supabase, file, "images", path, true);
-  };
+      return await canvasToBlob(canvasRef.current);
+    },
+    [crop],
+  );
 
   const handleSubmit = async ({
     file,
@@ -80,7 +68,10 @@ export default function ImageForm({ originalFilename }: { originalFilename?: str
     upscaleRequired,
   }: SubmitValues) => {
     const filename = file?.name || originalFilename;
-    if (!user || !filename || !imageRef.current) {
+    const cropFilename = suffixFilename(filename, "-crop");
+    const thumbFileName = suffixFilename(filename, "-thumbnail");
+
+    if (!filename || !imageRef.current) {
       toast({
         title: "Woops!",
         variant: "destructive",
@@ -89,24 +80,17 @@ export default function ImageForm({ originalFilename }: { originalFilename?: str
       return;
     }
 
-    const imagePath = user.id + "/" + filename;
-    const cropPath = user.id + "/" + suffixFilename(filename, "-crop");
-    const thumbPath = user.id + "/" + suffixFilename(filename, "-thumbnail");
-
-    const imageId = image?.id;
     if (imageId && !(await confirm(confirmDelete(filename)))) {
       return;
     }
 
-    // TODO: Create hook
-    if (file) uploadImage({ path: imagePath, file });
-    uploadImage({ path: cropPath, width, height });
-    uploadImage({ path: thumbPath, width: 100, height: 100 });
+    // Try/catch?
+    await uploadFile(file, SUPABASE_BUCKET, filename, { upsert: true });
+    await uploadFile(await getBlob(width, height), SUPABASE_BUCKET, cropFilename, { upsert: true });
+    await uploadFile(await getBlob(100, 100), SUPABASE_BUCKET, thumbFileName, { upsert: true });
 
-    // TODO: use-upsert-image-mutation.ts
-    /*  const { data, error } = */ await supabase
-      .from("images")
-      .upsert({
+    updateImage(
+      {
         id: imageId,
         filename: filename,
         crop_width: width,
@@ -114,24 +98,22 @@ export default function ImageForm({ originalFilename }: { originalFilename?: str
         upscaled: upscaleRequired,
         natural_width: imageRef.current.naturalWidth,
         natural_height: imageRef.current.naturalHeight,
-        url: getPublicURL("images", imagePath, false),
-        crop_url: getPublicURL("images", cropPath, false),
-        thumbnail_url: getPublicURL("images", thumbPath, false),
-      })
-      .select();
-
-    toast({
-      title: "Upload succeeded",
-      description: (
-        <>
-          Image <i>{filename}</i> successfully uploaded to bucket <i>images</i>.
-        </>
-      ),
-    });
-  };
-
-  const handleChange = (file?: File) => {
-    setFile(file);
+        url: getPublicURL(SUPABASE_BUCKET, filename),
+        crop_url: getPublicURL(SUPABASE_BUCKET, cropFilename),
+        thumbnail_url: getPublicURL(SUPABASE_BUCKET, thumbFileName),
+      },
+      {
+        onSuccess: () =>
+          toast({
+            title: "Upload succeeded",
+            description: (
+              <>
+                Image <i>{filename}</i> successfully uploaded to bucket <i>images</i>.
+              </>
+            ),
+          }),
+      },
+    );
   };
 
   const handleCrop = (crop: CompletedCropArea, preview: string | undefined) => {
@@ -157,7 +139,7 @@ export default function ImageForm({ originalFilename }: { originalFilename?: str
   return (
     <>
       <CropForm
-        onChange={handleChange}
+        onChange={(file) => setFile(file)}
         onSubmit={handleSubmit}
         naturalSelectionHeight={crop?.naturalSelectionHeight}
         naturalSelectionWidth={crop?.naturalSelectionWidth}
@@ -167,17 +149,13 @@ export default function ImageForm({ originalFilename }: { originalFilename?: str
       <div className="mt-8 grid grid-cols-1  gap-8 md:grid-cols-2">
         <div className="md:flex md:flex-col">
           <Header label="Original" width={crop?.naturalWidth} height={crop?.naturalHeight} />
-          {file?.name ? (
-            <CropPanel file={file} onCrop={handleCrop} imageRef={imageRef} />
-          ) : (
-            <PreviewPane label="Original" />
-          )}
+          {file ? <CropPanel file={file} onCrop={handleCrop} imageRef={imageRef} /> : <PreviewPane label="Original" />}
         </div>
 
         <div className="md:flex md:flex-col md:items-end">
           <Header label="Preview" width={crop?.naturalSelectionWidth} height={crop?.naturalSelectionHeight} />
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          {Boolean(file) ? <img src={preview} alt="Preview" /> : <PreviewPane label="Preview" />}
+          {file ? <img src={preview} alt="Preview" /> : <PreviewPane label="Preview" />}
         </div>
       </div>
 

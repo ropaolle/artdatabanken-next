@@ -1,6 +1,12 @@
 import { useAppStore } from "@/state";
 import useSupabase from "../hooks/use-supabase";
 
+/**
+ * Example:
+ * - https://yeebxkyqwarhmbfpkgir.supabase.co/storage/v1/object/public/images/44638182-269a-48d8-84f0-c538e2671f44/image066.jpg
+ * - `https://${SUPABASE_PROJECT_ID}.supabase.co/storage/v1/object/public/${bucket}/${userId}/${path}`
+ */
+
 export function usePublicUrl() {
   const { user } = useAppStore();
   const client = useSupabase();
