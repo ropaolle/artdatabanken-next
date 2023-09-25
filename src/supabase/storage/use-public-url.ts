@@ -11,7 +11,7 @@ export function usePublicUrl() {
   const { user } = useAppStore();
   const client = useSupabase();
 
-  const getPublicUrl = (bucket: string, path: string /*  | undefined */, prefixPathWithUserId = true) => {
+  const getPublicUrl = (bucket: string, path: string | undefined, prefixPathWithUserId = true) => {
     if ((prefixPathWithUserId && !user?.id) || !bucket || !path) return;
 
     const {
