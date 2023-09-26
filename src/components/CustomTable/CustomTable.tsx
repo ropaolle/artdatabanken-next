@@ -10,6 +10,8 @@ import DebouncedInput from "./DebouncedInput";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import {
   ColumnDef,
+  // RowSelection,
+  // RowSelectionState,
   // ColumnFiltersState,
   SortingState,
   VisibilityState,
@@ -21,14 +23,21 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { ReactNode, useState } from "react";
+import { cn } from "@/lib/utils";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   actions?: ReactNode;
+  onRowSelectionActionClick: (rowSelection: {}) => void;
 }
 
-export default function CustomTable<TData, TValue>({ columns, data, actions }: DataTableProps<TData, TValue>) {
+export default function CustomTable<TData, TValue>({
+  columns,
+  data,
+  actions,
+  onRowSelectionActionClick,
+}: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   // const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [globalFilter, setGlobalFilter] = useState("");
@@ -38,6 +47,8 @@ export default function CustomTable<TData, TValue>({ columns, data, actions }: D
     updated_at: false,
   });
   const [rowSelection, setRowSelection] = useState({});
+
+  // handleRowSelection
 
   const table = useReactTable({
     data,
@@ -60,6 +71,20 @@ export default function CustomTable<TData, TValue>({ columns, data, actions }: D
     },
   });
 
+  const DeleteAction = (/* { onDelete }: { onDelete: (x: any) => void } */) => {
+    if (typeof onRowSelectionActionClick !== "function") return null;
+
+    const selected = Object.keys(rowSelection).length;
+
+    return (
+      <Button onClick={() => onRowSelectionActionClick(rowSelection)} className={cn("mr-2")} variant={"destructive"}>
+        Delete {selected === 1 ? "1 image" : `${selected} images`}
+      </Button>
+    );
+  };
+
+  // console.log("rowSelection", Object.keys(rowSelection));
+
   return (
     <div>
       <div className="flex items-center py-4">
@@ -76,6 +101,7 @@ export default function CustomTable<TData, TValue>({ columns, data, actions }: D
           placeholder="Search all columns..."
         />
         <div className="ml-auto">
+          {(table.getIsSomeRowsSelected() || table.getIsAllRowsSelected()) && <DeleteAction />}
           {actions}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>

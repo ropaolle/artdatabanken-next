@@ -1,9 +1,11 @@
 import { useAppStore } from "@/state";
 import useSupabase from "../hooks/use-supabase";
+import { useState } from "react";
 
 type Options = { upsert?: boolean; prefixPathWithUserId?: boolean };
 
 export default function useUploadFile() {
+  const [isUploading, setIsUploading] = useState(false);
   const { user } = useAppStore();
   const client = useSupabase();
 
@@ -23,11 +25,17 @@ export default function useUploadFile() {
 
     const prefixedPath = `${prefixPathWithUserId && user?.id + "/"}${path}`;
 
-    return await client.storage.from(bucket).upload(prefixedPath, file, {
+    setIsUploading(true);
+
+    const result = await client.storage.from(bucket).upload(prefixedPath, file, {
       cacheControl: "3600",
       upsert,
     });
+
+    setIsUploading(false);
+
+    return result;
   };
 
-  return uploadFile;
+  return { uploadFile, isUploading };
 }

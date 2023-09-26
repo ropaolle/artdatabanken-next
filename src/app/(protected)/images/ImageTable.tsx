@@ -10,6 +10,7 @@ import { useDeleteFiles } from "@/supabase/storage/use-delete-files";
 import type { Image } from "@/types/app.types";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useMemo } from "react";
 import { getColumns } from "./columns";
 
 const confirmDelete = (id: string) => ({
@@ -34,28 +35,43 @@ export default function ImageTable() {
     </Link>
   );
 
-  const handleEdit = ({ /* id,  */ filename }: Image) => {
-    // router.push(`/images/edit/${user?.id}?filename=${filename}&id=${id}`);
-    router.push(`/images/edit?filename=${filename}`);
+  const handleRowSelectionAction = (rowSelection: {}) => {
+    console.log("rowSelection", rowSelection);
   };
 
-  const handleDelete = async ({ id, filename }: Image) => {
-    if (await confirm(confirmDelete(id))) {
-      const { error } = await deleteFiles("images", [
-        filename,
-        suffixFilename(filename, "-crop"),
-        suffixFilename(filename, "-thumbnail"),
-      ]);
+  const columns = useMemo(() => {
+    const handleEdit = ({ /* id,  */ filename }: Image) => {
+      // router.push(`/images/edit/${user?.id}?filename=${filename}&id=${id}`);
+      router.push(`/images/edit?filename=${filename}`);
+    };
 
-      if (error) {
-        return console.error(error);
+    const handleDelete = async ({ id, filename }: Image) => {
+      if (await confirm(confirmDelete(id))) {
+        deleteImage(id, {
+          onSuccess: async () => {
+            const { error, data } = await deleteFiles("images", [
+              filename,
+              suffixFilename(filename, "-crop"),
+              suffixFilename(filename, "-thumbnail"),
+            ]);
+          },
+        });
       }
+    };
 
-      deleteImage(id);
-    }
-  };
+    return getColumns({ onDelete: handleDelete, onEdit: handleEdit });
+  }, [router, confirm, deleteFiles, deleteImage]);
 
-  const columns = getColumns({ onDelete: handleDelete, onEdit: handleEdit });
-
-  return <CustomTable columns={columns} data={images || []} actions={<UploadAction />} />;
+  return (
+    <CustomTable
+      columns={columns}
+      data={images || []}
+      onRowSelectionActionClick={handleRowSelectionAction}
+      actions={
+        <>
+          <UploadAction />
+        </>
+      }
+    />
+  );
 }

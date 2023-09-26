@@ -12,7 +12,7 @@ export default function useDeleteImageMutation() {
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(["image"]);
+        queryClient.invalidateQueries(["images"]);
       },
     },
   );

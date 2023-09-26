@@ -3,7 +3,8 @@ import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { toOptions } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect } from "react";
+import { Loader2 } from "lucide-react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
@@ -36,7 +37,7 @@ export type SubmitValues = {
 
 type Props = {
   onChange: (values?: File) => void;
-  onSubmit: (values: SubmitValues) => void;
+  onSubmit: (values: SubmitValues) => Promise<void>;
   file?: File;
   originalFilename?: string;
   naturalSelectionHeight?: number;
@@ -53,6 +54,7 @@ export default function CropForm({
   naturalSelectionHeight,
   naturalSelectionWidth,
 }: Props) {
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const formSchema = z
     .object({
       // file: typeof window === "undefined" ? z.undefined() : z.instanceof(File).optional(),
@@ -96,13 +98,15 @@ export default function CropForm({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [values.file?.name]);
 
-  const handleSubmit = ({ resolution, file, options }: z.infer<typeof formSchema>) => {
-    onSubmit({
+  const handleSubmit = async ({ resolution, file, options }: z.infer<typeof formSchema>) => {
+    setIsSubmitting(true);
+    await onSubmit({
       file,
       resolution: resolutions[resolution as keyof typeof resolutions].data,
       originalFilename,
       upscaleRequired: upscaleRequired(resolution, options, naturalSelectionWidth, naturalSelectionHeight),
     });
+    setIsSubmitting(false);
   };
 
   return (
@@ -125,7 +129,12 @@ export default function CropForm({
             <Checkboxes name="options" label="Options" items={optionValues} />
           </div>
 
-          <Button type="submit" className="ml-auto whitespace-nowrap" disabled={!naturalSelectionHeight}>
+          <Button
+            type="submit"
+            className="ml-auto whitespace-nowrap"
+            disabled={!naturalSelectionHeight || isSubmitting}
+          >
+            {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
             Upload image
           </Button>
         </div>

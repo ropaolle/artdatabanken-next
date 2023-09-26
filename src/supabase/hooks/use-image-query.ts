@@ -7,7 +7,7 @@ import { getImageByFilenameQuery } from "./get-image-by-filename-query";
 
 export default function useImageQuery() {
   const client = useSupabase();
-  const key = ["image"];
+  const key = ["images"];
 
   return useQuery(key, async () => {
     return getImage(client).then((result) => result.data);
@@ -42,6 +42,7 @@ export function useImageQueryByFilename(filename: string | undefined) {
 
 export function useImageQueryByFilenameQuery(filenameQuery: string | undefined) {
   const client = useSupabase();
+  // TODO: How to set keys?
   const key = ["image-query", filenameQuery];
 
   return useQuery(key, async () => {

@@ -38,7 +38,7 @@ export default function ImageForm({ originalFilename }: { originalFilename?: str
   const { mutate: updateImage } = useUpsertImageMutation();
   // TODO: merge into useStorage?
   const getPublicURL = usePublicUrl();
-  const uploadFile = useUploadFile();
+  const {uploadFile, isUploading} = useUploadFile();
   const loadFile = useLoadFile();
 
   useEffect(() => {
@@ -91,7 +91,7 @@ export default function ImageForm({ originalFilename }: { originalFilename?: str
 
     updateImage(
       {
-        id: imageId,
+        id: imageId || undefined,
         filename: filename,
         crop_width: width,
         crop_height: height,

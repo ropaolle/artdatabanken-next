@@ -1,7 +1,7 @@
-import { useMutation } from "@tanstack/react-query";
-import useSupabase from "./use-supabase";
 import { Species } from "@/types/app.types";
+import { useMutation } from "@tanstack/react-query";
 import { upsertSpeciesById } from "./upsert-species-by-id";
+import useSupabase from "./use-supabase";
 
 export default function useUpsertSpeciesMutation() {
   const client = useSupabase();
