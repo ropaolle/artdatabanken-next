@@ -3,8 +3,8 @@
 import useConfirm from "@/components/hooks/useConfirm";
 import { useToast } from "@/components/ui/use-toast";
 import { canvasToBlob, suffixFilename } from "@/lib/utils";
-import useImageId from "@/supabase/hooks/use-image-id";
-import useUpsertImageMutation from "@/supabase/hooks/use-upsert-image-mutation";
+import useImageId from "@/supabase/database/use-image-id";
+import useUpsertImageMutation from "@/supabase/database/use-upsert-image-mutation";
 import { useLoadFile } from "@/supabase/storage/use-load-file";
 import { usePublicUrl } from "@/supabase/storage/use-public-url";
 import useUploadFile from "@/supabase/storage/use-upload-file";

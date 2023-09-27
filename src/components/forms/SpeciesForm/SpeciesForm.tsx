@@ -4,9 +4,9 @@ import { Checkboxes, Combobox, ComboboxAsync, DatePicker, Input } from "@/compon
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { useToast } from "@/components/ui/use-toast";
-import { useImageQueryByFilenameQuery } from "@/supabase/hooks/use-image-query";
-import { useSpeciesQueryById } from "@/supabase/hooks/use-species-query";
-import useUpsertSpeciesMutation from "@/supabase/hooks/use-upsert-species-mutation";
+import { useImageQueryByFilenameQuery } from "@/supabase/database/use-image-query";
+import { useSpeciesQueryById } from "@/supabase/database/use-species-query";
+import useUpsertSpeciesMutation from "@/supabase/database/use-upsert-species-mutation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";

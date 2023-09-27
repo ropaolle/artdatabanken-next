@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
-import { getSpecies } from "./get-species";
+import { getSpecies } from "./queries/get-species";
+import { getSpeciesById } from "./queries/get-species-by-id";
 import useSupabase from "./use-supabase";
-import { getSpeciesById } from "./get-species-by-id";
 
 export default function useSpeciesQuery() {
   const client = useSupabase();

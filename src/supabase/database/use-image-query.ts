@@ -1,9 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
-import { getImage } from "./get-image";
+import { getImage } from "./queries/get-image";
+import { getImageByFilename } from "./queries/get-image-by-filename";
+import { getImageByFilenameQuery } from "./queries/get-image-by-filename-query";
+import { getImageById } from "./queries/get-image-by-id";
 import useSupabase from "./use-supabase";
-import { getImageById } from "./get-image-by-id";
-import { getImageByFilename } from "./get-image-by-filename";
-import { getImageByFilenameQuery } from "./get-image-by-filename-query";
 
 export default function useImageQuery() {
   const client = useSupabase();

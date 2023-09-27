@@ -52,8 +52,7 @@ function BaseCombobox<
 
   useEffect(() => {
     typeof onSearch === "function" && onSearch(debouncedSearchQuery);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [debouncedSearchQuery]);
+  }, [debouncedSearchQuery, onSearch]);
 
   return (
     <FormField

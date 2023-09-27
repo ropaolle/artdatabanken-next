@@ -1,5 +1,5 @@
 import { useAppStore } from "@/state";
-import useSupabase from "../hooks/use-supabase";
+import useSupabase from "../database/use-supabase";
 import { useState } from "react";
 
 type Options = { upsert?: boolean; prefixPathWithUserId?: boolean };

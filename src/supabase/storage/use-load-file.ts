@@ -1,5 +1,5 @@
 import { useAppStore } from "@/state";
-import useSupabase from "../hooks/use-supabase";
+import useSupabase from "../database/use-supabase";
 
 export function useLoadFile() {
   const { user } = useAppStore();

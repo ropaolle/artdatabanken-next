@@ -3,8 +3,8 @@
 import { CustomTable } from "@/components/CustomTable";
 import useConfirm from "@/components/hooks/useConfirm";
 import { buttonVariants } from "@/components/ui/button";
-import useDeleteSpeciesMutation from "@/supabase/hooks/use-delete-species-mutation";
-import useSpeciesQuery from "@/supabase/hooks/use-species-query";
+import useDeleteSpeciesMutation from "@/supabase/database/use-delete-species-mutation";
+import useSpeciesQuery from "@/supabase/database/use-species-query";
 import Link from "next/link";
 import { getColumns } from "./columns";
 

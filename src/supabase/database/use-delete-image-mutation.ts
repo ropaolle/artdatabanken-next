@@ -1,18 +1,18 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { deleteSpeciesById } from "./delete-species-by-id";
+import { deleteImageById } from "./queries/delete-image-by-id";
 import useSupabase from "./use-supabase";
 
-export default function useDeleteSpeciesMutation() {
+export default function useDeleteImageMutation() {
   const client = useSupabase();
   const queryClient = useQueryClient();
 
   return useMutation(
     async (id: string) => {
-      return deleteSpeciesById(client, id).then((result) => result.data);
+      return deleteImageById(client, id).then((result) => result.data);
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(["species"]);
+        queryClient.invalidateQueries(["images"]);
       },
     },
   );

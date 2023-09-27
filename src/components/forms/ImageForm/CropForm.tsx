@@ -45,7 +45,7 @@ type Props = {
 };
 
 const MAX_FILE_SIZE = 5000000;
-const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/jpg" /* , "image/png", "image/webp" */];
+const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/jpg"];
 
 export default function CropForm({
   onChange,
@@ -57,7 +57,6 @@ export default function CropForm({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const formSchema = z
     .object({
-      // file: typeof window === "undefined" ? z.undefined() : z.instanceof(File).optional(),
       file: z
         .any()
         .refine((file) => !!file, "Image is required.")
@@ -87,16 +86,8 @@ export default function CropForm({
     },
   });
 
-  const values = form.watch();
-
-  useEffect(() => {
-    onChange(values.file);
-
-    // 'values' cannot be used directly as a dependency as it would triggerd the effect on
-    // each re-render.But if we only use a string, like the filename, the effect will only
-    // be trigger when the name actually is changed.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [values.file?.name]);
+  const watchedFile = form.watch("file");
+  useEffect(() => onChange(watchedFile), [watchedFile, onChange]);
 
   const handleSubmit = async ({ resolution, file, options }: z.infer<typeof formSchema>) => {
     setIsSubmitting(true);

@@ -1,6 +1,6 @@
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
-import { fetchServerUser } from "@/supabase/server";
+import { fetchServerUser } from "@/supabase/fetchServerUser";
 import { redirect } from "next/navigation";
 import "../globals.css";
 

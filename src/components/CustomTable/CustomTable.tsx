@@ -29,7 +29,7 @@ interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   actions?: ReactNode;
-  onRowSelectionActionClick: (selectedIds: TData[]) => void;
+  onRowSelectionActionClick?: (selectedIds: TData[]) => void;
 }
 
 export default function CustomTable<TData extends { id: string }, TValue>({
