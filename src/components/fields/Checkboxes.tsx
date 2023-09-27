@@ -24,20 +24,22 @@ export default function Checkboxes<
       render={() => (
         <FormItem>
           <div>
-            <FormLabel className="">{label}</FormLabel>
+            <FormLabel htmlFor={items[0].id}>{label}</FormLabel>
             <FormDescription>{description}</FormDescription>
           </div>
           <div className="flex h-10 flex-row items-center">
-            {items.map((item) => (
+            {items.map((item, i) => (
               <FormField
                 key={item.id}
                 control={control}
                 name={name}
                 render={({ field }) => {
                   return (
-                    <FormItem key={item.id} className="flex flex-row items-start ">
+                    <FormItem /* key={item.id} */ className="flex flex-row items-start ">
                       <FormControl>
                         <Checkbox
+                          id={`${item.id}`}
+                          name={`${item.id}`}
                           checked={field.value?.includes(item.id)}
                           onCheckedChange={(checked) => {
                             return checked
@@ -46,7 +48,9 @@ export default function Checkboxes<
                           }}
                         />
                       </FormControl>
-                      <FormLabel className="ml-1 mr-4 font-normal">{item.label}</FormLabel>
+                      <FormLabel htmlFor={item.id} className="ml-1 mr-4 font-normal">
+                        {item.label}
+                      </FormLabel>
                     </FormItem>
                   );
                 }}

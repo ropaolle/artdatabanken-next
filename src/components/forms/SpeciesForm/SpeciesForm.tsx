@@ -92,7 +92,7 @@ export default function SpeciesForm({ id }: { id?: string }) {
             <div className="grid grid-cols-2 gap-4">
               <Input name="kingdom" label="Kingdom" />
               <Input name="order" label="Order" />
-              <Input name="family" label="Family" placeholder="My placeholder..." />
+              <Input name="family" label="Family" placeholder="My placeholder…" />
               <Input name="latin" label="Latin" />
               <Input name="place" label="Place" />
               <Checkboxes name="gender" label="Gender" items={gender} />

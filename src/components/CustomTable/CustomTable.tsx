@@ -85,22 +85,15 @@ export default function CustomTable<TData extends { id: string }, TValue>({
     );
   };
 
-  // console.log("rowSelection", Object.keys(rowSelection));
-
   return (
     <div>
       <div className="flex items-center py-4">
-        {/* <Input
-          placeholder="Filter species..."
-          value={(table.getColumn("species")?.getFilterValue() as string) ?? ""}
-          onChange={(event) => table.getColumn("species")?.setFilterValue(event.target.value)}
-          className="max-w-sm"
-        /> */}
         <DebouncedInput
           value={globalFilter ?? ""}
           onChange={(value) => setGlobalFilter(String(value))}
           className="max-w-sm"
-          placeholder="Search all columns..."
+          id="search"
+          placeholder="Search all columns…"
         />
         <div className="ml-auto">
           {(table.getIsSomeRowsSelected() || table.getIsAllRowsSelected()) && <DeleteAction />}

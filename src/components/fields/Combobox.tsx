@@ -61,13 +61,14 @@ function BaseCombobox<
       render={({ field }) => {
         return (
           <FormItem className="">
-            <FormLabel>{label}</FormLabel>
+            <FormLabel htmlFor={name}>{label}</FormLabel>
             <Popover open={open} onOpenChange={setOpen}>
               <PopoverTrigger asChild>
                 <FormControl>
                   <div className="relative">
                     <Button
                       type="button"
+                      id={name}
                       variant="outline"
                       role="combobox"
                       className={cn("flex h-10 w-full justify-between", !field.value && "text-muted-foreground")}

@@ -6,6 +6,7 @@ export function getCheckboxColumn<TData>(id = "select") {
     id,
     header: ({ table }: { table: Table<TData> }) => (
       <Checkbox
+        name={id}
         checked={table.getIsAllPageRowsSelected()}
         onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
         aria-label="Select all"
