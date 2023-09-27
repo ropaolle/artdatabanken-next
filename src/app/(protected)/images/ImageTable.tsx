@@ -10,7 +10,7 @@ import { useDeleteFiles } from "@/supabase/storage/use-delete-files";
 import type { Image } from "@/types/app.types";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useMemo } from "react";
+import { useCallback, useMemo } from "react";
 import { getColumns } from "./columns";
 
 const confirmDelete = (id: string) => ({
@@ -35,18 +35,9 @@ export default function ImageTable() {
     </Link>
   );
 
-  const handleRowSelectionAction = (rowSelection: {}) => {
-    console.log("rowSelection", rowSelection);
-  };
-
-  const columns = useMemo(() => {
-    const handleEdit = ({ /* id,  */ filename }: Image) => {
-      // router.push(`/images/edit/${user?.id}?filename=${filename}&id=${id}`);
-      router.push(`/images/edit?filename=${filename}`);
-    };
-
-    const handleDelete = async ({ id, filename }: Image) => {
-      if (await confirm(confirmDelete(id))) {
+  const deleteImages = useCallback(
+    (images: { id: string; filename: string }[]) => {
+      for (const { id, filename } of images) {
         deleteImage(id, {
           onSuccess: async () => {
             const { error, data } = await deleteFiles("images", [
@@ -57,10 +48,28 @@ export default function ImageTable() {
           },
         });
       }
+    },
+    [deleteImage, deleteFiles],
+  );
+
+  const handleRowSelectionAction = async (selected: Image[]) => {
+    deleteImages(selected);
+  };
+
+  const columns = useMemo(() => {
+    const handleEdit = ({ /* id,  */ filename }: Image) => {
+      // router.push(`/images/edit/${user?.id}?filename=${filename}&id=${id}`);
+      router.push(`/images/edit?filename=${filename}`);
+    };
+
+    const handleDelete = async ({ id, filename }: Image) => {
+      if (await confirm(confirmDelete(id))) {
+        deleteImages([{ id, filename }]);
+      }
     };
 
     return getColumns({ onDelete: handleDelete, onEdit: handleEdit });
-  }, [router, confirm, deleteFiles, deleteImage]);
+  }, [router, confirm, deleteImages]);
 
   return (
     <CustomTable

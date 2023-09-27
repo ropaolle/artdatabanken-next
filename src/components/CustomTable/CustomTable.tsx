@@ -29,10 +29,10 @@ interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   actions?: ReactNode;
-  onRowSelectionActionClick: (rowSelection: {}) => void;
+  onRowSelectionActionClick: (selectedIds: TData[]) => void;
 }
 
-export default function CustomTable<TData, TValue>({
+export default function CustomTable<TData extends { id: string }, TValue>({
   columns,
   data,
   actions,
@@ -74,11 +74,13 @@ export default function CustomTable<TData, TValue>({
   const DeleteAction = (/* { onDelete }: { onDelete: (x: any) => void } */) => {
     if (typeof onRowSelectionActionClick !== "function") return null;
 
-    const selected = Object.keys(rowSelection).length;
+    const selectedRows = Object.keys(rowSelection);
+    const count = selectedRows.length;
+    const selected = selectedRows.map((row) => data[Number(row)]);
 
     return (
-      <Button onClick={() => onRowSelectionActionClick(rowSelection)} className={cn("mr-2")} variant={"destructive"}>
-        Delete {selected === 1 ? "1 image" : `${selected} images`}
+      <Button onClick={() => onRowSelectionActionClick(selected)} className={cn("mr-2")} variant={"destructive"}>
+        Delete {count === 1 ? "1 image" : `${count} images`}
       </Button>
     );
   };
