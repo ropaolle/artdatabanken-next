@@ -3,10 +3,9 @@
 import { CustomTable } from "@/components/CustomTable";
 import useConfirm from "@/components/hooks/useConfirm";
 import { buttonVariants } from "@/components/ui/button";
-import type { SpeciesImage } from "@/types/app.types";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import useDeleteSpeciesMutation from "@/supabase/database/use-delete-species-mutation";
+import useSpeciesQuery from "@/supabase/database/use-species-query";
 import Link from "next/link";
-import { useState } from "react";
 import { getColumns } from "./columns";
 
 const confirmDelete = (id: string) => ({
@@ -18,23 +17,14 @@ const confirmDelete = (id: string) => ({
   ),
 });
 
-export default function SpeciesTable({ rows, count }: { rows: SpeciesImage[]; count?: number | null }) {
-  const [data, setData] = useState(rows);
-  const supabase = createClientComponentClient();
+export default function SpeciesTable() {
   const { confirm } = useConfirm();
+  const { data: species } = useSpeciesQuery();
+  const { mutate: deleteSpecies } = useDeleteSpeciesMutation();
 
-  const handleDelete = async (id: string) => {
+  const handleDelete = async ({ id }: { id: string }) => {
     if (await confirm(confirmDelete(id))) {
-      const { error } = await supabase.from("species").delete().eq("id", id);
-
-      if (error) {
-        return console.error(error);
-      }
-
-      const deletedIndex = data.findIndex((row) => row.id === id);
-      if (deletedIndex !== -1) {
-        setData((prevValue) => prevValue.splice(deletedIndex, 1) && [...prevValue]);
-      }
+      deleteSpecies(id);
     }
   };
 
@@ -48,7 +38,7 @@ export default function SpeciesTable({ rows, count }: { rows: SpeciesImage[]; co
 
   return (
     <>
-      <CustomTable columns={columns} data={data} actions={<AddSpeciesAction />} />
+      <CustomTable columns={columns} data={species || []} actions={<AddSpeciesAction />} />
     </>
   );
 }

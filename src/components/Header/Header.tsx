@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Bird } from "./Bird";
 import MainMenu from "./MainMenu";
 import UserMenu from "./UserMenu";
-import { fetchServerUser } from "@/supabase/server";
+import { fetchServerUser } from "@/supabase/fetchServerUser";
 
 export default async function Header() {
   const { user, isAuthenticated } = await fetchServerUser();

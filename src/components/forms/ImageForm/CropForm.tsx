@@ -3,7 +3,8 @@ import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { toOptions } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect } from "react";
+import { Loader2 } from "lucide-react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
@@ -36,12 +37,15 @@ export type SubmitValues = {
 
 type Props = {
   onChange: (values?: File) => void;
-  onSubmit: (values: SubmitValues) => void;
+  onSubmit: (values: SubmitValues) => Promise<void>;
   file?: File;
   originalFilename?: string;
   naturalSelectionHeight?: number;
   naturalSelectionWidth?: number;
 };
+
+const MAX_FILE_SIZE = 5000000;
+const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/jpg"];
 
 export default function CropForm({
   onChange,
@@ -50,9 +54,14 @@ export default function CropForm({
   naturalSelectionHeight,
   naturalSelectionWidth,
 }: Props) {
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const formSchema = z
     .object({
-      file: typeof window === "undefined" ? z.undefined() : z.instanceof(File).optional(),
+      file: z
+        .any()
+        .refine((file) => !!file, "Image is required.")
+        .refine((file) => file?.size <= MAX_FILE_SIZE, `Max file size is 5MB.`)
+        .refine((file) => ACCEPTED_IMAGE_TYPES.includes(file?.type), "Only .jpg and .jpeg files are accepted."),
       resolution: z.string(),
       originalFilename: z.string(),
       options: z.array(z.string()),
@@ -77,24 +86,18 @@ export default function CropForm({
     },
   });
 
-  const values = form.watch();
+  const watchedFile = form.watch("file");
+  useEffect(() => onChange(watchedFile), [watchedFile, onChange]);
 
-  useEffect(() => {
-    onChange(values.file);
-
-    // 'values' cannot be used directly as a dependency as it would triggerd the effect on
-    // each re-render.But if we only use a string, like the filename, the effect will only
-    // be trigger when the name actually is changed.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [values.file?.name]);
-
-  const handleSubmit = ({ resolution, file, options }: z.infer<typeof formSchema>) => {
-    onSubmit({
+  const handleSubmit = async ({ resolution, file, options }: z.infer<typeof formSchema>) => {
+    setIsSubmitting(true);
+    await onSubmit({
       file,
       resolution: resolutions[resolution as keyof typeof resolutions].data,
       originalFilename,
       upscaleRequired: upscaleRequired(resolution, options, naturalSelectionWidth, naturalSelectionHeight),
     });
+    setIsSubmitting(false);
   };
 
   return (
@@ -117,7 +120,12 @@ export default function CropForm({
             <Checkboxes name="options" label="Options" items={optionValues} />
           </div>
 
-          <Button type="submit" className="ml-auto whitespace-nowrap" disabled={!naturalSelectionHeight}>
+          <Button
+            type="submit"
+            className="ml-auto whitespace-nowrap"
+            disabled={!naturalSelectionHeight || isSubmitting}
+          >
+            {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
             Upload image
           </Button>
         </div>

@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { fetchServerUser } from "@/supabase/server";
+import { fetchServerUser } from "@/supabase/fetchServerUser";
 import {
   Mail as Email,
   Facebook,
@@ -106,10 +106,10 @@ export default async function Footer() {
 
             <FooterSection label="Useful links">
               {/* <Suspense fallback={<p>⌛ Fetching links...</p>}> */}
-                <FooterLink label="Species" href="species" protectedPage />
-                <FooterLink label="Images" href="images" protectedPage />
-                <FooterLink label="Collections" href="collections" protectedPage />
-                <FooterLink label="About" href="about" />
+              <FooterLink label="Species" href="species" protectedPage />
+              <FooterLink label="Images" href="images" protectedPage />
+              <FooterLink label="Collections" href="collections" protectedPage />
+              <FooterLink label="About" href="about" />
               {/* </Suspense> */}
             </FooterSection>
 

@@ -1,7 +1,9 @@
 import Confirmer from "@/components/hooks/Confirmer";
 import { Toaster } from "@/components/ui/toaster";
+import ReactQueryClientProvider from "./reactQueryClientProvider";
 import ClientAppStoreInitializer from "@/state/ClientAppStoreInitializer";
 import "./globals.css";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 export const metadata = {
   title: "Artdatabanken",
@@ -12,10 +14,13 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   return (
     <html lang="en" className="light">
       <body>
-        <ClientAppStoreInitializer />
-        {children}
-        <Confirmer />
-        <Toaster />
+        <ReactQueryClientProvider>
+          <ClientAppStoreInitializer />
+          {children}
+          <Confirmer />
+          <Toaster />
+          <ReactQueryDevtools initialIsOpen={true} />
+        </ReactQueryClientProvider>
       </body>
     </html>
   );

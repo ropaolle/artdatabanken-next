@@ -3,7 +3,7 @@ import { Pencil, Trash2 } from "lucide-react";
 import Link from "next/link";
 
 export type Actions<TData> = {
-  onDelete?: (id: string) => void;
+  onDelete?: (row: TData) => void;
   onEdit?: (row: TData) => void;
   editPath?: string;
 };
@@ -16,7 +16,12 @@ export function ActionCell<TData>({ row, onDelete, onEdit, editPath }: ActionCel
   return (
     <div className="flex justify-end">
       {typeof onDelete === "function" && (
-        <a role="button" title="Delete" className="delete-button ms-2 text-neutral-300" onClick={() => onDelete(id)}>
+        <a
+          role="button"
+          title="Delete"
+          className="delete-button ms-2 text-neutral-300"
+          onClick={() => onDelete(row.original)}
+        >
           <Trash2 size={20} />
         </a>
       )}

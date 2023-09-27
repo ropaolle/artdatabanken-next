@@ -70,7 +70,7 @@ export interface Database {
           created_at: string
           date: string | null
           family: string
-          gender: string[] | null
+          gender: string[]
           id: string
           image: string | null
           kingdom: string
@@ -86,7 +86,7 @@ export interface Database {
           created_at?: string
           date?: string | null
           family?: string
-          gender?: string[] | null
+          gender?: string[]
           id?: string
           image?: string | null
           kingdom?: string
@@ -102,7 +102,7 @@ export interface Database {
           created_at?: string
           date?: string | null
           family?: string
-          gender?: string[] | null
+          gender?: string[]
           id?: string
           image?: string | null
           kingdom?: string

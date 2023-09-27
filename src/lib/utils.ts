@@ -42,8 +42,8 @@ const formatBytes = (bytes: number, decimals = 2) => {
 const toOptions = (options: { [key: string]: { value: string; label: ReactNode } }) =>
   Object.values(options).map(({ value, label }) => ({ value, label }));
 
-const suffixFilename = (filename: string | undefined, suffix: string) => {
-  if (!filename) return;
+const suffixFilename = (filename: string /* | undefined */, suffix: string) => {
+  // if (!filename) return;
   const lastIndex = filename.lastIndexOf(".");
   if (lastIndex === -1) return filename + suffix;
   const name = filename.slice(0, lastIndex);
