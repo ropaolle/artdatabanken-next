@@ -85,17 +85,7 @@ export default function CropPanel({ file, onCrop, imageRef }: Props) {
         // element. Can also be removed by setting the parent elements text-size to 0.
         style={{ display: "block" }}
       >
-        {/* INFO: We are loading the image dynamically so using a standard img link her is ok. */}
-        {/* <Image src={image} ref={imageRef} alt="Crop image" width={rect.width} height={rect.width} /> */}
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={image}
-          ref={imageRef}
-          alt="Crop image"
-          className="w-full bg-red-600 md:w-auto"
-          onLoad={() => handleCompletedCrop(cropArea)}
-        />
-        {/* {image && (
+        {image && (
           <Image
             src={image}
             ref={imageRef}
@@ -105,7 +95,7 @@ export default function CropPanel({ file, onCrop, imageRef }: Props) {
             className="w-full bg-red-600 md:w-auto"
             onLoad={() => handleCompletedCrop(cropArea)}
           />
-        )} */}
+        )}
       </ReactCrop>
       <canvas ref={previewCanvasRef} hidden />
     </>
