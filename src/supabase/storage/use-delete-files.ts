@@ -5,6 +5,7 @@ export function useDeleteFiles() {
   const { user } = useAppStore();
   const client = useSupabase();
 
+  //TODO: useMemo?
   const deleteFiles = async (bucket: string, paths: string[], prefixPathWithUserId = true) => {
     if (prefixPathWithUserId && !user?.id) {
       return { error: "No user found!", data: null };

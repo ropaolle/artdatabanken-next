@@ -1,5 +1,6 @@
 import { useAppStore } from "@/state";
 import useSupabase from "../database/use-supabase";
+import { useMemo } from "react";
 
 /**
  * Example:
@@ -11,15 +12,19 @@ export function usePublicUrl() {
   const { user } = useAppStore();
   const client = useSupabase();
 
-  const getPublicUrl = (bucket: string, path: string | undefined, prefixPathWithUserId = true) => {
-    if ((prefixPathWithUserId && !user?.id) || !bucket || !path) return;
+  return useMemo(
+    () =>
+      (bucket: string, path: string | undefined, prefixPathWithUserId = true) => {
+        if ((prefixPathWithUserId && !user?.id) || !bucket || !path) return;
 
-    const {
-      data: { publicUrl },
-    } = client.storage.from(bucket).getPublicUrl(prefixPathWithUserId ? user?.id + "/" + path : path);
+        const {
+          data: { publicUrl },
+        } = client.storage.from(bucket).getPublicUrl(prefixPathWithUserId ? user?.id + "/" + path : path);
 
-    return publicUrl;
-  };
+        return publicUrl;
+      },
+    [client.storage, user?.id],
+  );
 
-  return getPublicUrl;
+  // returngetPublicUrl;
 }

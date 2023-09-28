@@ -58,13 +58,20 @@ export const getColumns = (actions: Actions<SpeciesImage>) => {
     columnHelper.accessor("county", { header: "County" }),
 
     columnHelper.accessor("place", { header: "Place" }),
-    
-    // TODO: Console warning - "thumbnail_url" in deeply nested key "image.thumbnail_url" returned undefined.
-    columnHelper.accessor("image.thumbnail_url", {
+
+    // INFO: Nested keys like 'image.thumbnail' that can be null will show the Console warning - "thumbnail_url"
+    // in deeply nested key "image.thumbnail_url" returned undefined.
+    columnHelper.accessor("image", {
       header: "Thumbnail",
       cell: (info) => {
-        const url = info.getValue();
-        return url && <Image src={url} alt="image" width="100" height="100" loading="lazy" />;
+        const { thumbnail_url } = info.getValue() || {};
+        return (
+          thumbnail_url && (
+            // INFO: Please add the "priority" property if this image is above the fold. Read more:
+            // https://nextjs.org/docs/api-reference/next/image#priority
+            <Image src={thumbnail_url} alt="image" width="100" height="100" /* priority={true}  *//>
+          )
+        );
       },
     }),
 

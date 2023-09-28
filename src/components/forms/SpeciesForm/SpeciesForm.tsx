@@ -53,7 +53,7 @@ export default function SpeciesForm({ id }: { id?: string }) {
   const { mutate: updateSpecies } = useUpsertSpeciesMutation();
   const { data: species } = useSpeciesQueryById(id);
   const { data: images, isFetching } = useImageQueryByFilenameQuery(imageSearchQuery);
-  const getPublicURL = usePublicUrl()
+  const getPublicURL = usePublicUrl();
   const { toast } = useToast();
 
   const form = useForm<SpeciesType>({
@@ -66,7 +66,7 @@ export default function SpeciesForm({ id }: { id?: string }) {
 
   useEffect(() => {
     const filename = images?.find(({ id }) => image === id)?.filename;
-    setPreviewURL(getPublicURL("images", filename))
+    setPreviewURL(getPublicURL("images", filename));
   }, [image, images, getPublicURL]);
 
   async function onSubmit(values: SpeciesType) {

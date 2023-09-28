@@ -9,6 +9,7 @@ export default function useUploadFile() {
   const { user } = useAppStore();
   const client = useSupabase();
 
+  //TODO: useMemo?
   const uploadFile = async (
     file: Blob | File | undefined,
     bucket: string,
