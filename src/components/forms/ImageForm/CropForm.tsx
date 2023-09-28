@@ -57,11 +57,15 @@ export default function CropForm({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const formSchema = z
     .object({
-      file: z
-        .any()
-        .refine((file) => !!file, "Image is required.")
-        .refine((file) => file?.size <= MAX_FILE_SIZE, `Max file size is 5MB.`)
-        .refine((file) => ACCEPTED_IMAGE_TYPES.includes(file?.type), "Only .jpg and .jpeg files are accepted."),
+      // file: typeof window === "undefined" ? z.undefined() : z.instanceof(File).optional(),
+      file:
+        typeof window === "undefined"
+          ? z.undefined()
+          : z
+              .instanceof(File)
+              .refine((file) => !!file, "Image is required.")
+              .refine((file) => file?.size <= MAX_FILE_SIZE, `Max file size is 5MB.`)
+              .refine((file) => ACCEPTED_IMAGE_TYPES.includes(file?.type), "Only .jpg and .jpeg files are accepted."),
       resolution: z.string(),
       originalFilename: z.string(),
       options: z.array(z.string()),
@@ -86,8 +90,10 @@ export default function CropForm({
     },
   });
 
-  const watchedFile = form.watch("file");
-  useEffect(() => onChange(watchedFile), [watchedFile, onChange]);
+  // INFO: Not sure why, but accessing the file value directly with form.watch("file") causes a useEffect loop.
+  const values = form.watch();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => onChange(values.file), [values.file]);
 
   const handleSubmit = async ({ resolution, file, options }: z.infer<typeof formSchema>) => {
     setIsSubmitting(true);
