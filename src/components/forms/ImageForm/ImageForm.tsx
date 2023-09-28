@@ -155,11 +155,13 @@ export default function ImageForm({ originalFilename }: { originalFilename?: str
 
         <div className="md:flex md:flex-col md:items-end">
           <Header label="Preview" width={crop?.naturalSelectionWidth} height={crop?.naturalSelectionHeight} />
-          {preview ? (
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          {file ? <img src={preview} alt="Preview" /> : <PreviewPane label="Preview" />}
+          {/* {file ? (
             <Image src={preview} alt="Preview" width="200" height="200" className="h-auto w-auto" />
           ) : (
             <PreviewPane label="Preview" />
-          )}
+          )} */}
         </div>
       </div>
 
