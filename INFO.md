@@ -7,9 +7,6 @@
   - realtime - dashboard?
   - edge functions - image manipulation?
 
-- [Updated image component](https://github.com/vercel/next.js/tree/86d2ead1fe612432f7aee73f295a3753bd421ebe/examples/image-component)
-  - [Example](https://www.typescriptlang.org/play?#code/PTAEBEFNIBwaUgT1AF0TSA6UBZA9gG6SgCGANngHYDmmdAUPWhqAMJ4C2MAripAEokakADz1QoAHKhIADz6UAJgGdQlbhwBGkAE4AacaH6Rl3MihnzIS1QEEdOkohHdKAa0p4A7pQB8oAF5QAG0AXXp-IONTc2CAcjJrahQACzjQywUVKUMAfiMTMxRDAC42Th4+QWERST0Qukxoovrm2ISk1PTQ3yZ0YgBJJTkAFgAGQPKuXgEhalFx32D1LV1w+hBQAdVUgEsd-tJUbhhE3L6WbYAVE8SRK8jQK8zrbJ1IEkUqMmQhRDDQAAyUAAb1AiRoqTKu0oADNdKAADKdFKgAC+eSRKJeNi2w1k40MEnyVyJoDKlEgRB0pTUVN0jGYxFsZAoXkgiiGijkJjEEhup2IciyqmMn2+iHsjmcf18BgkCEQqmFr1UK20OkmlOpEUmAsSOLeHy+lB+IXCxNAiuUtP1QqsuPe4tNyGCMPhmoA+vVGu6EVcSLsyBbQPkWWyOVyecp7oGyPVraAAD5POPxCHJNI9WnWxhyGB4HQWJkQaDwJAxq71K5QGCpQ2qP4AoJhR6uDzeSgNp6Y5QoHQw6i0vCaABWkAAxhYVbjSZa+wOaLbu06TWamxlgddbqIHpjw95I-jeQ9k6XYNaAArvWG7WT3eoH9mc4+VuVPWupXoSMrPGfZDdMSgC8K3uZYNA1UJ6mCRoa1gVJ6j+bMfyebtwBIPhMW1BkUL-B1shHccp0xAAKNwkDwWFUOBBdBwASjPYDyyVa9IFve8q1AcjEEop5q0-FJv3JOkdQuYgmKvG87z5PjDCuVj2PlD94NRf9G0of5wkeeSpNkbtuN455gRI9UERTWiaDozEAAMABIQR0ti7zRTB7Ik0CrmCRz2Kgho6DgusUkQjSeiBUALOoNFrNpbCaQ2MAAHk8GSxDQHeCduB0ZRdiIVB+gAQkZQ4ADFksmEFDFhZKylKvB6AxeLQAAcRy4gOGIVJiG41RBRIZRIEKktasTIJ3KVERav8TYAE1dnI5RMEYTYBNAGAdDwPgp12KhBsORFdg4XYUAEmSqzk5FIVRIIAFYlIC+s1NIDTm3NXUgnulJ0xRdJuyuC7Myw+kaVw7tCMnYpLQqiRoZCOBQBhLiKKoq5QjKfbDuOlSwLgXy-pRaC-h9fyBOQ6GMRBx6pScEQ-U1ABVISwwcan0aOk66erf6EJCQnQFgknfCE38ipYABlEh4VqyYxpjVnMcCibksFxgVaAA)
-
 ### GENERIC CHECKS
 
 - TODO:'s
@@ -68,6 +65,7 @@
   - [Typescript cheatsheet](https://react-typescript-cheatsheet.netlify.app/docs/basic/getting-started/context/)
 - NextJS
   - [Server vs client components in NextJs 13](https://www.youtube.com/watch?v=3Dw6D_WuzSE&t=993s)
+  - [Updated image component](https://github.com/vercel/next.js/tree/86d2ead1fe612432f7aee73f295a3753bd421ebe/examples/image-component)
 - OTHER
   - [Zustand slices](https://github.com/pmndrs/zustand/blob/main/docs/guides/slices-pattern.md)
   - [ZOD File validation](https://github.com/colinhacks/zod/issues/387#issuecomment-1712177211)
