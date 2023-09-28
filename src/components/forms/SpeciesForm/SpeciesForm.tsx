@@ -10,7 +10,7 @@ import useUpsertSpeciesMutation from "@/supabase/database/use-upsert-species-mut
 import { usePublicUrl } from "@/supabase/storage/use-public-url";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { counties, gender } from "./options";
@@ -48,8 +48,6 @@ function dateStringToDate<T extends { date: string | null }>(object: T) {
 export type SpeciesType = z.infer<typeof formSchema>;
 
 export default function SpeciesForm({ id }: { id?: string }) {
-  // const [imageName, setImageName] = useState<string | undefined>("");
-  const [previewURL, setPreviewURL] = useState<string>();
   const [imageSearchQuery, setImageSearchQuery] = useState("");
   const { mutate: updateSpecies } = useUpsertSpeciesMutation();
   const { data: species } = useSpeciesQueryById(id);
@@ -65,10 +63,12 @@ export default function SpeciesForm({ id }: { id?: string }) {
 
   const image = form.watch("image");
 
-  useEffect(() => {
+  const getPreviewURL = useCallback(() => {
     const filename = images?.find(({ id }) => image === id)?.filename;
-    setPreviewURL(getPublicURL("images", filename));
+    return getPublicURL("images", filename);
   }, [image, images, getPublicURL]);
+
+  const previewUrl = getPreviewURL();
 
   async function onSubmit(values: SpeciesType) {
     // console.info(values);
@@ -115,8 +115,8 @@ export default function SpeciesForm({ id }: { id?: string }) {
             <div className=" flex flex-1 flex-col">
               <div className="mt-4 text-sm font-medium leading-none">Preview</div>
               <div className="bg-slate-50-DEL mt-1 flex w-full flex-1 justify-center rounded-sm border p-2">
-                {previewURL && (
-                  <Image src={previewURL} alt="Preview" width="200" height="200" className="h-auto w-auto" />
+                {previewUrl && (
+                  <Image src={previewUrl} alt="Preview" width="200" height="200" className="h-auto w-auto" />
                 )}
               </div>
             </div>
