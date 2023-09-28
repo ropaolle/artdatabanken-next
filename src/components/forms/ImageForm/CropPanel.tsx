@@ -1,4 +1,5 @@
 import { canvasToBlob } from "@/lib/utils";
+import Image from "next/image";
 import { RefObject, useEffect, useRef, useState } from "react";
 import ReactCrop, { type PixelCrop } from "react-image-crop";
 import "react-image-crop/dist/ReactCrop.css";
@@ -84,16 +85,17 @@ export default function CropPanel({ file, onCrop, imageRef }: Props) {
         // element. Can also be removed by setting the parent elements text-size to 0.
         style={{ display: "block" }}
       >
-        {/* INFO: We are loading the image dynamically so using a standard img link her is ok. */}
-        {/* <Image src={image} ref={imageRef} alt="Crop image" width={rect.width} height={rect.width} /> */}
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={image}
-          ref={imageRef}
-          alt="Crop image"
-          className="w-full bg-red-600 md:w-auto"
-          onLoad={() => handleCompletedCrop(cropArea)}
-        />
+        {image && (
+          <Image
+            src={image}
+            ref={imageRef}
+            alt="Crop image"
+            width="200"
+            height="200"
+            className="w-full bg-red-600 md:w-auto"
+            onLoad={() => handleCompletedCrop(cropArea)}
+          />
+        )}
       </ReactCrop>
       <canvas ref={previewCanvasRef} hidden />
     </>

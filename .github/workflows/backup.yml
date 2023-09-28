@@ -3,8 +3,8 @@ name: Supa-backup
 on:
   # push:
   #   branches: [ main ]
-  pull_request:
-    branches: [ main ]
+  # pull_request:
+  #   branches: [ main ]
   # workflow_dispatch:
   # schedule:
   #   - cron: '0 0 * * *' # Runs every day at midnight
@@ -29,6 +29,6 @@ jobs:
       - name: Backup data
         run: supabase db dump --db-url "$supabase_db_url" -f data.sql --data-only --use-copy
 
-      # - uses: stefanzweifel/git-auto-commit-action@v4
-      #   with:
-      #     commit_message: Supabase backup
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Supabase backup

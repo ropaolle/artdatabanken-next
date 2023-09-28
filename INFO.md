@@ -2,11 +2,8 @@
 
 ## TODO
 
-- eslint-disable-next-line @next/next/no-img-element
-
 - Supabase:
 
-  - add backup - https://supabase.com/docs/guides/cli/github-action/backups
   - realtime - dashboard?
   - edge functions - image manipulation?
 

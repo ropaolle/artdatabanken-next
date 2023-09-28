@@ -8,6 +8,7 @@ import useUpsertImageMutation from "@/supabase/database/use-upsert-image-mutatio
 import { useLoadFile } from "@/supabase/storage/use-load-file";
 import { usePublicUrl } from "@/supabase/storage/use-public-url";
 import useUploadFile from "@/supabase/storage/use-upload-file";
+import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 import "react-image-crop/dist/ReactCrop.css";
 import CropForm, { type SubmitValues } from "./CropForm";
@@ -38,7 +39,7 @@ export default function ImageForm({ originalFilename }: { originalFilename?: str
   const { mutate: updateImage } = useUpsertImageMutation();
   // TODO: merge into useStorage?
   const getPublicURL = usePublicUrl();
-  const {uploadFile, isUploading} = useUploadFile();
+  const { uploadFile, isUploading } = useUploadFile();
   const loadFile = useLoadFile();
 
   useEffect(() => {
@@ -154,8 +155,11 @@ export default function ImageForm({ originalFilename }: { originalFilename?: str
 
         <div className="md:flex md:flex-col md:items-end">
           <Header label="Preview" width={crop?.naturalSelectionWidth} height={crop?.naturalSelectionHeight} />
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          {file ? <img src={preview} alt="Preview" /> : <PreviewPane label="Preview" />}
+          {preview ? (
+            <Image src={preview} alt="Preview" width="200" height="200" className="h-auto w-auto" />
+          ) : (
+            <PreviewPane label="Preview" />
+          )}
         </div>
       </div>
 

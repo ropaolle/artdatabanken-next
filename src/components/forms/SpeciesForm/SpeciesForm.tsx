@@ -7,12 +7,13 @@ import { useToast } from "@/components/ui/use-toast";
 import { useImageQueryByFilenameQuery } from "@/supabase/database/use-image-query";
 import { useSpeciesQueryById } from "@/supabase/database/use-species-query";
 import useUpsertSpeciesMutation from "@/supabase/database/use-upsert-species-mutation";
+import { usePublicUrl } from "@/supabase/storage/use-public-url";
 import { zodResolver } from "@hookform/resolvers/zod";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { counties, gender } from "./options";
-import { usePublicUrl } from "@/supabase/storage/use-public-url";
 
 const formSchema = z.object({
   species: z.string().nonempty("This field is reqired."),
@@ -113,9 +114,10 @@ export default function SpeciesForm({ id }: { id?: string }) {
 
             <div className=" flex flex-1 flex-col">
               <div className="mt-4 text-sm font-medium leading-none">Preview</div>
-              <div className="bg-slate-50-DEL mt-1  flex w-full flex-1 justify-center rounded-sm border p-2">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                {previewURL && <img src={previewURL} alt="Preview" className="max-h-[280px]" />}
+              <div className="bg-slate-50-DEL mt-1 flex w-full flex-1 justify-center rounded-sm border p-2">
+                {previewURL && (
+                  <Image src={previewURL} alt="Preview" width="200" height="200" className="h-auto w-auto" />
+                )}
               </div>
             </div>
           </div>
