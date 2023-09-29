@@ -2,10 +2,7 @@
 
 ## TODO
 
-- Supabase:
-
-  - realtime - dashboard?
-  - edge functions - image manipulation?
+- ?
 
 ### GENERIC CHECKS
 
@@ -16,7 +13,7 @@
 
 ### NICE TO HAVE
 
-- ?
+- Supabase edge functions - image manipulation?
 
 ## Known issues
 
@@ -29,9 +26,10 @@
 
 ## Info
 
-- Server vs client components
-  - Use server components if possible, othervise add the 'use client' option.
-  - Server components cannot be imported in a client component. However, a server component can be passed as a child prop to a custom client component.
+- Updated Shaden/UI components
+  - Toast: Variant `warning` added
+  - Form: FormItem specing `space-y-2` removed
+  - Navigation-menu: Multiple styling updates
 
 ## Links
 

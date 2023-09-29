@@ -7,6 +7,6 @@ export interface SettingsSlice {
 }
 
 export const createSettingsSlice: StateCreator<SettingsSlice, [], [], SettingsSlice> = (set /* , get */) => ({
-  settings: { broadcast: true },
+  settings: { broadcast: false },
   setSettings: (settings) => set((state) => ({ ...state, settings })),
 });
