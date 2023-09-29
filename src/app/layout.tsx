@@ -3,7 +3,7 @@ import { Toaster } from "@/components/ui/toaster";
 import ReactQueryClientProvider from "./reactQueryClientProvider";
 import ClientAppStoreInitializer from "@/state/ClientAppStoreInitializer";
 import "./globals.css";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+// import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 export const metadata = {
   title: "Artdatabanken",
@@ -19,7 +19,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           {children}
           <Confirmer />
           <Toaster />
-          <ReactQueryDevtools initialIsOpen={true} />
+          {/* <ReactQueryDevtools initialIsOpen={true} /> */}
         </ReactQueryClientProvider>
       </body>
     </html>

@@ -5,6 +5,7 @@ import useConfirm from "@/components/hooks/useConfirm";
 import { buttonVariants } from "@/components/ui/button";
 import useDeleteSpeciesMutation from "@/supabase/database/use-delete-species-mutation";
 import useSpeciesQuery from "@/supabase/database/use-species-query";
+import { Species } from "@/types/app.types";
 import Link from "next/link";
 import { getColumns } from "./columns";
 
@@ -22,9 +23,9 @@ export default function SpeciesTable() {
   const { data: species } = useSpeciesQuery();
   const { mutate: deleteSpecies } = useDeleteSpeciesMutation();
 
-  const handleDelete = async ({ id }: { id: string }) => {
-    if (await confirm(confirmDelete(id))) {
-      deleteSpecies(id);
+  const handleDelete = async (species: Species) => {
+    if (await confirm(confirmDelete(species.id))) {
+      deleteSpecies({ id: species.id, brodcastMessage: species });
     }
   };
 

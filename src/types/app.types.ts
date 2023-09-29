@@ -11,6 +11,22 @@ type SpeciesImage = Prettify<Species & { image: { id: string; thumbnail_url: str
 
 type User = Prettify<Pick<AuthUser, "id" | "email" | "role"> & { gravatar: string }> | null;
 
+type Settings = { broadcast: boolean };
+
 type CustomClient = SupabaseClient<Database>;
 
-export type { Image, Prettify, Species, SpeciesImage, Tables, User, CustomClient };
+type BrodcastChannels = "app";
+type BrodcastEvents = "*" | "updates";
+
+export type {
+  Image,
+  Prettify,
+  Species,
+  SpeciesImage,
+  Tables,
+  User,
+  CustomClient,
+  Settings,
+  BrodcastChannels,
+  BrodcastEvents,
+};

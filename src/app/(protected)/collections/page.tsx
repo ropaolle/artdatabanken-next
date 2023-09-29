@@ -1,18 +1,11 @@
 "use client";
 
 import { useAppStore } from "@/state";
-import { Species } from "@/types/app.types";
 // import Link from "next/link";
 
 export default function Collections() {
   const { user } = useAppStore();
 
-  // const { data: image, isLoading, isError } = useImageQuery("48cb6cad-8121-47a4-a392-139eb5fec44a");
-  
-  // console.log("species", species);
-
-  
-  
   return (
     <>
       <h1>User</h1>

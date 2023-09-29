@@ -1,18 +1,20 @@
 import { create } from "zustand";
 // import { persist } from "zustand/middleware";
-import { UserSlice, createUserSlice } from "./userSlice";
-import { ConfirmSlice, createConfirmSlice } from "./confirmSlice";
+import { type UserSlice, createUserSlice } from "./userSlice";
+import { type SettingsSlice, createSettingsSlice } from "./settingsSlice";
+import { type ConfirmSlice, createConfirmSlice } from "./confirmSlice";
 
-type StoreState = ConfirmSlice & UserSlice ;
+type StoreState = ConfirmSlice & UserSlice & SettingsSlice;
 
 export const useAppStore = create<StoreState>()(
   // persist(
-    (...a) => ({
-      ...createConfirmSlice(...a),
-      ...createUserSlice(...a),
-    }),
-    // {
-    //   name: "thespeciesdb",
-    // },
+  (...a) => ({
+    ...createConfirmSlice(...a),
+    ...createUserSlice(...a),
+    ...createSettingsSlice(...a),
+  }),
+  // {
+  //   name: "thespeciesdb",
+  // },
   // ),
 );
