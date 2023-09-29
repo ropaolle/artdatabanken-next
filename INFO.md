@@ -29,7 +29,7 @@
 - Updated Shaden/UI components
   - Toast: Variant `warning` added
   - Form: FormItem specing `space-y-2` removed
-  - Navigation-menu: Multiple styling updates
+  - Navigation-menu: Multiple styling updates to allow the menu to align right (without any content outside the viewport).
 
 ## Links
 
