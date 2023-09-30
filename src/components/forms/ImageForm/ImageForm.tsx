@@ -34,7 +34,6 @@ export default function ImageForm({ originalFilename }: { originalFilename?: str
   const { confirm } = useConfirm();
   const { data: imageId } = useImageId(file?.name);
   const { mutate: updateImage } = useUpsertImageMutation();
-  // TODO: merge into useStorage?
   const getPublicURL = usePublicUrl();
   const { uploadFile, isUploading } = useUploadFile();
   const loadFile = useLoadFile();

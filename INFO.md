@@ -8,8 +8,9 @@
 
 - TODO:'s
 - TypeScript any:s
-- [react-hooks/exhaustive-deps](https://react.dev/learn/removing-effect-dependencies)
 - eslint-disable-next-line
+- Remove unessesary useEffect
+- [react-hooks/exhaustive-deps](https://react.dev/learn/removing-effect-dependencies)
 
 ### NICE TO HAVE
 

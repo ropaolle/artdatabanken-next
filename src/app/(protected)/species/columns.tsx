@@ -37,11 +37,8 @@ export const getColumns = (actions: Actions<SpeciesImage>) => {
           </Button>
         );
       },
-      cell: (info) => {
-        // TODO: row.original overrides cache, use columnHelper and grouping instead
-        // console.info('row._valuesCache', row._valuesCache);
-        const { gender, latin } = info.row.original;
-        const species = info.getValue() || "";
+      cell: ({ row }) => {
+        const { gender, latin, species } = row.original;
         return (
           <>
             <div className="flex">
@@ -69,7 +66,7 @@ export const getColumns = (actions: Actions<SpeciesImage>) => {
           thumbnail_url && (
             // INFO: Please add the "priority" property if this image is above the fold. Read more:
             // https://nextjs.org/docs/api-reference/next/image#priority
-            <Image src={thumbnail_url} alt="image" width="100" height="100" /* priority={true}  *//>
+            <Image src={thumbnail_url} alt="image" width="100" height="100" /* priority={true}  */ />
           )
         );
       },
