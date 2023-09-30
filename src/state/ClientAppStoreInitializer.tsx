@@ -1,7 +1,7 @@
 "use client";
 
 import { useAppStore } from "@/state";
-import { fetchClientUser } from "@/supabase/fetchClientUser";
+import { fetchClientUser } from "@/supabase/fetchUser/fetchClientUser";
 import { useEffect } from "react";
 
 export default function ClientAppStoreInitializer() {

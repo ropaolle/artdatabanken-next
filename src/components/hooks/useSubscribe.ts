@@ -1,5 +1,5 @@
-import useSupabase from "@/supabase/database/use-supabase";
-import type { User, BrodcastChannels, BrodcastEvents } from "@/types/app.types";
+import { useSupabase } from "@/supabase/database";
+import type { BrodcastChannels, BrodcastEvents, User } from "@/types/app.types";
 import { useState } from "react";
 
 export function useSubscribe<T = unknown>(channel: BrodcastChannels, event: BrodcastEvents) {

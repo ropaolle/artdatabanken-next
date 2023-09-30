@@ -5,7 +5,7 @@ import { getImageByFilenameQuery } from "./queries/get-image-by-filename-query";
 import { getImageById } from "./queries/get-image-by-id";
 import useSupabase from "./use-supabase";
 
-export default function useImageQuery() {
+function useImageQuery() {
   const client = useSupabase();
   const key = ["images"];
 
@@ -14,7 +14,7 @@ export default function useImageQuery() {
   });
 }
 
-export function useImageQueryById(id: string | undefined) {
+function useImageQueryById(id: string | undefined) {
   const client = useSupabase();
   const key = ["image", id];
 
@@ -27,7 +27,7 @@ export function useImageQueryById(id: string | undefined) {
   );
 }
 
-export function useImageQueryByFilename(filename: string | undefined) {
+function useImageQueryByFilename(filename: string | undefined) {
   const client = useSupabase();
   const key = ["image", filename];
 
@@ -40,7 +40,7 @@ export function useImageQueryByFilename(filename: string | undefined) {
   );
 }
 
-export function useImageQueryByFilenameQuery(filenameQuery: string | undefined) {
+function useImageQueryByFilenameQuery(filenameQuery: string | undefined) {
   const client = useSupabase();
   // TODO: How to set keys?
   const key = ["image-query", filenameQuery];
@@ -49,3 +49,6 @@ export function useImageQueryByFilenameQuery(filenameQuery: string | undefined) 
     return getImageByFilenameQuery(client, filenameQuery as string).then((result) => result.data);
   });
 }
+
+export { useImageQuery, useImageQueryByFilename, useImageQueryByFilenameQuery, useImageQueryById };
+

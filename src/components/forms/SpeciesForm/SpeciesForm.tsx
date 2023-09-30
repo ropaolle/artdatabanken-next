@@ -4,10 +4,8 @@ import { Checkboxes, Combobox, ComboboxAsync, DatePicker, Input } from "@/compon
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { useToast } from "@/components/ui/use-toast";
-import { useImageQueryByFilenameQuery } from "@/supabase/database/use-image-query";
-import { useSpeciesQueryById } from "@/supabase/database/use-species-query";
-import useUpsertSpeciesMutation from "@/supabase/database/use-upsert-species-mutation";
-import { usePublicUrl } from "@/supabase/storage/use-public-url";
+import { useImageQueryByFilenameQuery, useSpeciesQueryById, useUpsertSpeciesMutation } from "@/supabase/database";
+import { usePublicUrl } from "@/supabase/storage";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
 import { useCallback, useState } from "react";

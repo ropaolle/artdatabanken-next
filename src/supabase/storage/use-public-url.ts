@@ -25,6 +25,4 @@ export function usePublicUrl() {
       },
     [client.storage, user?.id],
   );
-
-  // returngetPublicUrl;
 }

@@ -1,6 +1,6 @@
 import { useAppStore } from "@/state";
-import useSupabase from "@/supabase/database/use-supabase";
-import type { BrodcastEvents, BrodcastChannels } from "@/types/app.types";
+import { useSupabase } from "@/supabase/database";
+import type { BrodcastChannels, BrodcastEvents } from "@/types/app.types";
 
 export function useBroadcast<T = unknown>(channel: BrodcastChannels, event: BrodcastEvents) {
   const { settings, user } = useAppStore();

@@ -3,11 +3,8 @@
 import useConfirm from "@/components/hooks/useConfirm";
 import { useToast } from "@/components/ui/use-toast";
 import { canvasToBlob, suffixFilename } from "@/lib/utils";
-import useImageId from "@/supabase/database/use-image-id";
-import useUpsertImageMutation from "@/supabase/database/use-upsert-image-mutation";
-import { useLoadFile } from "@/supabase/storage/use-load-file";
-import { usePublicUrl } from "@/supabase/storage/use-public-url";
-import useUploadFile from "@/supabase/storage/use-upload-file";
+import { useImageId, useUpsertImageMutation } from "@/supabase/database";
+import { useLoadFile, usePublicUrl, useUploadFile } from "@/supabase/storage";
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 import "react-image-crop/dist/ReactCrop.css";
