@@ -10,7 +10,7 @@ import useUpsertSpeciesMutation from "@/supabase/database/use-upsert-species-mut
 import { usePublicUrl } from "@/supabase/storage/use-public-url";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { counties, gender } from "./options";
@@ -71,7 +71,6 @@ export default function SpeciesForm({ id }: { id?: string }) {
   const previewUrl = getPreviewURL();
 
   async function onSubmit(values: SpeciesType) {
-    // console.info(values);
     updateSpecies(
       { ...values, id, date: values.date?.toDateString() },
       {
