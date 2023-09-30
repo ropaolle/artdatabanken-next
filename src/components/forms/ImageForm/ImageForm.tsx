@@ -140,7 +140,7 @@ export default function ImageForm({ originalFilename }: { originalFilename?: str
   return (
     <>
       <CropForm
-        onChange={(file) => setFile(file)}
+        onChange={(files) => setFile(files?.[0])}
         onSubmit={handleSubmit}
         naturalSelectionHeight={crop?.naturalSelectionHeight}
         naturalSelectionWidth={crop?.naturalSelectionWidth}

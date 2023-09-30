@@ -47,7 +47,6 @@ function BaseCombobox<
   const [open, setOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [debouncedSearchQuery] = useDebouncedValue(searchQuery, 500);
-
   const { control, setValue, resetField } = useFormContext();
 
   useEffect(() => {
