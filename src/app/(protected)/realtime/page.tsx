@@ -1,6 +1,6 @@
 "use client";
 
-import { useSubscribe } from "@/components/hooks/useSubscribe";
+import { useSubscribe } from "@/hooks/useSubscribe";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import type { Species } from "@/types/app.types";
 

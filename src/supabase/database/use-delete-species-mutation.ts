@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteSpeciesById } from "./queries/delete-species-by-id";
 import useSupabase from "./use-supabase";
-import { useBroadcast } from "@/components/hooks/useBroadcast";
+import { useBroadcast } from "@/hooks/useBroadcast";
 
 export default function useDeleteSpeciesMutation() {
   const client = useSupabase();

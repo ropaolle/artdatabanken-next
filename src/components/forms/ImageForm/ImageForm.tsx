@@ -1,6 +1,6 @@
 "use client";
 
-import useConfirm from "@/components/hooks/useConfirm";
+import useConfirm from "@/hooks/useConfirm";
 import { useToast } from "@/components/ui/use-toast";
 import { canvasToBlob, suffixFilename } from "@/lib/utils";
 import { useImageId, useUpsertImageMutation } from "@/supabase/database";

@@ -18,15 +18,4 @@ type CustomClient = SupabaseClient<Database>;
 type BrodcastChannels = "app";
 type BrodcastEvents = "*" | "updates";
 
-export type {
-  Image,
-  Prettify,
-  Species,
-  SpeciesImage,
-  Tables,
-  User,
-  CustomClient,
-  Settings,
-  BrodcastChannels,
-  BrodcastEvents,
-};
+export type { Image, Prettify, Species, SpeciesImage, User, CustomClient, Settings, BrodcastChannels, BrodcastEvents };

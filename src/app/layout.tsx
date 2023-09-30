@@ -1,4 +1,4 @@
-import Confirmer from "@/components/hooks/Confirmer";
+import Confirmer from "@/hooks/Confirmer";
 import { Toaster } from "@/components/ui/toaster";
 import ReactQueryClientProvider from "./reactQueryClientProvider";
 import ClientAppStoreInitializer from "@/state/ClientAppStoreInitializer";

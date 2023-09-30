@@ -1,4 +1,4 @@
-import { useBroadcast } from "@/components/hooks/useBroadcast";
+import { useBroadcast } from "@/hooks/useBroadcast";
 import type { Species } from "@/types/app.types";
 import { useMutation } from "@tanstack/react-query";
 import { upsertSpeciesById } from "./queries/upsert-species-by-id";

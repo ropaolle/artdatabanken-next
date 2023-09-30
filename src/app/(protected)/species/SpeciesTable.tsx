@@ -1,7 +1,7 @@
 "use client";
 
 import { CustomTable } from "@/components/CustomTable";
-import useConfirm from "@/components/hooks/useConfirm";
+import useConfirm from "@/hooks/useConfirm";
 import { buttonVariants } from "@/components/ui/button";
 import { useDeleteSpeciesMutation, useSpeciesQuery } from "@/supabase/database";
 import { Species } from "@/types/app.types";

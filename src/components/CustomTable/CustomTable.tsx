@@ -6,8 +6,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 // import { Input } from "@/components/ui/input";
-import DebouncedInput from "./DebouncedInput";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { cn } from "@/lib/utils";
 import {
   ColumnDef,
   // RowSelection,
@@ -23,7 +23,7 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { ReactNode, useState } from "react";
-import { cn } from "@/lib/utils";
+import DebouncedInput from "./DebouncedInput";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -47,8 +47,6 @@ export default function CustomTable<TData extends { id: string }, TValue>({
     updated_at: false,
   });
   const [rowSelection, setRowSelection] = useState({});
-
-  // handleRowSelection
 
   const table = useReactTable({
     data,
