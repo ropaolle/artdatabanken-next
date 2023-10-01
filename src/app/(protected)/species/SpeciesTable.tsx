@@ -7,6 +7,7 @@ import { useDeleteSpeciesMutation, useSpeciesQuery } from "@/supabase/database";
 import { Species } from "@/types/app.types";
 import Link from "next/link";
 import { getColumns } from "./columns";
+import { useMemo } from "react";
 
 const confirmDelete = (id: string) => ({
   title: "Are you absolutely sure?",
@@ -16,6 +17,12 @@ const confirmDelete = (id: string) => ({
     </>
   ),
 });
+
+const AddSpeciesAction = () => (
+  <Link href="/species/add" className={buttonVariants({ variant: "default" })}>
+    AddSpecies
+  </Link>
+);
 
 export default function SpeciesTable() {
   const { confirm } = useConfirm();
@@ -27,12 +34,6 @@ export default function SpeciesTable() {
       deleteSpecies({ id: species.id, brodcastMessage: species });
     }
   };
-
-  const AddSpeciesAction = () => (
-    <Link href="/species/add" className={buttonVariants({ variant: "default" })}>
-      AddSpecies
-    </Link>
-  );
 
   const columns = getColumns({ onDelete: handleDelete, editPath: "/species/edit/" });
 

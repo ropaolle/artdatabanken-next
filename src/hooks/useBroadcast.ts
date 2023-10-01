@@ -8,7 +8,7 @@ export function useBroadcast<T = unknown>(channel: BrodcastChannels, event: Brod
   const client = useSupabase();
   const channelSpecies = client.channel(channel);
 
-  const broadcast = (message: T, type = "unknown") => {
+  return (message: T, type = "unknown") => {
     if (!settings.broadcast) return;
 
     channelSpecies.subscribe((status) => {
@@ -21,6 +21,4 @@ export function useBroadcast<T = unknown>(channel: BrodcastChannels, event: Brod
       });
     });
   };
-
-  return broadcast;
 }
