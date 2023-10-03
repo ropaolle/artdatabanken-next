@@ -22,11 +22,11 @@ jobs:
       - uses: supabase/setup-cli@v1
         with:
           version: latest
-      - name: Get current date
-        id: date
-        run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
-      - name: Backup roles
-        run: supabase db dump --db-url "$supabase_db_url" -f roles-${{ steps.date.outputs.date }}.sql --role-only
+      # - name: Get current date
+      #   id: date
+      #   run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
+      # - name: Backup roles
+      #   run: supabase db dump --db-url "$supabase_db_url" -f roles-${{ steps.date.outputs.date }}.sql --role-only
       - name: Backup schema
         run: supabase db dump --db-url "$supabase_db_url" -f ./backup/schema.sql
       - name: Backup data
