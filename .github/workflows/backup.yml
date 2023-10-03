@@ -22,10 +22,10 @@ jobs:
       - uses: supabase/setup-cli@v1
         with:
           version: latest
-      - name: Set datetime output
+      - name: Set date output
         # run: echo "::set-output name={name}::{value}"
         id: date
-        run: echo "date=$(date +'%Y-%m-%d')" >> $GITHUB_OUTPUT
+        run: echo "date=$(date +'%Y%m%d-%H%M%S')" >> $GITHUB_OUTPUT
         # run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
       - name: Backup roles
         run: supabase db dump --db-url "$supabase_db_url" -f roles-${{ steps.date.outputs.date }}.sql --role-only
@@ -37,5 +37,4 @@ jobs:
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: Supabase backup
-
-# date +"%Y%m%d-%H"%M%S          
+          repository: ./.backup
