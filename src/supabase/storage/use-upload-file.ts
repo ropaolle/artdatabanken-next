@@ -1,15 +1,14 @@
 import { useAppStore } from "@/state";
-import useSupabase from "../database/use-supabase";
 import { useState } from "react";
+import useSupabase from "../database/use-supabase";
 
 type Options = { upsert?: boolean; prefixPathWithUserId?: boolean };
 
-export default function useUploadFile() {
+export function useUploadFile() {
   const [isUploading, setIsUploading] = useState(false);
   const { user } = useAppStore();
   const client = useSupabase();
 
-  //TODO: useMemo?
   const uploadFile = async (
     file: Blob | File | undefined,
     bucket: string,

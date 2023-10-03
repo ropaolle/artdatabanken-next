@@ -2,24 +2,23 @@
 
 ## TODO
 
-- Supabase:
-
-  - realtime - dashboard?
-  - edge functions - image manipulation?
+- ?
 
 ### GENERIC CHECKS
 
 - TODO:'s
 - TypeScript any:s
-- [react-hooks/exhaustive-deps](https://react.dev/learn/removing-effect-dependencies)
 - eslint-disable-next-line
+- Remove unessesary useEffect
+- [react-hooks/exhaustive-deps](https://react.dev/learn/removing-effect-dependencies)
 
 ### NICE TO HAVE
 
-- ?
+- Supabase edge functions - image manipulation?
 
 ## Known issues
 
+- [ ] [Unnecessary AlertDialogPortal and DialogPortal component removed](https://github.com/shadcn-ui/ui/pull/1603/files)
 - [ ] [Relationships between tables are not typed correctly](https://github.com/supabase/cli/issues/736)
 - [ ] DynamicServerError: Dynamic server usage: Page couldn't be rendered statically because it used `cookies`. [See more info here](https://nextjs.org/docs/messages/dynamic-server-error)
   - import { revalidatePath } from "next/cache";
@@ -29,9 +28,10 @@
 
 ## Info
 
-- Server vs client components
-  - Use server components if possible, othervise add the 'use client' option.
-  - Server components cannot be imported in a client component. However, a server component can be passed as a child prop to a custom client component.
+- Updated Shaden/UI components
+  - Toast: Variant `warning` added
+  - Form: FormItem specing `space-y-2` removed
+  - Navigation-menu: Multiple styling updates to allow the menu to align right (without any content outside the viewport).
 
 ## Links
 
@@ -76,7 +76,9 @@
   - [Phosphor Icons](https://phosphoricons.com/)
   - [Favicon](https://realfavicongenerator.net/)
 
-## Supabase CLI
+## Supabase
+
+### CLI
 
 ```sh
 # Generate types
@@ -84,6 +86,10 @@ npm i supabase --save-dev
 npx supabase login
 npx supabase gen types typescript --project-id yeebxkyqwarhmbfpkgir > "./src/lib/database.types.ts"
 ```
+
+### Github Actions Backup
+
+- URL connection string: `supabase_db_url: postgresql://postgres:[YOUR-PASSWORD]@db.<ref>.supabase.co:5432/postgres`
 
 ## Miscellaneous
 

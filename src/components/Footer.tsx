@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { fetchServerUser } from "@/supabase/fetchServerUser";
+import { fetchServerUser } from "@/supabase/fetchUser/fetchServerUser";
 import {
   Mail as Email,
   Facebook,

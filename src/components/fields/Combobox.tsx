@@ -2,11 +2,11 @@ import { Button } from "@/components/ui/button";
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
 import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { useDebouncedValue } from "@/hooks/useDebouncedValue";
 import { cn } from "@/lib/utils";
 import { Check, ChevronsUpDown, Loader2, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useFormContext, type FieldPath, type FieldValues } from "react-hook-form";
-import { useDebouncedValue } from "../hooks/useDebouncedValue";
 
 export type Option = { label: string; value: string };
 
@@ -47,7 +47,6 @@ function BaseCombobox<
   const [open, setOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [debouncedSearchQuery] = useDebouncedValue(searchQuery, 500);
-
   const { control, setValue, resetField } = useFormContext();
 
   useEffect(() => {

@@ -4,7 +4,7 @@ import { Form } from "@/components/ui/form";
 import { toOptions } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
@@ -36,7 +36,7 @@ export type SubmitValues = {
 };
 
 type Props = {
-  onChange: (values?: File) => void;
+  onChange: (files: FileList | null) => void;
   onSubmit: (values: SubmitValues) => Promise<void>;
   file?: File;
   originalFilename?: string;
@@ -55,6 +55,7 @@ export default function CropForm({
   naturalSelectionWidth,
 }: Props) {
   const [isSubmitting, setIsSubmitting] = useState(false);
+
   const formSchema = z
     .object({
       // file: typeof window === "undefined" ? z.undefined() : z.instanceof(File).optional(),
@@ -90,11 +91,6 @@ export default function CropForm({
     },
   });
 
-  // INFO: Not sure why, but accessing the file value directly with form.watch("file") causes a useEffect loop.
-  const values = form.watch();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(() => onChange(values.file), [values.file]);
-
   const handleSubmit = async ({ resolution, file, options }: z.infer<typeof formSchema>) => {
     setIsSubmitting(true);
     await onSubmit({
@@ -114,7 +110,7 @@ export default function CropForm({
             {originalFilename ? (
               <Input name="originalFilename" label="Source image" readOnly />
             ) : (
-              <FileInput type="file" name="file" label="Source image" accept=".jpg" />
+              <FileInput type="file" name="file" label="Source image" accept=".jpg" onFileChange={onChange} />
             )}
           </div>
 

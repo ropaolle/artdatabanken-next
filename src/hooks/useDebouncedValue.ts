@@ -3,8 +3,6 @@ import { useEffect, useState, useRef } from "react";
 export function useDebouncedValue<T = any>(value: T, wait: number, options = { leading: false }) {
   const [_value, setValue] = useState(value);
   const mountedRef = useRef(false);
-  // TODO: TypeScript do not like this, can I chnage the default value of timeOute ref from null to undefined?
-  // const timeoutRef = useRef<number>(null);
   const timeoutRef = useRef<number>();
   const cooldownRef = useRef(false);
 

@@ -1,12 +1,11 @@
 "use client";
 
 import { CustomTable } from "@/components/CustomTable";
-import useConfirm from "@/components/hooks/useConfirm";
+import useConfirm from "@/hooks/useConfirm";
 import { buttonVariants } from "@/components/ui/button";
 import { suffixFilename } from "@/lib/utils";
-import useDeleteImageMutation from "@/supabase/database/use-delete-image-mutation";
-import useImageQuery from "@/supabase/database/use-image-query";
-import { useDeleteFiles } from "@/supabase/storage/use-delete-files";
+import { useDeleteImageMutation, useImageQuery } from "@/supabase/database";
+import { useDeleteFiles } from "@/supabase/storage";
 import type { Image } from "@/types/app.types";
 import Link from "next/link";
 import { useRouter } from "next/navigation";

@@ -3,7 +3,7 @@ import { getSpecies } from "./queries/get-species";
 import { getSpeciesById } from "./queries/get-species-by-id";
 import useSupabase from "./use-supabase";
 
-export default function useSpeciesQuery() {
+function useSpeciesQuery() {
   const client = useSupabase();
   const key = ["species"];
 
@@ -12,7 +12,7 @@ export default function useSpeciesQuery() {
   });
 }
 
-export function useSpeciesQueryById(id: string | undefined) {
+function useSpeciesQueryById(id: string | undefined) {
   const client = useSupabase();
   const key = ["species", id];
 
@@ -24,3 +24,5 @@ export function useSpeciesQueryById(id: string | undefined) {
     { enabled: !!id },
   );
 }
+
+export { useSpeciesQuery, useSpeciesQueryById };

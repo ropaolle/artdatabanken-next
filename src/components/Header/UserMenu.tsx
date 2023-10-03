@@ -49,6 +49,7 @@ export default function UserMenu({ user }: { user: User }) {
             </NavigationMenuTrigger>
             <NavigationMenuContent>
               <ul>
+                <MenuLink href="/realtime">Realtime updates</MenuLink>
                 <MenuLink href="/settings">Settings</MenuLink>
                 <MenuLink href="/about">About</MenuLink>
                 <hr />
