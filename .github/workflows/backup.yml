@@ -37,4 +37,5 @@ jobs:
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: Supabase backup
-          repository: ./.backup
+          branch: backup
+          create_branch: true
