@@ -1,3 +1,5 @@
+# https://github.com/stefanzweifel/git-auto-commit-action
+
 name: Supa-backup
 
 on:
@@ -8,13 +10,13 @@ on:
   workflow_dispatch:
   # schedule:
   #   - cron: '0 0 * * *' # Runs every day at midnight
-jobs:   
+jobs:
   run_db_backup:
     runs-on: ubuntu-latest
     permissions:
       contents: write
     env:
-      supabase_db_url: ${{ secrets.SUPABASE_DB_URL }}   # For example: postgresql://postgres:[YOUR-PASSWORD]@db.<ref>.supabase.co:5432/postgres
+      supabase_db_url: ${{ secrets.SUPABASE_DB_URL }} # For example: postgresql://postgres:[YOUR-PASSWORD]@db.<ref>.supabase.co:5432/postgres
     steps:
       - uses: actions/checkout@v3
         with:
@@ -23,16 +25,14 @@ jobs:
         with:
           version: latest
       - name: Set date output
-        # run: echo "::set-output name={name}::{value}"
         id: date
         run: echo "date=$(date +'%Y%m%d-%H%M%S')" >> $GITHUB_OUTPUT
-        # run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
       - name: Backup roles
-        run: supabase db dump --db-url "$supabase_db_url" -f roles-${{ steps.date.outputs.date }}.sql --role-only
+        run: supabase db dump --db-url "$supabase_db_url" -f ${{ steps.date.outputs.date }}-roles.sql --role-only
       - name: Backup schema
-        run: supabase db dump --db-url "$supabase_db_url" -f schema.sql
+        run: supabase db dump --db-url "$supabase_db_url" -f ${{ steps.date.outputs.date }}-schema.sql
       - name: Backup data
-        run: supabase db dump --db-url "$supabase_db_url" -f data.sql --data-only --use-copy
+        run: supabase db dump --db-url "$supabase_db_url" -f ${{ steps.date.outputs.date }}-data.sql --data-only --use-copy
 
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
