@@ -30,7 +30,7 @@ jobs:
       - name: Backup roles
         run: supabase db dump --db-url "$supabase_db_url" -f backup/${{ steps.date.outputs.date }}-roles.sql --role-only
       - name: Backup schema
-        run: supabase db dump --db-url "$supabase_db_url" -f "backup/${{ steps.date.outputs.date }}-schema.sql"
+        run: supabase db dump --db-url "$supabase_db_url" -f ".backup/${{ steps.date.outputs.date }}-schema.sql"
       - name: Backup data
         run: supabase db dump --db-url "$supabase_db_url" -f ${{ steps.date.outputs.date }}-data.sql --data-only --use-copy
 
