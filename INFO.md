@@ -76,7 +76,9 @@
   - [Phosphor Icons](https://phosphoricons.com/)
   - [Favicon](https://realfavicongenerator.net/)
 
-## Supabase CLI
+## Supabase
+
+### CLI
 
 ```sh
 # Generate types
@@ -84,6 +86,10 @@ npm i supabase --save-dev
 npx supabase login
 npx supabase gen types typescript --project-id yeebxkyqwarhmbfpkgir > "./src/lib/database.types.ts"
 ```
+
+### Github Actions Backup
+
+- URL connection string: `supabase_db_url: postgresql://postgres:[YOUR-PASSWORD]@db.<ref>.supabase.co:5432/postgres`
 
 ## Miscellaneous
 
