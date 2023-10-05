@@ -1,9 +1,9 @@
 "use client";
 
 import { CustomTable } from "@/components/CustomTable";
-import useConfirm from "@/hooks/useConfirm";
+import suffixFilename from "@/components/forms/ImageForm/suffixFilename";
 import { buttonVariants } from "@/components/ui/button";
-import { suffixFilename } from "@/lib/utils";
+import useConfirm from "@/hooks/useConfirm";
 import { useDeleteImageMutation, useImageQuery } from "@/supabase/database";
 import { useDeleteFiles } from "@/supabase/storage";
 import type { Image } from "@/types/app.types";

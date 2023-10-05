@@ -1,8 +1,7 @@
 "use client";
 
-import useConfirm from "@/hooks/useConfirm";
 import { useToast } from "@/components/ui/use-toast";
-import { canvasToBlob, suffixFilename } from "@/lib/utils";
+import useConfirm from "@/hooks/useConfirm";
 import { useImageId, useUpsertImageMutation } from "@/supabase/database";
 import { useLoadFile, usePublicUrl, useUploadFile } from "@/supabase/storage";
 import Image from "next/image";
@@ -10,7 +9,9 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import "react-image-crop/dist/ReactCrop.css";
 import CropForm, { type SubmitValues } from "./CropForm";
 import CropPanel, { type CompletedCropArea } from "./CropPanel";
+import canvasToBlob from "./canvasToBlob";
 import drawImageOnCanvas from "./drawImageOnCanvas";
+import suffixFilename from "./suffixFilename";
 
 const SUPABASE_BUCKET = "images";
 

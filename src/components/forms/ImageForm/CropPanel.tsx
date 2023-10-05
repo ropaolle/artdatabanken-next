@@ -1,4 +1,4 @@
-import { canvasToBlob } from "@/lib/utils";
+import canvasToBlob from "./canvasToBlob";
 import Image from "next/image";
 import { RefObject, useEffect, useRef, useState } from "react";
 import ReactCrop, { type PixelCrop } from "react-image-crop";

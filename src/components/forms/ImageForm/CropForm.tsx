@@ -1,12 +1,14 @@
 import { Checkboxes, FileInput, Input, Select } from "@/components/fields";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
-import { toOptions } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
+
+const toOptions = (options: { [key: string]: { value: string; label: ReactNode } }) =>
+  Object.values(options).map(({ value, label }) => ({ value, label }));
 
 const optionValues = [{ id: "allowUpscale", label: "Allow upscale" }] as const;
 
