@@ -14,7 +14,7 @@
 
 ### NICE TO HAVE
 
-- Supabase edge functions - image manipulation?
+- ?
 
 ## Known issues
 
