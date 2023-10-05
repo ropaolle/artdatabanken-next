@@ -1,0 +1,42 @@
+olle@SOVRUM:~/GITHOME/artdatabanken-next/.develop$ pnpm build
+
+> artdatabanken-next@0.1.1 build /home/olle/GITHOME/artdatabanken-next
+> next build
+
+ ✓ Creating an optimized production build    
+ ✓ Compiled successfully
+ ✓ Linting and checking validity of types    
+ ✓ Collecting page data    
+ ✓ Generating static pages (15/15) 
+ ✓ Collecting build traces    
+ ✓ Finalizing page optimization    
+
+Route (app)                              Size     First Load JS
+┌ λ /                                    144 B          80.7 kB
+├ ○ /_not-found                          883 B          81.4 kB
+├ λ /about                               143 B          80.7 kB
+├ λ /auth/callback                       0 B                0 B
+├ λ /auth/sign-in                        0 B                0 B
+├ λ /auth/sign-out                       0 B                0 B
+├ λ /auth/sign-up                        0 B                0 B
+├ λ /collections                         2.26 kB        82.8 kB
+├ λ /collections/examples                143 B          80.7 kB
+├ λ /images                              1.8 kB          187 kB
+├ λ /images/edit                         202 B           226 kB
+├ λ /images/upload                       202 B           226 kB
+├ ○ /login                               978 B          88.4 kB
+├ λ /realtime                            4.36 kB         143 kB
+├ λ /species                             1.66 kB         187 kB
+├ λ /species/add                         202 B           226 kB
+└ λ /species/edit/[id]                   366 B           226 kB
++ First Load JS shared by all            80.5 kB
+  ├ chunks/95-8b520dace7e450b8.js        27.5 kB
+  ├ chunks/b97a3a71-dc418345ce0af9c3.js  51 kB
+  ├ chunks/main-app-4efa87492f27e207.js  230 B
+  └ chunks/webpack-1ed54ba0afbb4333.js   1.84 kB
+
+
+ƒ Middleware                             104 kB
+
+λ  (Server)  server-side renders at runtime (uses getInitialProps or getServerSideProps)
+○  (Static)  automatically rendered as static HTML (uses no initial props)
