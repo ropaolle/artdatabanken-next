@@ -1,13 +1,12 @@
 "use client";
 
 import { CustomTable } from "@/components/CustomTable";
-import useConfirm from "@/hooks/useConfirm";
 import { buttonVariants } from "@/components/ui/button";
+import useConfirm from "@/hooks/useConfirm";
 import { useDeleteSpeciesMutation, useSpeciesQuery } from "@/supabase/database";
 import { Species } from "@/types/app.types";
 import Link from "next/link";
 import { getColumns } from "./columns";
-import { useMemo } from "react";
 
 const confirmDelete = (id: string) => ({
   title: "Are you absolutely sure?",
@@ -31,7 +30,7 @@ export default function SpeciesTable() {
 
   const handleDelete = async (species: Species) => {
     if (await confirm(confirmDelete(species.id))) {
-      deleteSpecies({ id: species.id, brodcastMessage: species });
+      deleteSpecies({ id: species.id });
     }
   };
 

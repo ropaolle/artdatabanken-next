@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Messages from "./messages";
+import { Suspense } from "react";
 
 export default function Login() {
   return (
@@ -7,7 +8,7 @@ export default function Login() {
       <div className="flex w-full flex-1 flex-col justify-center gap-2 px-8 sm:max-w-md">
         <Link
           href="/"
-          className="text-foreground bg-btn-background hover:bg-btn-background-hover group absolute left-8 top-8 flex items-center rounded-md px-4 py-2 text-sm no-underline"
+          className="bg-btn-background hover:bg-btn-background-hover group absolute left-8 top-8 flex items-center rounded-md px-4 py-2 text-sm text-foreground no-underline"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -27,7 +28,7 @@ export default function Login() {
         </Link>
 
         <form
-          className="text-foreground flex w-full flex-1 flex-col justify-center gap-2"
+          className="flex w-full flex-1 flex-col justify-center gap-2 text-foreground"
           action="/auth/sign-in"
           method="post"
         >
@@ -50,16 +51,13 @@ export default function Login() {
             placeholder="••••••••"
             required
           />
-          <button className="mb-2 rounded bg-green-700 px-4 py-2 text-white">
-            Sign In
-          </button>
-          <button
-            formAction="/auth/sign-up"
-            className="mb-2 rounded border border-gray-700 px-4 py-2 text-neutral-900"
-          >
+          <button className="mb-2 rounded bg-green-700 px-4 py-2 text-white">Sign In</button>
+          <button formAction="/auth/sign-up" className="mb-2 rounded border border-gray-700 px-4 py-2 text-neutral-900">
             Sign Up
           </button>
-          <Messages />
+          <Suspense fallback={<>loading...</>}>
+            <Messages />
+          </Suspense>
         </form>
       </div>
     </main>

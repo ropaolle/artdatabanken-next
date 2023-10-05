@@ -82,12 +82,17 @@ export default async function Footer() {
           </div>
 
           <div className="flex justify-center">
-            <SocialLink href="https://facebook.com/" icon={<Facebook size={20} />} />
-            <SocialLink href="https://twitter.com/ropaolle" icon={<Twitter size={20} />} />
-            {/* <SocialLink href="https://www.google.com/" icon={<Google />} /> */}
-            <SocialLink href="https://www.instagram.com/ropaolle/" icon={<Instagram size={20} />} />
-            <SocialLink href="https://www.linkedin.com/in/olof-sj%C3%B6gren/" icon={<Linkedin size={20} />} />
-            <SocialLink href="https://github.com/ropaolle/" icon={<Github size={20} />} />
+            <SocialLink href="https://facebook.com/" icon={<Facebook size={20} aria-label="Facebook" />} />
+            <SocialLink href="https://x.com/ropaolle" icon={<Twitter size={20} aria-label="X" />} />
+            <SocialLink
+              href="https://www.instagram.com/ropaolle/"
+              icon={<Instagram size={20} aria-label="Instagram" />}
+            />
+            <SocialLink
+              href="https://www.linkedin.com/in/olof-sj%C3%B6gren/"
+              icon={<Linkedin size={20} aria-label="LinkedIn" />}
+            />
+            <SocialLink href="https://github.com/ropaolle/" icon={<Github size={20} aria-label="GitHub" />} />
           </div>
         </div>
 

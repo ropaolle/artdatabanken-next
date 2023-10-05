@@ -42,10 +42,10 @@ export default function UserMenu({ user }: { user: User }) {
       <NavigationMenuList>
         {isAuthenticated ? (
           <NavigationMenuItem>
-            <NavigationMenuTrigger>
-              <div>
+            <NavigationMenuTrigger aria-label="User menu">
+              {/* <div> */}
                 <Image src={user?.gravatar} className="rounded-full" alt="" loading="lazy" width={25} height={25} />
-              </div>
+              {/* </div> */}
             </NavigationMenuTrigger>
             <NavigationMenuContent>
               <ul>
