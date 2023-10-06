@@ -110,3 +110,14 @@ source /home/olle/.bashrc
 # Update
 pnpm add -g pnpm
 ```
+
+### Storybook
+
+- [Not working with NextJS 13](https://storybook.js.org/docs/react/configure/frameworks#nextjs-13-doesnt-work-with-storybook)
+- [Configure](https://storybook.js.org/docs/react/configure/frameworks#configure)
+
+```sh
+# Not working - Change module.exports = config; to module.exports = {}; in .prettier.js.
+pnpm dlx storybook@latest init --package-manager=pnpm
+pnpm run storybook
+```
