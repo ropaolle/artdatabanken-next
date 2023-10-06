@@ -7,7 +7,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 // import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { cn } from "@/lib/utils";
 import {
   ColumnDef,
   // RowSelection,
@@ -23,6 +22,7 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { ReactNode, useState } from "react";
+import { cn } from "../ui/utils";
 import DebouncedInput from "./DebouncedInput";
 
 interface DataTableProps<TData, TValue> {

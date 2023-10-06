@@ -1,4 +1,3 @@
-import { cn } from "@/lib/utils";
 import { fetchServerUser } from "@/supabase/fetchUser/fetchServerUser";
 import {
   Mail as Email,
@@ -14,6 +13,7 @@ import {
   Globe as Web,
 } from "lucide-react";
 import Link from "next/link";
+import { cn } from "./ui/utils";
 
 export default async function Footer() {
   const { isAuthenticated } = await fetchServerUser();

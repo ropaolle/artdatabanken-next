@@ -6,9 +6,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { cn } from "@/lib/utils";
 import { InputHTMLAttributes, ReactNode } from "react";
 import { useFormContext, type FieldPath, type FieldValues } from "react-hook-form";
+import { cn } from "../ui/utils";
 
 type SelectOption = {
   value: string;
