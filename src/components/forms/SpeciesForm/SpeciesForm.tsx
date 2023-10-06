@@ -1,13 +1,13 @@
 "use client";
 
-import { Checkboxes, Combobox, ComboboxAsync, DatePicker, Input } from "@/components/fields";
+import { Checkboxes, Combobox, ComboboxAsync, DatePicker, Input, type Option } from "@/components/fields";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { useToast } from "@/components/ui/use-toast";
 import { useImageQueryByFilenameQuery, useSpeciesQueryById, useUpsertSpeciesMutation } from "@/supabase/database";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { counties, gender } from "./options";
@@ -45,7 +45,7 @@ function dateStringToDate<T extends { date: string | null }>(object: T) {
 export type SpeciesType = z.infer<typeof formSchema>;
 
 export default function SpeciesForm({ id }: { id?: string }) {
-  const [previewUrl, setPreviewUrl] = useState<string>();
+  const [previewUrl, setPreviewUrl] = useState<string | null | undefined>(null);
   const [imageSearchQuery, setImageSearchQuery] = useState("");
   const { mutate: updateSpecies } = useUpsertSpeciesMutation();
   const { data: species } = useSpeciesQueryById(id);
@@ -55,28 +55,15 @@ export default function SpeciesForm({ id }: { id?: string }) {
   const form = useForm<SpeciesType>({
     resolver: zodResolver(formSchema),
     defaultValues,
-    values: species ? { ...species, image: species.image.id, date: dateStringToDate(species) } : undefined,
+    values: species ? { ...species, image: species.image?.id, date: dateStringToDate(species) } : undefined,
   });
 
-  useEffect(() => {
-    // Load initial preview
+  // Load initial preview
+  if (previewUrl === null && species?.image?.thumbnail_url) {
     setPreviewUrl(species?.image?.thumbnail_url);
-  }, [species]);
+  }
 
-  const watch = form.watch;
-
-  useEffect(() => {
-    const subscription = watch(({ image }) => {
-      // Update preview
-      setPreviewUrl(images?.find(({ id }) => image === id)?.thumbnail_url);
-    });
-
-    return () => {
-      subscription.unsubscribe();
-    };
-  }, [watch, images]);
-
-  async function onSubmit(values: SpeciesType) {
+  async function handleSubmit(values: SpeciesType) {
     updateSpecies(
       { ...values, id, date: values.date?.toDateString() },
       {
@@ -89,9 +76,14 @@ export default function SpeciesForm({ id }: { id?: string }) {
     );
   }
 
+  function handleChange(option?: Option) {
+    const thumbnail_url = images?.find(({ id }) => option?.value === id)?.thumbnail_url;
+    setPreviewUrl(thumbnail_url);
+  }
+
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
+      <form onSubmit={form.handleSubmit(handleSubmit)}>
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
           <div className="space-y-4">
             <Input name="species" label="Species *" description="Testbeskrivning" />
@@ -114,6 +106,7 @@ export default function SpeciesForm({ id }: { id?: string }) {
               options={images?.map(({ id, filename }) => ({ value: id, label: filename }))}
               placeholder="Select image…"
               onSearch={(query) => setImageSearchQuery(query)}
+              onChange={handleChange}
               loading={isFetching}
             />
 

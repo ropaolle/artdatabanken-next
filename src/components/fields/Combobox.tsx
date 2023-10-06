@@ -23,7 +23,7 @@ type BaseComboboxProps<TName> = {
   loading?: boolean;
   async?: boolean;
   onSearch?: (query: string) => void;
-  onChange?: (option: Option | null) => void;
+  onChange?: (option?: Option) => void;
 };
 
 function BaseCombobox<
@@ -83,7 +83,7 @@ function BaseCombobox<
                         onClick={(e) => {
                           e.preventDefault();
                           resetField<string>(name, { defaultValue: "" });
-                          typeof onChange === "function" && onChange(null);
+                          typeof onChange === "function" && onChange();
                         }}
                       >
                         <X className="h-4 w-4 opacity-50" />
