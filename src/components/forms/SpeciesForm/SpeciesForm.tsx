@@ -62,6 +62,7 @@ export default function SpeciesForm({ id }: { id?: string }) {
   const image = form.watch("image");
 
   const getPreviewURL = useCallback(() => {
+    console.log('image', image);
     const filename = images?.find(({ id }) => image === id)?.filename;
     return getPublicURL("images", filename);
   }, [image, images, getPublicURL]);
