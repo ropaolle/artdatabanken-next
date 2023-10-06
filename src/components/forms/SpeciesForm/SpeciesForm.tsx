@@ -5,10 +5,9 @@ import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { useToast } from "@/components/ui/use-toast";
 import { useImageQueryByFilenameQuery, useSpeciesQueryById, useUpsertSpeciesMutation } from "@/supabase/database";
-import { usePublicUrl } from "@/supabase/storage";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
-import { useCallback, useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { counties, gender } from "./options";
@@ -46,28 +45,36 @@ function dateStringToDate<T extends { date: string | null }>(object: T) {
 export type SpeciesType = z.infer<typeof formSchema>;
 
 export default function SpeciesForm({ id }: { id?: string }) {
+  const [previewUrl, setPreviewUrl] = useState<string>();
   const [imageSearchQuery, setImageSearchQuery] = useState("");
   const { mutate: updateSpecies } = useUpsertSpeciesMutation();
   const { data: species } = useSpeciesQueryById(id);
   const { data: images, isFetching } = useImageQueryByFilenameQuery(imageSearchQuery);
-  const getPublicURL = usePublicUrl();
   const { toast } = useToast();
 
   const form = useForm<SpeciesType>({
     resolver: zodResolver(formSchema),
     defaultValues,
-    values: species ? { ...species, date: dateStringToDate(species) } : undefined,
+    values: species ? { ...species, image: species.image.id, date: dateStringToDate(species) } : undefined,
   });
 
-  const image = form.watch("image");
+  useEffect(() => {
+    // Load initial preview
+    setPreviewUrl(species?.image?.thumbnail_url);
+  }, [species]);
 
-  const getPreviewURL = useCallback(() => {
-    console.log('image', image);
-    const filename = images?.find(({ id }) => image === id)?.filename;
-    return getPublicURL("images", filename);
-  }, [image, images, getPublicURL]);
+  const watch = form.watch;
 
-  const previewUrl = getPreviewURL();
+  useEffect(() => {
+    const subscription = watch(({ image }) => {
+      // Update preview
+      setPreviewUrl(images?.find(({ id }) => image === id)?.thumbnail_url);
+    });
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, [watch, images]);
 
   async function onSubmit(values: SpeciesType) {
     updateSpecies(

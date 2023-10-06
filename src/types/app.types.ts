@@ -7,7 +7,9 @@ type Tables<T extends keyof Database["public"]["Tables"]> = Database["public"]["
 
 type Image = Tables<"images">;
 type Species = Tables<"species">;
-type SpeciesImage = Prettify<Species & { image: { id: string; thumbnail_url: string } /*  | null */ }>;
+type SpeciesImage = Prettify<
+  Species & { image: { id: string; thumbnail_url: string; filename: string } /*  | null */ }
+>;
 
 type User = Prettify<Pick<AuthUser, "id" | "email" | "role"> & { gravatar: string }> | null;
 
