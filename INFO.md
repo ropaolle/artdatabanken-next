@@ -2,14 +2,18 @@
 
 ## TODO
 
-- ?
+- User info and lists
+- Avatar maker with crop
+- Invoice maker
+- Storybook
+- Own infrastructure (Postgres, docker, webserver, logs)
 
 ### GENERIC CHECKS
 
 - TODO:'s
 - TypeScript any:s
 - eslint-disable-next-line
-- Remove unessesary useEffect
+- Remove unessesary useEffect and hooks
 - [react-hooks/exhaustive-deps](https://react.dev/learn/removing-effect-dependencies)
 
 ### NICE TO HAVE
@@ -52,6 +56,7 @@
   - [Supabase dev locally](https://supabase.com/docs/guides/cli/local-development)
   - [Supabase and React Query](https://makerkit.dev/blog/saas/supabase-react-query)
   - [Supabase pagination](https://makerkit.dev/blog/tutorials/pagination-supabase-react)
+  - [Automated backups using GitHub Actions](https://supabase.com/docs/guides/cli/github-action/backups)
 - SHADEN/UI
   - [Shadcn UI](https://ui.shadcn.com/)
   - Extend Combobox to support multi select - https://github.com/shadcn-ui/ui/pull/304/files.
