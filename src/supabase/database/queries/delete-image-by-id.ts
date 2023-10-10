@@ -1,5 +1,5 @@
-import { SupabaseClient } from "@supabase/auth-helpers-nextjs";
+import type { CustomClient } from "@/types/app.types";
 
-export function deleteImageById(client: SupabaseClient, id: string) {
+export function deleteImageById(client: CustomClient, id: string) {
   return client.from("images").delete().eq("id", id).throwOnError();
 }

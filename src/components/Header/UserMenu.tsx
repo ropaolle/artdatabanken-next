@@ -34,7 +34,7 @@ const LogoutButton = () => (
   </li>
 );
 
-export default function UserMenu({ user }: { user: User }) {
+export default function UserMenu({ user }: { user: User | null }) {
   const isAuthenticated = user?.id;
 
   return (
@@ -43,14 +43,13 @@ export default function UserMenu({ user }: { user: User }) {
         {isAuthenticated ? (
           <NavigationMenuItem>
             <NavigationMenuTrigger aria-label="User menu">
-              {/* <div> */}
-                <Image src={user?.gravatar} className="rounded-full" alt="" loading="lazy" width={25} height={25} />
-              {/* </div> */}
+              <Image src={user?.gravatar} className="rounded-full" alt="" loading="lazy" width={25} height={25} />
             </NavigationMenuTrigger>
             <NavigationMenuContent>
               <ul>
                 <MenuLink href="/realtime">Realtime updates</MenuLink>
                 <MenuLink href="/settings">Settings</MenuLink>
+                <MenuLink href="/users">Users</MenuLink>
                 <MenuLink href="/about">About</MenuLink>
                 <hr />
                 <LogoutButton />

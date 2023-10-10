@@ -1,7 +1,6 @@
-import type { /* CustomClient, */ Image } from "@/types/app.types";
-import { SupabaseClient } from "@supabase/auth-helpers-nextjs";
+import type { CustomClient } from "@/types/app.types";
 
-export function getImage(client: SupabaseClient) {
+export function getImage(client: CustomClient) {
   return client
     .from("images")
     .select()
