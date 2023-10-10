@@ -12,15 +12,9 @@
  *   getSession().session.user is recommended.
  */
 
-import type { SupabaseClient } from "@supabase/auth-helpers-nextjs";
-import * as crypto from "crypto";
-// import { gravatarURL } from "./utils";
+import type { CustomClient } from "@/types/app.types";
 
-const md5 = (contents: string) => crypto.createHash("md5").update(contents).digest("hex");
-
-const gravatarURL = (email: string) => `https://www.gravatar.com/avatar/${md5(email)}?d=robohash`;
-
-export const fetchUser = async (supabase: SupabaseClient) => {
+export const fetchUser = async (supabase: CustomClient) => {
   const {
     data: { session },
   } = await supabase.auth.getSession();
@@ -32,7 +26,7 @@ export const fetchUser = async (supabase: SupabaseClient) => {
         id: sessionUser.id,
         role: sessionUser.role,
         email: sessionUser.email,
-        gravatar: gravatarURL(sessionUser.email || ""),
+        gravatar: sessionUser.user_metadata.gravatar,
       }
     : null;
 
