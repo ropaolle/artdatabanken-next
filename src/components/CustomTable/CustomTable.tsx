@@ -50,7 +50,7 @@ export default function CustomTable<TData extends { id: string }, TValue>({
 
   const table = useReactTable({
     data,
-    columns,
+    columns,   
     getCoreRowModel: getCoreRowModel(),
     onSortingChange: setSorting,
     getPaginationRowModel: getPaginationRowModel(),

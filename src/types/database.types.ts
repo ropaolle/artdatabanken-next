@@ -128,6 +128,40 @@ export interface Database {
           }
         ]
       }
+      users: {
+        Row: {
+          created_at: string
+          email: string
+          gravatar: string
+          id: string
+          last_sign_in_at: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          gravatar?: string
+          id: string
+          last_sign_in_at?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          gravatar?: string
+          id?: string
+          last_sign_in_at?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "users_id_fkey"
+            columns: ["id"]
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
     }
     Views: {
       [_ in never]: never

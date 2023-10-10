@@ -24,13 +24,23 @@ create policy "Users can update own user."
   using ( auth.uid() = id );
 
 
--- 'handle_new_user' function
-
+-- inserts a row into public.users
+create function public.handle_new_user()
+returns trigger
+language plpgsql
+security definer set search_path = public
+as $$
 begin
-  insert into public.users (id, email)
-  values (new.id, new.email);
+  insert into public.users (id, email, gravatar)
+  values (new.id, new.email, new.raw_user_meta_data->>'gravatar');
   return new;
 end;
+
+-- trigger the function every time a user is created
+create trigger on_auth_user_created
+  after insert on auth.users
+  for each row execute procedure public.handle_new_user();
+
 
 -- Last sign in (https://github.com/orgs/supabase/discussions/7463)
 create function public.create_last_sign_in_on_users()

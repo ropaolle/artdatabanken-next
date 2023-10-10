@@ -2,7 +2,7 @@ import type { User } from "@/types/app.types";
 import { StateCreator } from "zustand";
 
 export interface UserSlice {
-  user: User;
+  user: User | null;
   setUser: (user: User) => void;
 }
 

@@ -1,4 +1,4 @@
-import type { User as AuthUser, SupabaseClient } from "@supabase/auth-helpers-nextjs";
+import type {  /* User as AuthUser, */  SupabaseClient } from "@supabase/auth-helpers-nextjs";
 import type { Database } from "./database.types";
 
 type Prettify<T> = { [K in keyof T]: T[K] } & {};
@@ -10,8 +10,9 @@ type Species = Tables<"species">;
 type SpeciesImage = Prettify<
   Species & { image: { id: string; thumbnail_url: string; filename: string } /*  | null */ }
 >;
+type User = Tables<"users">;
 
-type User = Prettify<Pick<AuthUser, "id" | "email" | "role"> & { gravatar: string }> | null;
+// type User = Prettify<Pick<AuthUser, "id" | "email" | "role"> & { gravatar: string }> | null;
 
 type Settings = { broadcast: boolean };
 

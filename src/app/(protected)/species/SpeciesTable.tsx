@@ -19,7 +19,7 @@ const confirmDelete = (id: string) => ({
 
 const AddSpeciesAction = () => (
   <Link href="/species/add" className={buttonVariants({ variant: "default" })}>
-    AddSpecies
+    Add species
   </Link>
 );
 
