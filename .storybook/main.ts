@@ -10,7 +10,7 @@ const config: StorybookConfig = {
   ],
   framework: {
     name: "@storybook/nextjs",
-    options: { nextConfigPath: "../next.config.js" },
+    options: {},
   },
   docs: {
     autodocs: "tag",

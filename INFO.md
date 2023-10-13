@@ -2,7 +2,8 @@
 
 ## TODO
 
-- ?
+- Storybook
+
 
 ### GENERIC CHECKS
 
@@ -119,5 +120,6 @@ pnpm add -g pnpm
 ```sh
 # Not working - Change module.exports = config; to module.exports = {}; in .prettier.js.
 pnpm dlx storybook@latest init --package-manager=pnpm
+pnpm dlx storybook@latest upgrade --prerelease
 pnpm run storybook
 ```

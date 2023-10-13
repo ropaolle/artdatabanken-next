@@ -4,4 +4,5 @@ const config = {
   plugins: ["prettier-plugin-tailwindcss"],
 };
 
-module.exports = config;
+// module.exports = config;
+module.exports = {};
