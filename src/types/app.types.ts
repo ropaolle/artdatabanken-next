@@ -1,4 +1,4 @@
-import type {  /* User as AuthUser, */  SupabaseClient } from "@supabase/auth-helpers-nextjs";
+import type { /* User as AuthUser, */ SupabaseClient } from "@supabase/auth-helpers-nextjs";
 import type { Database } from "./database.types";
 
 type Prettify<T> = { [K in keyof T]: T[K] } & {};
@@ -21,4 +21,5 @@ type CustomClient = SupabaseClient<Database>;
 type BrodcastChannels = "app";
 type BrodcastEvents = "*" | "updates";
 
-export type { Image, Prettify, Species, SpeciesImage, User, CustomClient, Settings, BrodcastChannels, BrodcastEvents };
+export type { BrodcastChannels, BrodcastEvents, CustomClient, Image, Prettify, Settings, Species, SpeciesImage, User };
+

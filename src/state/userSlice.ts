@@ -3,7 +3,7 @@ import { StateCreator } from "zustand";
 
 export interface UserSlice {
   user: User | null;
-  setUser: (user: User) => void;
+  setUser: (user: User | null) => void;
 }
 
 export const createUserSlice: StateCreator<UserSlice, [], [], UserSlice> = (set /* , get */) => ({
