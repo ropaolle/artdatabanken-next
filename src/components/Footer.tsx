@@ -59,7 +59,7 @@ export default async function Footer() {
           href={href}
           target={newTab ? "_blank" : "_self"}
           className={cn(
-            "flex text-neutral-600 dark:text-neutral-200",
+            "flex text-neutral-600 hover:underline hover:decoration-slate-600 hover:underline-offset-2 dark:text-neutral-200",
             protectedPage && !isAuthenticated && "pointer-events-none",
           )}
         >
@@ -75,8 +75,8 @@ export default async function Footer() {
 
   return (
     <>
-      <footer className="bg-neutral-100 text-center text-neutral-600 dark:bg-neutral-600 dark:text-neutral-200 lg:text-left">
-        <div className="flex items-center justify-center border-b-2 border-neutral-200 p-6 dark:border-neutral-500 lg:justify-between">
+      <footer className="bg-neutral-100 text-center text-neutral-600 dark:bg-neutral-900 dark:text-neutral-200 lg:text-left">
+        <div className="flex items-center justify-center border-b-2 border-neutral-200 p-6 dark:border-neutral-800 lg:justify-between">
           <div className="mr-12 hidden lg:block">
             <span>Get connected with us on social networks:</span>
           </div>
@@ -89,7 +89,7 @@ export default async function Footer() {
               icon={<Instagram size={20} aria-label="Instagram" />}
             />
             <SocialLink
-              href="https://www.linkedin.com/in/olof-sj%C3%B6gren/"
+              href="https://www.linkedin.com/in/ropaolle/"
               icon={<Linkedin size={20} aria-label="LinkedIn" />}
             />
             <SocialLink href="https://github.com/ropaolle/" icon={<Github size={20} aria-label="GitHub" />} />
@@ -110,12 +110,10 @@ export default async function Footer() {
             </FooterSection>
 
             <FooterSection label="Useful links">
-              {/* <Suspense fallback={<p>⌛ Fetching links...</p>}> */}
               <FooterLink label="Species" href="species" protectedPage />
               <FooterLink label="Images" href="images" protectedPage />
               <FooterLink label="Collections" href="collections" protectedPage />
               <FooterLink label="About" href="about" />
-              {/* </Suspense> */}
             </FooterSection>
 
             <FooterSection label="Contact">
@@ -125,21 +123,36 @@ export default async function Footer() {
               </IconItem>
               <IconItem>
                 <Email size={20} className="mr-1" />
-                <Link href="mailto:info@gmail.com">info@ropaolle.se</Link>
+                <Link
+                  className="hover:underline hover:decoration-slate-600 hover:underline-offset-2"
+                  href="mailto:info@gmail.com"
+                >
+                  info@ropaolle.se
+                </Link>
               </IconItem>
               <IconItem>
                 <Phone size={20} className="mr-1" />
-                <Link href="tel:+46 8 123456">+46 8 123456</Link>
+                <Link
+                  className="hover:underline hover:decoration-slate-600 hover:underline-offset-2"
+                  href="tel:+46 8 123456"
+                >
+                  +46 8 123456
+                </Link>
               </IconItem>
               <IconItem>
                 <Web size={20} className="mr-1" />
-                <Link href="https://www.ropaolle.se">https://www.ropaolle.se</Link>
+                <Link
+                  className="hover:underline hover:decoration-slate-600 hover:underline-offset-2"
+                  href="https://www.ropaolle.se"
+                >
+                  https://www.ropaolle.se
+                </Link>
               </IconItem>
             </FooterSection>
           </div>
         </div>
 
-        <div className="bg-neutral-200 p-6 text-center dark:bg-neutral-700">
+        <div className="bg-neutral-200 p-6 text-center dark:bg-neutral-800">
           <span>© 2023 Copyright: </span>
           <Link
             className="font-semibold text-neutral-600 dark:text-neutral-400"
