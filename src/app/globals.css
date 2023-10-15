@@ -75,10 +75,10 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground flex flex-col min-h-screen;
   }
   h1 {
-    @apply mb-8 text-6xl font-semibold  line-clamp-1;
+    @apply mb-8 text-6xl font-semibold;
   }
   h2 {
     @apply mb-4 text-2xl font-semibold;
