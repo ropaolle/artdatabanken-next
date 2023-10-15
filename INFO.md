@@ -4,8 +4,7 @@
 ## TODO
 
 - [ ] Bilder i Cloudinary, Sentry or Versel
-- [ ] Error boundaries, throw errors
-  - [Sentry](https://docs.sentry.io/platforms/javascript/guides/nextjs/?original_referrer=https%3A%2F%2Fwww.google.com%2F)
+- [ ] Error boundaries, throw errors  
 - [ ] User info and lists + edit, not delete, no select
 - [ ] Avatar maker with crop
 - [ ] Invoice maker
@@ -81,6 +80,7 @@
 - OTHER
   - [Zustand slices](https://github.com/pmndrs/zustand/blob/main/docs/guides/slices-pattern.md)
   - [ZOD File validation](https://github.com/colinhacks/zod/issues/387#issuecomment-1712177211)
+  - [Sentry](https://docs.sentry.io/platforms/javascript/guides/nextjs/?original_referrer=https%3A%2F%2Fwww.google.com%2F)
 - ICONS
   - [Lucide](https://lucide.dev/icons/)
   - [Iconify](https://iconify.design/)
