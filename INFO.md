@@ -3,11 +3,14 @@
 
 ## TODO
 
-- User info and lists
-- Avatar maker with crop
-- Invoice maker
-- Storybook
-- Own infrastructure (Postgres, docker, webserver, logs)
+- [ ] Bilder i Cloudinary, Sentry or Versel
+- [ ] Error boundaries, throw errors
+- [ ] User info and lists + edit, not delete, no select
+- [ ] Avatar maker with crop
+- [ ] Invoice maker
+- [ ] Add Typograpy?
+- [ ] Storybook
+- [ ] Own infrastructure (Postgres, docker, webserver, logs)
 
 ### GENERIC CHECKS
 
@@ -47,6 +50,7 @@
   - [unknownAtRules Warnings From Tailwind CSS](https://www.codeconcisely.com/posts/tailwind-css-unknown-at-rules/)
   - [Tailwind Elements](https://tailwind-elements.com/docs/standard/data/datatables/)
   - [Tips and tricks](https://material-minimal.com/learn/design-hacks/tips-and-tricks/)
+  - [Typography](https://tailwindcss.com/docs/typography-plugin)
 - SUPABASE
   - [Supabase](https://supabase.com/docs/reference/javascript)
   - [auth-api](https://supabase.com/docs/reference/javascript/auth-api)
