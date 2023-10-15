@@ -1,4 +1,4 @@
-import type {  /* User as AuthUser, */  SupabaseClient } from "@supabase/auth-helpers-nextjs";
+import type { /* User as AuthUser, */ SupabaseClient } from "@supabase/auth-helpers-nextjs";
 import type { Database } from "./database.types";
 
 type Prettify<T> = { [K in keyof T]: T[K] } & {};

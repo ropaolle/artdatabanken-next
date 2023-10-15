@@ -10,7 +10,6 @@ import {
   NavigationMenuTrigger,
   NavigationMenuViewport,
 } from "@/components/ui/navigation-menu";
-import type { User } from "@/types/app.types";
 import Image from "next/image";
 import NextLink from "next/link";
 import { ReactNode } from "react";
@@ -34,7 +33,11 @@ const LogoutButton = () => (
   </li>
 );
 
-export default function UserMenu({ user }: { user: User | null }) {
+export default function UserMenu({
+  user,
+}: {
+  user: { id: string; gravatar: string; email: string } | null;
+}) {
   const isAuthenticated = user?.id;
 
   return (

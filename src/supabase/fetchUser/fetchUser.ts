@@ -24,11 +24,18 @@ export const fetchUser = async (supabase: CustomClient) => {
   const user = sessionUser
     ? {
         id: sessionUser.id,
-        role: sessionUser.role,
-        email: sessionUser.email,
+        role: sessionUser.role || "",
+        email: sessionUser.email || "",
         gravatar: sessionUser.user_metadata.gravatar,
+        created_at: "",
+        updated_at: "",
+        last_sign_in_at: "",
       }
     : null;
+
+  // const {
+  //   data: { user: authUser },
+  // } = await supabase.auth.getUser();
 
   return { user, isAuthenticated: !!user?.id };
 };
