@@ -5,6 +5,7 @@
 
 - [ ] Bilder i Cloudinary, Sentry or Versel
 - [ ] Error boundaries, throw errors
+  - [Sentry](https://docs.sentry.io/platforms/javascript/guides/nextjs/?original_referrer=https%3A%2F%2Fwww.google.com%2F)
 - [ ] User info and lists + edit, not delete, no select
 - [ ] Avatar maker with crop
 - [ ] Invoice maker

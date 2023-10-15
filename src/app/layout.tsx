@@ -11,8 +11,11 @@ export const metadata = {
 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  // TODO: https://github.com/vercel/next.js/issues/50119
+  // throw new Error('Root layout error - should trigger /app/global-error.tsx')
+
   return (
-    <html lang="en" className="light">
+    <html lang="en" className="dark">
       <body>
         <ReactQueryClientProvider>
           <ClientAppStoreInitializer />

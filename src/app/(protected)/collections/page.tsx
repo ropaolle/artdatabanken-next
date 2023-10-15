@@ -6,6 +6,8 @@ import { useAppStore } from "@/state";
 export default function Collections() {
   const { user } = useAppStore();
 
+  throw new Error("Public - should trigger `app/(protected)/error.tsx`");
+
   return (
     <>
       <h1>User</h1>
