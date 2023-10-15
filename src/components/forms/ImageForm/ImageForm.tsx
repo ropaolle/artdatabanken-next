@@ -129,7 +129,7 @@ export default function ImageForm({ originalFilename }: { originalFilename?: str
   );
 
   const PreviewPane = ({ label }: { label: string }) => (
-    <div className="flex h-96 w-full items-center justify-center bg-slate-100 ">
+    <div className="flex h-96 w-full items-center justify-center bg-slate-100 dark:bg-slate-900">
       <div className="text-slate-400">{label}</div>
     </div>
   );
