@@ -1,6 +1,5 @@
 # INFO
 
-
 ## TODO
 
 - [ ] Bilder i Cloudinary, Sentry or Versel
@@ -122,3 +121,7 @@ source /home/olle/.bashrc
 # Update
 pnpm add -g pnpm
 ```
+
+### Deploy main branch
+
+[Deploy](https://api.vercel.com/v1/integrations/deploy/prj_fwA2kFKewLH0tqjIqUcZHbL1pfl0/Rj24zBv3qx)
